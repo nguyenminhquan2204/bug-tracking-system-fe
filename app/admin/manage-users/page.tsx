@@ -1,5 +1,5 @@
-import ManageUser from "@/features/admin/manage-users/pages/ManageUser";
+import ManageUserPage from "@/features/admin/manage-users/pages/ManageUserPage";
 
 export default function Page() {
-  return <ManageUser />
+  return <ManageUserPage />
 }
