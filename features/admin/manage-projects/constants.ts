@@ -1,0 +1,1 @@
+export const PROJECT_API_BASE_PATH = 'project'

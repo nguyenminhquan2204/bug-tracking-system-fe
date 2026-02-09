@@ -20,7 +20,7 @@ interface Actions {
    setLoading: (loading: boolean) => void,
    setTotalItems: (totalItems: number) => void,
    setUserGetListQuery: (query: IUserGetListQuery, opt?: { reloadList?: boolean }) => void,
-   setUserList: (adminList: IUser[]) => void,
+   setUserList: (userList: IUser[]) => void,
    setRoleList: (roleList: IRole[]) => void,
    setSelectedUser: (user: IUser) => void,
 

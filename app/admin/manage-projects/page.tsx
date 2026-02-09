@@ -1,5 +1,5 @@
-import ManageProject from "@/features/admin/manage-projects/pages/ManageProject";
+import ManageProjectPage from "@/features/admin/manage-projects/pages/ManageProjectPage";
 
 export default function Page() {
-   return <ManageProject />
+   return <ManageProjectPage />
 }

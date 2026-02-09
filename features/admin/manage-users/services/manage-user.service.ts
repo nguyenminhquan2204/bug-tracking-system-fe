@@ -28,6 +28,10 @@ class ManageUserService extends ApiService {
   deleteUser(id: number): Promise<IBodyResponse<any>> {
     return this.client.delete(`${this.baseUrl}/${id}`);
   }
+
+  getAdminList(): Promise<IBodyResponse<IGetListResponse<IUser>>> {
+    return this.client.get(`${this.baseUrl}/get-admins`);
+  }
 }
 
 export const manageUserService = new ManageUserService(

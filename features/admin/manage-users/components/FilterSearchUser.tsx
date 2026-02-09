@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { Button } from "@/components/ui/button";
@@ -32,11 +33,17 @@ export default function FilterSearchUser({ data }: { data: IRole[] }) {
    });
    
    const onSubmit = (values: SearchUserType) => {
-      setUserGetListQuery({
+      const query: any = {
          ...DEFAULT_GET_LIST_QUERY,
-         userName: values.userName ?? '',
-         roleId: values.role === 'all' ? null : Number(values.role)
-      })
+         userName: values.userName?.trim() ?? ''
+      } 
+      if(values.role && values.role !== 'all') {
+         query.roleId = Number(values.role);
+      } else if(values.role === 'all') {
+         query.roleId = null;
+      }
+
+      setUserGetListQuery(query);
    };
 
    return (
