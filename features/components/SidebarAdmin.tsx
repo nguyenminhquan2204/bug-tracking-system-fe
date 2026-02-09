@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Link from "next/link";
@@ -21,6 +22,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "sonner";
+import { useAuthStore } from "@/packages/features/stores/useAuthStore";
+import { useShallow } from "zustand/shallow";
+import { useRouter } from 'next/navigation'
 
 const menuItems = [
   {
@@ -46,14 +51,32 @@ const menuItems = [
 ];
 
 export default function SidebarAdmin() {
+  const router = useRouter()
+  const { logout } = useAuthStore(useShallow((state) => ({
+    logout: state.logout
+  })))
   const pathname = usePathname();
-
-  // 👉 sau này bạn lấy từ auth store / API
   const user = {
     name: "Nguyễn Quân",
     email: "quan@example.com",
     avatar: "",
   };
+
+  const handleLogout = async () => {
+    try {
+      const response: any = await logout();
+      if(response?.success) {
+        toast.success('Logout successfully');
+      } else {
+        toast.error(response?.message || 'Failed to logout')
+      }
+    } catch (error) {
+      toast.error('An error occurred while logout system');
+      console.log(error);
+    } finally {
+      router.push('/');
+    }
+  }
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r bg-background">
@@ -122,9 +145,12 @@ export default function SidebarAdmin() {
               Profile
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="text-red-500">
+            <DropdownMenuItem 
+              className="text-red-500 cursor-pointer"
+              onClick={() => handleLogout()}
+            >
               <LogOut className="mr-2 h-4 w-4" />
-              Logout
+                Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
