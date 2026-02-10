@@ -32,6 +32,14 @@ class ManageUserService extends ApiService {
   getAdminList(): Promise<IBodyResponse<IGetListResponse<IUser>>> {
     return this.client.get(`${this.baseUrl}/get-admins`);
   }
+
+  getTesterList(): Promise<IBodyResponse<IGetListResponse<IUser>>> {
+    return this.client.get(`${this.baseUrl}/get-testers`);
+  }
+
+  getDeveloperList(): Promise<IBodyResponse<IGetListResponse<IUser>>> {
+    return this.client.get(`${this.baseUrl}/get-developers`);
+  }
 }
 
 export const manageUserService = new ManageUserService(

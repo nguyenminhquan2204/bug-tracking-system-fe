@@ -120,7 +120,7 @@ export default function AddUserDialog({ data }: { data: IRole[] }) {
                                     </SelectTrigger>
                                  </FormControl>
                                  <SelectContent>
-                                    {data && data.length > 0 && data.map((item, index) => {
+                                    {data && data.length > 0 && data.map((item) => {
                                        return (
                                           <SelectItem key={item.id} value={"" + item.id}>{item.name}</SelectItem>
                                        )

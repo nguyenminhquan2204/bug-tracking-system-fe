@@ -26,6 +26,8 @@ import { toast } from "sonner";
 import { useAuthStore } from "@/packages/features/stores/useAuthStore";
 import { useShallow } from "zustand/shallow";
 import { useRouter } from 'next/navigation'
+import { useProfileStore } from "@/packages/features/stores/useProfileStore";
+import { useEffect } from "react";
 
 const menuItems = [
   {
@@ -55,12 +57,11 @@ export default function SidebarAdmin() {
   const { logout } = useAuthStore(useShallow((state) => ({
     logout: state.logout
   })))
+  const { profile, getProfile } = useProfileStore(useShallow((state) => ({
+    profile: state.profile,
+    getProfile: state.getProfile
+  })))
   const pathname = usePathname();
-  const user = {
-    name: "Nguyễn Quân",
-    email: "quan@example.com",
-    avatar: "",
-  };
 
   const handleLogout = async () => {
     try {
@@ -77,6 +78,10 @@ export default function SidebarAdmin() {
       router.push('/');
     }
   }
+
+  useEffect(() => {
+    getProfile()
+  }, [])
 
   return (
     <aside className="flex h-screen w-64 flex-col border-r bg-background">
@@ -120,16 +125,16 @@ export default function SidebarAdmin() {
               className="flex w-full items-center justify-start gap-3 px-2"
             >
               <Avatar className="h-8 w-8">
-                <AvatarImage src={user.avatar} />
+                {/* <AvatarImage src={profile?.imageId} /> */}
                 <AvatarFallback>
-                  {user.name.charAt(0)}
+                  {profile?.userName?.charAt(0)}
                 </AvatarFallback>
               </Avatar>
 
               <div className="flex flex-col items-start text-sm">
-                <span className="font-medium">{user.name}</span>
+                <span className="font-medium">{profile?.userName}</span>
                 <span className="text-xs text-muted-foreground">
-                  {user.email}
+                  {profile?.email}
                 </span>
               </div>
             </Button>

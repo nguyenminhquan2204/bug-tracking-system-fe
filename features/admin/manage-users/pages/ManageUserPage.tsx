@@ -18,7 +18,7 @@ export default function ManageUserPage() {
     roleList, 
     totalItems, 
     userGetListQuery, 
-    setUserGetListQuery 
+    setUserGetListQuery
   } = useManageUserStore(useShallow((state) => ({
     getUserList: state.getUserList,
     userList: state.userList,

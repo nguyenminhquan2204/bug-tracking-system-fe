@@ -10,7 +10,7 @@ import PaginationCustom from "@/features/components/PaginationCustom"
 import { DEFAULT_FIRST_PAGE } from "@/packages/utils"
 import FilterSearchProjects from "../components/FilterSearchProjects"
 
-export default function ManageProjectPage () {
+export function ManageProjectPage () {
    const { 
       getProjectList, 
       projectList, 
@@ -18,7 +18,7 @@ export default function ManageProjectPage () {
       adminList,
       totalItems,
       projectGetListQuery,
-      setProjectGetListQuery
+      setProjectGetListQuery,
    } = useManageProjectStore(useShallow((state) => ({
       getProjectList: state.getProjectList,
       projectList: state.projectList,
@@ -26,7 +26,7 @@ export default function ManageProjectPage () {
       adminList: state.adminList,
       totalItems: state.totalItems,
       projectGetListQuery: state.projectGetListQuery,
-      setProjectGetListQuery: state.setProjectGetListQuery
+      setProjectGetListQuery: state.setProjectGetListQuery,
    })))
 
    useEffect(() => {

@@ -24,6 +24,18 @@ class ManageProjectService extends ApiService {
   deleteProject(id: number): Promise<IBodyResponse<any>> {
     return this.client.delete(`${this.baseUrl}/${id}`);
   }
+
+  getProjectMembers(projectId: number): Promise<IBodyResponse<any>> {
+    return this.client.get(`project-member/${projectId}`)
+  }
+
+  addMembers(projectId: number, data: any): Promise<IBodyResponse<any>> {
+    return this.client.put(`project-member/${projectId}`, data)
+  }
+
+  removeMember(projectId: number, memberId: number): Promise<IBodyResponse<any>> {
+    return this.client.delete(`project-member/${projectId}/${memberId}`);
+  }
 }
 
 export const manageProjectService = new ManageProjectService(

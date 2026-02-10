@@ -1,4 +1,5 @@
 import { ICommonListQuery } from '@/packages/utils';
+import { IProject } from '../manage-projects/interface';
 
 export interface IUserGetListQuery extends ICommonListQuery {
    userName?: string;
@@ -35,4 +36,12 @@ export interface IUser {
    createdBy: number | null,
    updatedBy: number | null,
    deletedBy: number | null,
+}
+
+export interface IMember {
+   id: number,
+   userId: number,
+   projectId: number,
+   user: IUser,
+   project: IProject
 }
