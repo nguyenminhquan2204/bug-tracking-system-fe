@@ -26,6 +26,8 @@ import { useRouter } from 'next/navigation'
 import { toast } from "sonner";
 import { useAuthStore } from "@/packages/features/stores/useAuthStore";
 import { useShallow } from "zustand/shallow";
+import { useProfileStore } from "@/packages/features/stores/useProfileStore";
+import { useEffect } from "react";
 
 const menuItems = [
    {
@@ -46,16 +48,15 @@ const menuItems = [
 ];
 
 export default function SidebarTester() {
-   const pathname = usePathname();
-   const router = useRouter()
    const { logout } = useAuthStore(useShallow((state) => ({
       logout: state.logout
    })))
-   const user = {
-      name: "Tester",
-      email: "tester@example.com",
-      avatar: "",
-   };
+   const { profile, getProfile } = useProfileStore(useShallow((state) => ({
+      profile: state.profile,
+      getProfile: state.getProfile
+   })))
+   const pathname = usePathname();
+   const router = useRouter()
 
    const handleLogout = async () => {
       try {
@@ -73,11 +74,15 @@ export default function SidebarTester() {
       }
    }
 
+   useEffect(() => {
+      getProfile()
+   }, [])
+
    return (
       <aside className="flex h-screen w-64 flex-col border-r bg-background">
          {/* Logo */}
          <div className="flex h-16 items-center px-6 text-xl font-bold">
-         Bug Tracker 🐞
+            Bug Tracker 🐞
          </div>
 
          <Separator />
@@ -111,22 +116,22 @@ export default function SidebarTester() {
          <DropdownMenu>
             <DropdownMenuTrigger asChild>
                <Button
-               variant="ghost"
-               className="flex w-full items-center justify-start gap-3 px-2"
+                  variant="ghost"
+                  className="flex w-full items-center justify-start gap-3 px-2"
                >
-               <Avatar className="h-8 w-8">
-                  <AvatarImage src={user.avatar} />
-                  <AvatarFallback>
-                     {user.name.charAt(0)}
-                  </AvatarFallback>
-               </Avatar>
-
-               <div className="flex flex-col items-start text-sm">
-                  <span className="font-medium">{user.name}</span>
-                  <span className="text-xs text-muted-foreground">
-                     {user.email}
-                  </span>
-               </div>
+                  <Avatar className="h-8 w-8">
+                     {/* <AvatarImage src={profile?.imageId} /> */}
+                     <AvatarFallback>
+                     {profile?.userName?.charAt(0)}
+                     </AvatarFallback>
+                  </Avatar>
+   
+                  <div className="flex flex-col items-start text-sm">
+                     <span className="font-medium">{profile?.userName}</span>
+                     <span className="text-xs text-muted-foreground">
+                     {profile?.email}
+                     </span>
+                  </div>
                </Button>
             </DropdownMenuTrigger>
 
