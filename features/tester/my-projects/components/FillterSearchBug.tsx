@@ -52,7 +52,7 @@ export default function SearchAndCreateBug() {
 
                <Button type="submit">Search</Button>
             </div>
-            <Button onClick={() => setIsOpenDrawerCreateBug(true)}>+ Create new</Button>
+            <Button onClick={() => setIsOpenDrawerCreateBug(true)}>+ Create</Button>
             </form>
          </Form>
       </>

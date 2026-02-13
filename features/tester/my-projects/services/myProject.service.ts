@@ -2,7 +2,7 @@
 
 import axiosService from '@/packages/plugins/axios';
 import { ApiService } from '@/packages/plugins/axios/api';
-import { IBodyResponse, IGetListResponse } from '@/packages/utils/interfaces';
+import { IBodyResponse } from '@/packages/utils/interfaces';
 import { PROJECT_PUBLIC_API_BASE_PATH } from '../constants';
 
 class MyProjectService extends ApiService {
@@ -22,6 +22,14 @@ class MyProjectService extends ApiService {
       return this.client.patch(`/bug/${bugId}/status`, {
          status: newStatus.toUpperCase()
       })
+   }
+
+   getDevelopersInProject(projectId: number): Promise<IBodyResponse<any>> {
+      return this.client.get(`/project-public/developers/${projectId}`);
+   }
+
+   getProjectById(projectId: number): Promise<IBodyResponse<any>> {
+      return this.client.get(`${this.baseUrl}/${projectId}`);
    }
 }
 

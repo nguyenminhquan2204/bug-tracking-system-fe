@@ -1,3 +1,4 @@
+import { IUser } from "@/packages/interfaces"
 import { BugPriority, BugStatus } from "./constants"
 
 export interface IBug {
@@ -6,18 +7,17 @@ export interface IBug {
   createdAt: string
   updatedAt: string
   deletedAt: string | null
-
   createdBy: number | null
   updatedBy: number | null
   deletedBy: number | null
-
   title: string
   description: string
   projectId: number
   reporterId: number
-
   status: BugStatus
   priority: BugPriority
+  developer: IUser
+  reporter: IUser
 }
 
 export interface IBugs {

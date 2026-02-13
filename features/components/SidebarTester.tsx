@@ -6,12 +6,10 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   FolderKanban,
-  Users,
   Settings,
   LogOut,
   User,
 } from "lucide-react";
-
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";

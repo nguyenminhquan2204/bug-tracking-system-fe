@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { IUser } from '@/features/admin/manage-users/inferface';
 import { create } from 'zustand';
 import { profileService } from '../services/profile.service';
+import { IUser } from '@/packages/interfaces';
 
 interface States {
   loading: boolean,

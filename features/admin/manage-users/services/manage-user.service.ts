@@ -3,8 +3,9 @@
 import axiosService from '@/packages/plugins/axios';
 import { ApiService } from '@/packages/plugins/axios/api';
 import { IBodyResponse, IGetListResponse } from '@/packages/utils/interfaces';
-import { IRole, IUser, IUserGetListQuery } from '../inferface';
+import { IUserGetListQuery } from '../inferface';
 import { USER_API_BASE_PATH } from '../constants';
+import { IRole, IUser } from '@/packages/interfaces';
 
 class ManageUserService extends ApiService {
   getUserList(
