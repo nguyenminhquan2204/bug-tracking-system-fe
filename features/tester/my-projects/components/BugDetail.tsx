@@ -14,7 +14,14 @@ import { Button } from "@/components/ui/button"
 import { Pencil } from "lucide-react"
 import { useMyProjectStore } from "../stores/useMyProjectStore"
 import { useShallow } from "zustand/shallow"
-import EditBugDialog from "./EditBugDialog"
+import EditBugDialog from "./EditBugDrawer"
+import CommentBugDetail from "./CommentBugDetail"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 
 interface Props {
   selectedBug: IBug | null
@@ -33,6 +40,7 @@ export default function BugDetail({ selectedBug, setSelectedBug }: Props) {
         open={isOpenDialogEditBug}
         onOpenChange={setIsOpenDialogEditBug}
         bug={selectedBug}
+        onSuccess={() => { setSelectedBug(null)}}
       />
       <Sheet
         open={!!selectedBug}
@@ -120,6 +128,40 @@ export default function BugDetail({ selectedBug, setSelectedBug }: Props) {
                   </div>
                 </div>
               </div>
+              <Separator />
+              <Tabs defaultValue="comments" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="comments" className="cursor-pointer">Comments</TabsTrigger>
+                  <TabsTrigger value="history" className="cursor-pointer">History</TabsTrigger>
+                </TabsList>
+                <TabsContent value="comments" className="space-y-4 mt-4">
+                  <CommentBugDetail selectedBug={selectedBug} />
+                </TabsContent>
+                <TabsContent value="history" className="space-y-4 mt-4">
+                  {/* {selectedBug.history && selectedBug.history.length > 0 ? (
+                    <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                      {selectedBug.history.map((item) => (
+                        <div
+                          key={item.id}
+                          className="rounded-lg border p-3 text-sm bg-muted/20"
+                        >
+                          <p className="font-medium">
+                            {item.action}
+                          </p>
+                          <p className="text-muted-foreground text-xs">
+                            By {item.user.userName} •{" "}
+                            {new Date(item.createdAt).toLocaleString()}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground text-sm">
+                      No history yet
+                    </p>
+                  )} */}
+                </TabsContent>
+              </Tabs>
             </div>
           )}
         </SheetContent>

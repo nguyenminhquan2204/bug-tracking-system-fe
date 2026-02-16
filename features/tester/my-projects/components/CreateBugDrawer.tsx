@@ -47,8 +47,7 @@ export function CreateBugDrawer({ open, onOpenChange }: { open: boolean, onOpenC
    })
 
    const handleCreate = async () => {
-      if(!params.id) return;
-      if(!profile) return;
+      if(!params.id || !profile) return;
       try {
          const payload = {
             title,
@@ -63,7 +62,7 @@ export function CreateBugDrawer({ open, onOpenChange }: { open: boolean, onOpenC
 
          if (response?.success) {
             toast.success("Created bug successfully");
-            getBugs();
+            getBugs(Number(params.id));
          } else {
             toast.error(response?.message || "Failed to create bug");
          }

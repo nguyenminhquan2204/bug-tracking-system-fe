@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IUser } from "@/packages/interfaces"
 import { BugPriority, BugStatus } from "./constants"
 
@@ -18,6 +19,7 @@ export interface IBug {
   priority: BugPriority
   developer: IUser
   reporter: IUser
+  comments: any
 }
 
 export interface IBugs {

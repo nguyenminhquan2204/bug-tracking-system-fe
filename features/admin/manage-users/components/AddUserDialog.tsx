@@ -19,8 +19,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useManageUserStore } from "../stores/useManageUserStore";
 import { useShallow } from "zustand/shallow";
 import { manageUserService } from "../services/manage-user.service";
-import { IRole } from "../inferface";
 import { toast } from "sonner";
+import { IRole } from "@/packages/interfaces";
 
 export default function AddUserDialog({ data }: { data: IRole[] }) {
    const [open, setOpen] = useState(false)

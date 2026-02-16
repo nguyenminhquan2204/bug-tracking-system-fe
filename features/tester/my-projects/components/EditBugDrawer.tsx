@@ -42,6 +42,10 @@ import { useMyProjectStore } from "../stores/useMyProjectStore"
 import { useShallow } from "zustand/shallow"
 import { toast } from "sonner"
 import EditorToolbar from "./EditorToolbar"
+import { useParams } from "next/navigation"
+import { useProfileStore } from "@/packages/features/stores/useProfileStore"
+import { myProjectService } from "../services/myProject.service"
+import { $ZodVoid } from "zod/v4/core"
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -56,17 +60,23 @@ export default function EditBugSheet({
   open,
   onOpenChange,
   bug,
+  onSuccess
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
   bug: IBug | null
+  onSuccess: () => void
 }) {
-
-  const { developerList } = useMyProjectStore(
+  const params = useParams()
+  const { developerList, getBugs } = useMyProjectStore(
     useShallow((state) => ({
       developerList: state.developerList,
+      getBugs: state.getBugs,
     }))
   )
+  const { profile } = useProfileStore(useShallow((state) => ({
+    profile: state.profile
+  })))
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -100,24 +110,31 @@ export default function EditBugSheet({
   }, [bug, editor])
 
   const onSubmit = async (values: FormValues) => {
-    if (!bug) return
+    if (!bug || !params.id || !profile) return
 
     try {
-      console.log(values)
+      
+      const payload = {
+        title: values.title,
+        description: values.description,
+        projectId: Number(params.id),
+        reporterId: bug.reporter.id,
+        priority: values.priority,
+        developerId: values.developerId,
+      }
 
-      // await bugService.updateBug(bug.id, {
-      //   title: values.title,
-      //   description: values.description || "",
-      //   priority: values.priority,
-      //   developerId: values.developerId
-      //     ? Number(values.developerId)
-      //     : null,
-      // })
-
-      toast.success("Bug updated successfully")
+      const response = await myProjectService.patchEditBug(bug.id, payload);
+      if(response?.success) {
+        toast.success("Bug updated successfully");
+        getBugs(Number(params.id));
+        onSuccess();
+      } else {
+        toast.error(response?.message || "Failed to edit bug");
+      }
       onOpenChange(false)
     } catch (error) {
-      toast.error("Update failed")
+      toast.error("Update failed");
+      console.log(error);
     }
   }
 
@@ -127,7 +144,7 @@ export default function EditBugSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
-        className="!max-w-[700px] p-4 flex flex-col h-full overflow-hidden"
+        className="!max-w-[700px] p-4 flex flex-col flex-1 min-h-0 overflow-hidden"
       >
         <SheetHeader>
           <SheetTitle className="text-[24px]">Edit Bug</SheetTitle>
@@ -215,8 +232,8 @@ export default function EditBugSheet({
               render={() => (
                 <FormItem className="flex flex-col flex-1 min-h-0 gap-2">
                   <FormLabel>Description</FormLabel>
-                  <FormControl>
-                    <div>
+                  <FormControl className="flex flex-col flex-1 min-h-0">
+                    <div className="flex flex-col flex-1 min-h-0">
                       {editor && <EditorToolbar editor={editor} />}
 
                       <div className="flex-1 min-h-0 overflow-y-auto rounded-md border p-3">

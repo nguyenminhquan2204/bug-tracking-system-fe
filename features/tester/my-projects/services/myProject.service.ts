@@ -14,8 +14,8 @@ class MyProjectService extends ApiService {
       return this.client.post(`/bug`, payload)
    }
 
-   getBugs(): Promise<IBodyResponse<any>> {
-      return this.client.get('/bug/all');
+   getBugs(projectId: number): Promise<IBodyResponse<any>> {
+      return this.client.get(`/bug/all/${projectId}`);
    }
 
    patchUpdateBugStatus(bugId: number, newStatus: string) {
@@ -31,7 +31,24 @@ class MyProjectService extends ApiService {
    getProjectById(projectId: number): Promise<IBodyResponse<any>> {
       return this.client.get(`${this.baseUrl}/${projectId}`);
    }
-}
+
+   patchEditBug(bugId: number, payload: any): Promise<IBodyResponse<any>> {
+      return this.client.patch(`/bug/${bugId}`, payload);
+   }
+
+   uploadFile(file: File): Promise<IBodyResponse<any>> {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      return this.client.post('/file/images/upload', formData, {
+         headers: { 'Content-Type': 'multipart/form-data' },
+      });
+   }
+
+   postComment(bugId: number, content: any): Promise<IBodyResponse<any>> {
+      return this.client.post(`/bug/${bugId}`, { content });
+   }
+} 
 
 export const myProjectService = new MyProjectService(
   { baseUrl: PROJECT_PUBLIC_API_BASE_PATH },

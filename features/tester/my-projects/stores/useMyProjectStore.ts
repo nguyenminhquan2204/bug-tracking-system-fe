@@ -25,7 +25,7 @@ interface Actions {
    getMyProjects: () => Promise<void>,
    getProjectById: (projectId: number) => Promise<void>,
    getDevelopersInProject: (projectId: number) => Promise<void>,
-   getBugs: () => Promise<void>,
+   getBugs: (projectId: number) => Promise<void>,
    patchUpdateBugStatus: (bugId: number, newStatus: string) => void,
 
    resetState: () => void,
@@ -97,10 +97,10 @@ export const useMyProjectStore = create<States & Actions>((set, get) => ({
       }
    },
 
-   getBugs: async() => {
+   getBugs: async(projectId: number) => {
       try {
          set(() => ({ loading: true }));
-         const response = await myProjectService.getBugs();
+         const response = await myProjectService.getBugs(projectId);
          set(() => ({
             bugs: response?.data?.bugs ?? null
          }))

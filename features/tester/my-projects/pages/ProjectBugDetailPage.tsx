@@ -182,7 +182,7 @@ export default function ProjectBugDetailPage() {
 
    useEffect(() => {
       if(!params.id) return;
-      getBugs()
+      getBugs(Number(params.id))
    }, [getBugs])
 
    useEffect(() => {

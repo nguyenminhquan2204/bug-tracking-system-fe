@@ -17,6 +17,8 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Editor } from '@tiptap/react'
+import { myProjectService } from '../services/myProject.service'
+import { toast } from 'sonner'
 
 function Divider() {
   return <div className="mx-1 h-5 w-px bg-border" />
@@ -25,7 +27,6 @@ function Divider() {
 export default function EditorToolbar({ editor }: { editor: Editor }) {
   if (!editor) return null
 
-  /** Insert image by URL */
   const addImageByUrl = () => {
     const url = prompt('Image URL')
     if (!url) return
@@ -33,28 +34,27 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
     editor.chain().focus().setImage({ src: url }).run()
   }
 
-  /** Upload image from local */
   const uploadImage = async () => {
     const input = document.createElement('input')
     input.type = 'file'
     input.accept = 'image/*'
 
     input.onchange = async () => {
-      const file = input.files?.[0]
-      if (!file) return
+      try {
+        const file = input.files?.[0]
+        if (!file) return
 
-      const formData = new FormData()
-      formData.append('file', file)
-
-      // TODO: đổi sang API upload của bạn
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      })
-
-      const { url } = await res.json()
-
-      editor.chain().focus().setImage({ src: url }).run()
+        const response = await myProjectService.uploadFile(file);
+        if(response?.success) {
+          toast.success("Uploaded successfully");
+          editor.chain().focus().setImage({ src: response.data }).run();
+        } else {
+          toast.error(response?.message || "Failed upload");
+        }
+      } catch (error) {
+        toast.error("An error occurred while upload image");
+        console.error(error);
+      }
     }
 
     input.click()

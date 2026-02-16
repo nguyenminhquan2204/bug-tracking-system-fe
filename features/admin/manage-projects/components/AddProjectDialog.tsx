@@ -23,12 +23,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-
 import { CreateProjectSchema, CreateProjectType } from "../schema";
 import { manageProjectService } from "../services/manage-project.service";
-import { IUser } from "../../manage-users/inferface";
 import { useManageProjectStore } from "../stores/useManageProjectStore";
 import { useShallow } from "zustand/shallow";
+import { IUser } from "@/packages/interfaces";
 
 export default function AddProjectDialog({ data }: { data: IUser[]}) {
    const [open, setOpen] = useState(false);
