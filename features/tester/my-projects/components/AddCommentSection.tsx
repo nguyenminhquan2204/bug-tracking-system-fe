@@ -33,22 +33,22 @@ export default function AddCommentSection({ bugId }: Props) {
 
       console.log('Upload', uploadedUrls);
 
-      const response = await myProjectService.postComment(bugId, {
-        content,
-        attachments: uploadedUrls,
-      })
+      // const response = await myProjectService.postComment(bugId, {
+      //   content,
+      //   attachments: uploadedUrls,
+      // })
 
-      if (response?.success) {
-        toast.success("Commented bug successfully")
-        setContent("")
-        setFiles([])
+      // if (response?.success) {
+      //   toast.success("Commented bug successfully")
+      //   setContent("")
+      //   setFiles([])
 
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""
-        }
-      } else {
-        toast.error(response?.message || "Failed to comment bug")
-      }
+      //   if (fileInputRef.current) {
+      //     fileInputRef.current.value = ""
+      //   }
+      // } else {
+      //   toast.error(response?.message || "Failed to comment bug")
+      // }
     } catch (error) {
       toast.error("An error occurred while comment bug")
       console.error(error)

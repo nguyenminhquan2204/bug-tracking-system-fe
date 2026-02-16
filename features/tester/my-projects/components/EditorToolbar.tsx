@@ -47,7 +47,7 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
         const response = await myProjectService.uploadFile(file);
         if(response?.success) {
           toast.success("Uploaded successfully");
-          editor.chain().focus().setImage({ src: response.data }).run();
+          editor.chain().focus().setImage({ src: response.data.url }).run();
         } else {
           toast.error(response?.message || "Failed upload");
         }
