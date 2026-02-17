@@ -22,6 +22,10 @@ class MyProjectService extends ApiService {
       return this.client.get(`/bug/${bugId}`)
    }
 
+   getBugHistoryById(bugId: number): Promise<IBodyResponse<any>> {
+      return this.client.get(`/bug/history/${bugId}`)
+   }
+
    getDevelopersInProject(projectId: number): Promise<IBodyResponse<any>> {
       return this.client.get(`/project-public/developers/${projectId}`);
    }

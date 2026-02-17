@@ -32,3 +32,19 @@ export interface IBugs {
   done_in_dev: IBug[]
   on_stg: IBug[]
 }
+
+export interface IBugHistory {
+  id: number
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  deletedAt: string | null
+  createdBy: number | null
+  updatedBy: number | null
+  updatedByUser: IUser
+  deletedBy: number | null
+  bugId: number | null
+  fieldChanged: string
+  oldValue: string
+  newValue: string 
+}

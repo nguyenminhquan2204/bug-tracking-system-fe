@@ -22,6 +22,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+import HistoryBugDetail from "./HistoryBugDetail"
 
 interface Props {
   selectedBug: IBug | null
@@ -138,28 +139,7 @@ export default function BugDetail({ selectedBug, setSelectedBug }: Props) {
                   <CommentBugDetail selectedBug={selectedBug} />
                 </TabsContent>
                 <TabsContent value="history" className="space-y-4 mt-4">
-                  {/* {selectedBug.history && selectedBug.history.length > 0 ? (
-                    <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
-                      {selectedBug.history.map((item) => (
-                        <div
-                          key={item.id}
-                          className="rounded-lg border p-3 text-sm bg-muted/20"
-                        >
-                          <p className="font-medium">
-                            {item.action}
-                          </p>
-                          <p className="text-muted-foreground text-xs">
-                            By {item.user.userName} •{" "}
-                            {new Date(item.createdAt).toLocaleString()}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-muted-foreground text-sm">
-                      No history yet
-                    </p>
-                  )} */}
+                  <HistoryBugDetail selectedBug={selectedBug} />
                 </TabsContent>
               </Tabs>
             </div>

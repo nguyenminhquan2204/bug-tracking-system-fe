@@ -7,12 +7,17 @@ import { Textarea } from "@/components/ui/textarea"
 import { myProjectService } from "../services/myProject.service"
 import { toast } from "sonner"
 import { Paperclip, X } from "lucide-react"
+import { useMyProjectStore } from "../stores/useMyProjectStore"
+import { useShallow } from "zustand/shallow"
 
 interface Props {
   bugId: number
 }
 
 export default function AddCommentSection({ bugId }: Props) {
+  const { getBugDetailById } = useMyProjectStore(useShallow((state) => ({
+    getBugDetailById: state.getBugDetailById
+  })))
   const [content, setContent] = useState("")
   const [files, setFiles] = useState<File[]>([])
   const [loading, setLoading] = useState(false)
@@ -29,14 +34,13 @@ export default function AddCommentSection({ bugId }: Props) {
         formData.append('files', file);
       })
 
-      console.log('Form', formData);
       const response = await myProjectService.postComment(bugId, formData);
 
       if (response?.success) {
         toast.success("Commented bug successfully")
         setContent("")
         setFiles([])
-
+        getBugDetailById(bugId)
         if (fileInputRef.current) {
           fileInputRef.current.value = ""
         }
