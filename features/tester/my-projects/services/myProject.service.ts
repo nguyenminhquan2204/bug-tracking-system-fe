@@ -18,10 +18,8 @@ class MyProjectService extends ApiService {
       return this.client.get(`/bug/all/${projectId}`);
    }
 
-   patchUpdateBugStatus(bugId: number, newStatus: string) {
-      return this.client.patch(`/bug/${bugId}/status`, {
-         status: newStatus.toUpperCase()
-      })
+   getBugDetailById(bugId: number): Promise<IBodyResponse<any>> {
+      return this.client.get(`/bug/${bugId}`)
    }
 
    getDevelopersInProject(projectId: number): Promise<IBodyResponse<any>> {
@@ -30,6 +28,12 @@ class MyProjectService extends ApiService {
 
    getProjectById(projectId: number): Promise<IBodyResponse<any>> {
       return this.client.get(`${this.baseUrl}/${projectId}`);
+   }
+     
+   patchUpdateBugStatus(bugId: number, newStatus: string) {
+      return this.client.patch(`/bug/${bugId}/status`, {
+         status: newStatus.toUpperCase()
+      })
    }
 
    patchEditBug(bugId: number, payload: any): Promise<IBodyResponse<any>> {
@@ -45,8 +49,12 @@ class MyProjectService extends ApiService {
       });
    }
 
-   postComment(bugId: number, content: any): Promise<IBodyResponse<any>> {
-      return this.client.post(`/bug/${bugId}`, { content });
+   postComment(bugId: number, data: any): Promise<IBodyResponse<any>> {
+      return this.client.post(`/bug/${bugId}`, data, {
+         headers: {
+            'Content-Type': 'multipart/form-data'
+         }
+      });
    }
 } 
 

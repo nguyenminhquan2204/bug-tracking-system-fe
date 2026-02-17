@@ -22,33 +22,27 @@ export default function AddCommentSection({ bugId }: Props) {
     if (!content.trim() && files.length === 0) return
     setLoading(true)
     try {
-      const uploadResults = await Promise.allSettled(files.map((file) => myProjectService.uploadFile(file)))
+      const formData = new FormData();
+      formData.append("content", content);
 
-      const uploadedUrls = uploadResults
-        .filter(
-          (result): result is PromiseFulfilledResult<any> =>
-            result.status === "fulfilled" && result.value?.success
-        )
-        .map((result) => result.value.data.url)
+      files.forEach((file) => {
+        formData.append('files', file);
+      })
 
-      console.log('Upload', uploadedUrls);
+      console.log('Form', formData);
+      const response = await myProjectService.postComment(bugId, formData);
 
-      // const response = await myProjectService.postComment(bugId, {
-      //   content,
-      //   attachments: uploadedUrls,
-      // })
+      if (response?.success) {
+        toast.success("Commented bug successfully")
+        setContent("")
+        setFiles([])
 
-      // if (response?.success) {
-      //   toast.success("Commented bug successfully")
-      //   setContent("")
-      //   setFiles([])
-
-      //   if (fileInputRef.current) {
-      //     fileInputRef.current.value = ""
-      //   }
-      // } else {
-      //   toast.error(response?.message || "Failed to comment bug")
-      // }
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ""
+        }
+      } else {
+        toast.error(response?.message || "Failed to comment bug")
+      }
     } catch (error) {
       toast.error("An error occurred while comment bug")
       console.error(error)
@@ -56,6 +50,7 @@ export default function AddCommentSection({ bugId }: Props) {
       setLoading(false)
     }
   }
+  
   return (
     <div className="space-y-4">
       <Textarea

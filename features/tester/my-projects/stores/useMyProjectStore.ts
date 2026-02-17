@@ -1,7 +1,7 @@
 import { IProject } from "@/features/admin/manage-projects/interface";
 import { create } from "zustand";
 import { myProjectService } from "../services/myProject.service";
-import { IBugs } from "../interface";
+import { IBug, IBugs } from "../interface";
 import { IUser } from "@/packages/interfaces";
 
 interface States {
@@ -13,6 +13,7 @@ interface States {
    selectedProject: IProject | null,
    bugs: IBugs | null,
    developerList: IUser[],
+   bugDetail: IBug | null,
 }
 
 interface Actions {
@@ -26,6 +27,8 @@ interface Actions {
    getProjectById: (projectId: number) => Promise<void>,
    getDevelopersInProject: (projectId: number) => Promise<void>,
    getBugs: (projectId: number) => Promise<void>,
+   getBugDetailById: (bugId: number) => Promise<void>,
+
    patchUpdateBugStatus: (bugId: number, newStatus: string) => void,
 
    resetState: () => void,
@@ -39,7 +42,8 @@ const intialStates: States = {
    projectList: [],
    selectedProject: null,
    bugs: null,
-   developerList: []
+   developerList: [],
+   bugDetail: null
 }
 
 export const useMyProjectStore = create<States & Actions>((set, get) => ({
@@ -110,6 +114,20 @@ export const useMyProjectStore = create<States & Actions>((set, get) => ({
          set(() => ({ loading: false }));
       }
    }, 
+
+   getBugDetailById: async (bugId: number) => {
+      try {
+         set(() => ({ loading: true }));
+         const response = await myProjectService.getBugDetailById(bugId);
+         set(() => ({
+            bugDetail: response?.data ?? null
+         }))
+      } catch {
+         set(() => ({ loading: false }));
+      } finally {
+         set(() => ({ loading: false }));
+      }
+   },
 
    patchUpdateBugStatus: async (bugId: number, newStatus: string) => {
       try {
