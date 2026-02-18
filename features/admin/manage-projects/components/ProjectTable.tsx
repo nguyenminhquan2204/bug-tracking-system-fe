@@ -71,6 +71,7 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
               <TableHead>Manager</TableHead>
               <TableHead>Start Date</TableHead>
               <TableHead>End Date</TableHead>
+              <TableHead>Bug</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Actions</TableHead>
             </TableRow>
@@ -106,6 +107,10 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
                     {item.endDate
                       ? new Date(item.endDate).toLocaleDateString()
                       : '—'}
+                  </TableCell>
+
+                  <TableCell>
+                    {item.bugCount ?? 0}
                   </TableCell>
 
                   <TableCell>

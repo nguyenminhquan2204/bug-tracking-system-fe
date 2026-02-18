@@ -1,5 +1,5 @@
+import { IUser } from "@/packages/interfaces"
 import { ICommonListQuery } from "@/packages/utils"
-import { IUser } from "../manage-users/inferface"
 
 export interface IProject {
    id: number,
@@ -11,6 +11,7 @@ export interface IProject {
    status: string,
    manageUserId: number,
    managerUserInfo: IUser,
+   bugCount: number,
 
    createdAt: string,
    updatedAt: string,

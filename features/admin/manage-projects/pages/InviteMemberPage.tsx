@@ -22,10 +22,11 @@ import { useParams } from 'next/navigation'
 import TitleDescription from '@/features/components/TitleDescription'
 import { useManageProjectStore } from '../stores/useManageProjectStore'
 import { useShallow } from 'zustand/shallow'
-import { IUser, IMember } from '../../manage-users/inferface'
+import { IMember } from '../../manage-users/inferface'
 import { toast } from 'sonner'
 import { manageProjectService } from '../services/manage-project.service'
 import { X } from 'lucide-react'
+import { IUser } from '@/packages/interfaces'
 
 function MemberList({
   members,
@@ -214,7 +215,7 @@ export function InviteMemberPage() {
     <>
       <TitleDescription
         title="Add Members"
-        description={`Add members join project ${params.id}`}
+        description={`Add members join project`}
       />
 
       <div className="mt-5">

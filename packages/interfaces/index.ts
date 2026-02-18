@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IUser {
    id: number,
    isActive: boolean,
@@ -6,7 +7,7 @@ export interface IUser {
    roleId: number,
    role: IRole,
    imageId: number | null,
-
+   avatar: any,
    createdAt: string,
    updatedAt: string,
    deletedAt: null,
