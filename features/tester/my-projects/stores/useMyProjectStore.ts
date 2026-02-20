@@ -1,8 +1,7 @@
-import { IProject } from "@/features/admin/manage-projects/interface";
 import { create } from "zustand";
 import { myProjectService } from "../services/myProject.service";
 import { IBug, IBugHistory, IBugs } from "../interface";
-import { IUser } from "@/packages/interfaces";
+import { IProject, IUser } from "@/packages/interfaces";
 
 interface States {
    loading: boolean,

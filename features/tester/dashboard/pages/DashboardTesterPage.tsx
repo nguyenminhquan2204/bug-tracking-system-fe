@@ -7,46 +7,45 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
 import { Bug, Flame, CheckCircle2, Loader2, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
-import { useDashboardAdminStore } from "../stores/useDashboardAdminStore";
+import { useDashboardTesterStore } from "../stores/useDashboardTesterStore";
 import { useShallow } from "zustand/shallow";
 import { useEffect, useMemo, useState } from "react";
 import { getRandomColor } from "@/packages/helpers";
-import SummaryCard from "@/features/components/SummaryCard";
+import SummaryCard from "../../../components/SummaryCard";
+import { useMyProjectStore } from "../../my-projects/stores/useMyProjectStore";
 
-export default function DashboardAdminPage() {
-  const [selectedProjectId, setSelectedProjectId] = useState("0");
-  const { 
-    getAllProject, 
-    projects, 
-    getDashboard, 
-    dashboardData ,
-    loading
-  } = useDashboardAdminStore(useShallow((state) => ({
-    getAllProject: state.getAllProject,
-    projects: state.projects,
-    getDashboard: state.getDashboard,
-    dashboardData: state.dashboardData,
-    loading: state.loading
+export default function DashboardTesterPage() {
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
+  const { getMyProjects, projectList } = useMyProjectStore(useShallow((state) => ({
+    getMyProjects: state.getMyProjects,
+    loading: state.loading,
+    projectList: state.projectList
   })))
+  const { getDashboard, loading, dashboardData } = useDashboardTesterStore(useShallow((state) => ({
+    getDashboard: state.getDashboard,
+    loading: state.loading,
+    dashboardData: state.dashboardData
+  })))
+  const activeProjectId = selectedProjectId ?? projectList?.[0]?.id?.toString();
 
   useEffect(() => {
-    getAllProject();
+    getMyProjects();
   }, [])
-
+  
   useEffect(() => {
-    if(projects && projects.length > 0) {
-      getDashboard(Number(selectedProjectId));
+    if (activeProjectId) {
+      getDashboard(Number(activeProjectId));
     }
-  }, [projects])
+  }, [activeProjectId]);
 
   const fullStatus = dashboardData?.fullStatus ?? [];
-
-  const statusWithColor = useMemo(() => {
-    return fullStatus.map((item) => ({
-      ...item,
-      color: getRandomColor(),
-    }));
-  }, [fullStatus]);
+  
+    const statusWithColor = useMemo(() => {
+      return fullStatus.map((item) => ({
+        ...item,
+        color: getRandomColor(),
+      }));
+    }, [fullStatus]);
 
   if (loading || !dashboardData) {
     return (
@@ -69,7 +68,7 @@ export default function DashboardAdminPage() {
         </h1>
         <div className="flex gap-3">
           <Select
-            value={selectedProjectId}
+            value={selectedProjectId || activeProjectId}
             onValueChange={(value) => {
               setSelectedProjectId(value);
             }}
@@ -78,7 +77,7 @@ export default function DashboardAdminPage() {
               <SelectValue placeholder="Select Project" />
             </SelectTrigger>
             <SelectContent>
-              {projects && projects.length > 0 && [{id: 0, name: 'All'}, ...projects].map((item, index) => {
+              {projectList && projectList.length > 0 && projectList.map((item, index) => {
                 return (
                   <SelectItem key={item.id} value={String(item.id)}>{item.name}</SelectItem>
                 )

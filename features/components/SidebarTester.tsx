@@ -31,19 +31,14 @@ import EditProfileAdminDialog from "./EditProfileAdminDialog";
 const menuItems = [
    {
       title: "Dashboard",
-      href: "/admin/dashboard",
+      href: "/tester/dashboard",
       icon: LayoutDashboard,
    },
    {
       title: "My Projects",
       href: "/tester/my-projects",
       icon: FolderKanban,
-   },
-   {
-      title: "Settings",
-      href: "/admin/settings",
-      icon: Settings,
-   },
+   }
 ];
 
 export default function SidebarTester() {
