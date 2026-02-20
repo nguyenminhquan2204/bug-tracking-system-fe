@@ -7,61 +7,76 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
 import { Bug, Flame, CheckCircle2, Loader2, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
-
-// ===== Mock Data =====
-const summaryData = {
-  total: 128,
-  todo: 45,
-  doing: 32,
-  pr_in_review: 38,
-  done: 13,
-};
-
-const statusChartData = [
-  { name: "Open", value: 45, color: "#ef4444" },
-  { name: "In Progress", value: 32, color: "#f59e0b" },
-  { name: "Resolved", value: 38, color: "#22c55e" },
-  { name: "Closed", value: 13, color: "#3b82f6" },
-];
-
-const trendData = [
-  { date: "Mon", created: 8, resolved: 5 },
-  { date: "Tue", created: 12, resolved: 7 },
-  { date: "Wed", created: 6, resolved: 9 },
-  { date: "Thu", created: 10, resolved: 6 },
-  { date: "Fri", created: 14, resolved: 11 },
-];
-
-const projectData = [
-  { name: "Project A", open: 12 },
-  { name: "Project B", open: 18 },
-  { name: "Project C", open: 9 },
-  { name: "Project D", open: 6 },
-];
-
-const recentActivity = [
-  { id: 1, text: "Nguyen updated status from Open → In Progress" },
-  { id: 2, text: "Linh assigned bug #42 to Minh" },
-  { id: 3, text: "Huy resolved bug #35" },
-];
+import { useDashboardStore } from "../stores/useDashboardStore";
+import { useShallow } from "zustand/shallow";
+import { useEffect, useMemo } from "react";
+import { getRandomColor } from "@/packages/helpers";
+import SummaryCard from "../components/SummaryCard";
 
 export default function DashboardAdminPage() {
+  const { 
+    getAllProject, 
+    projects, 
+    getDashboard, 
+    dashboardData ,
+    loading
+  } = useDashboardStore(useShallow((state) => ({
+    getAllProject: state.getAllProject,
+    projects: state.projects,
+    getDashboard: state.getDashboard,
+    dashboardData: state.dashboardData,
+    loading: state.loading
+  })))
+
+  useEffect(() => {
+    getAllProject();
+  }, [])
+
+  useEffect(() => {
+    if(projects && projects.length > 0) {
+      getDashboard(0);
+    }
+  }, [projects])
+
+  const fullStatus = dashboardData?.fullStatus ?? [];
+
+  const statusWithColor = useMemo(() => {
+    return fullStatus.map((item) => ({
+      ...item,
+      color: getRandomColor(),
+    }));
+  }, [fullStatus]);
+
+  if (loading || !dashboardData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-10 w-10 animate-spin text-blue-500" />
+          <p className="text-slate-600 dark:text-slate-300 font-medium">
+            Loading dashboard...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 space-y-6 bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 min-h-screen">
-      {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
           Bug Tracking Dashboard
         </h1>
         <div className="flex gap-3">
-          <Select>
+          <Select defaultValue="0">
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Project" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Projects</SelectItem>
-              <SelectItem value="a">Project A</SelectItem>
-              <SelectItem value="b">Project B</SelectItem>
+              {projects && projects.length > 0 && [{id: 0, name: 'All'}, ...projects].map((item, index) => {
+                return (
+                  <SelectItem key={item.id} value={String(item.id)}>{item.name}</SelectItem>
+                )
+              })}
             </SelectContent>
           </Select>
           <Button className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:opacity-90">
@@ -69,17 +84,13 @@ export default function DashboardAdminPage() {
           </Button>
         </div>
       </div>
-
-      {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-        <SummaryCard title="Total Bugs" value={summaryData.total} icon={<Bug size={18} />} color="from-blue-500 to-indigo-500" />
-        <SummaryCard title="Todo" value={summaryData.todo} icon={<Flame size={18} />} color="from-red-500 to-pink-500" />
-        <SummaryCard title="Doing" value={summaryData.doing} icon={<Loader2 size={18} />} color="from-yellow-500 to-orange-500" />
-        <SummaryCard title="PR in review" value={summaryData.pr_in_review} icon={<CheckCircle2 size={18} />} color="from-green-500 to-emerald-500" />
-        <SummaryCard title="Done" value={summaryData.done} icon={<AlertTriangle size={18} />} color="from-rose-500 to-red-600" />
+        <SummaryCard title="Total Bugs" value={dashboardData.summaryStatus.TOTAL} icon={<Bug size={18} />} color="from-blue-500 to-indigo-500" />
+        <SummaryCard title="Todo" value={dashboardData.summaryStatus.TODO} icon={<Flame size={18} />} color="from-red-500 to-pink-500" />
+        <SummaryCard title="Doing" value={dashboardData.summaryStatus.DOING} icon={<Loader2 size={18} />} color="from-yellow-500 to-orange-500" />
+        <SummaryCard title="PR in review" value={dashboardData.summaryStatus.PR_IN_REVIEW} icon={<CheckCircle2 size={18} />} color="from-green-500 to-emerald-500" />
+        <SummaryCard title="Done in dev" value={dashboardData.summaryStatus.DONE_IN_DEV} icon={<AlertTriangle size={18} />} color="from-rose-500 to-red-600" />
       </div>
-
-      {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="rounded-2xl shadow-lg border-0">
           <CardHeader>
@@ -88,8 +99,8 @@ export default function DashboardAdminPage() {
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
-                <Pie data={statusChartData} dataKey="value" nameKey="name" outerRadius={100} label>
-                  {statusChartData.map((entry, index) => (
+                <Pie data={statusWithColor} dataKey="value" nameKey="name" outerRadius={100} label>
+                  {statusWithColor && statusWithColor.length > 0 && statusWithColor.map((entry, index) => (
                     <Cell key={index} fill={entry.color} />
                   ))}
                 </Pie>
@@ -98,14 +109,13 @@ export default function DashboardAdminPage() {
             </ResponsiveContainer>
           </CardContent>
         </Card>
-
         <Card className="rounded-2xl shadow-lg border-0">
           <CardHeader>
             <CardTitle className="text-blue-500">Bugs Trend</CardTitle>
           </CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={trendData}>
+              <LineChart data={dashboardData?.trend7Days}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="date" />
                 <YAxis />
@@ -117,8 +127,6 @@ export default function DashboardAdminPage() {
           </CardContent>
         </Card>
       </div>
-
-      {/* Project Chart + Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="rounded-2xl shadow-lg border-0">
           <CardHeader>
@@ -126,7 +134,7 @@ export default function DashboardAdminPage() {
           </CardHeader>
           <CardContent className="h-72">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={projectData}>
+              <BarChart data={dashboardData?.top4ProjectByOpenBug}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
@@ -136,39 +144,30 @@ export default function DashboardAdminPage() {
             </ResponsiveContainer>
           </CardContent>
         </Card>
-
         <Card className="rounded-2xl shadow-lg border-0">
           <CardHeader>
-            <CardTitle className="text-emerald-500">Recent Activity</CardTitle>
+            <CardTitle className="text-green-500">
+              🔥 Top 3 Most Busy Developers
+            </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            {recentActivity.map((item) => (
+            {dashboardData.top3UserWithOpenBugs && dashboardData.top3UserWithOpenBugs.length > 0 && dashboardData.top3UserWithOpenBugs.map((user, index) => (
               <motion.div
-                key={item.id}
-                whileHover={{ scale: 1.02 }}
-                className="p-3 rounded-xl bg-gradient-to-r from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 shadow-sm"
+                key={user.id}
+                whileHover={{ scale: 1.03 }}
+                className="flex justify-between items-center p-3 rounded-xl bg-gradient-to-r from-white to-slate-50 dark:from-slate-800 dark:to-slate-700 shadow-sm"
               >
-                {item.text}
+                <div className="flex items-center gap-2">
+                  <span className="font-bold text-lg">#{index + 1}</span>
+                  <span>{user.name}</span>
+                </div>
+                <div className="text-sm font-semibold text-emerald-500">
+                  {user.open} bugs
+                </div>
               </motion.div>
             ))}
           </CardContent>
         </Card>
-      </div>
-    </div>
-  );
-}
-
-function SummaryCard({ title, value, icon, color }: any) {
-  return (
-    <div className="rounded-2xl shadow-lg border-0 overflow-hidden">
-      <div className={`p-4 flex justify-between items-center bg-gradient-to-r ${color} text-white`}>
-        <div>
-          <p className="text-sm opacity-90">{title}</p>
-          <p className="text-2xl font-bold">{value}</p>
-        </div>
-        <div className="bg-white/20 p-2 rounded-full backdrop-blur">
-          {icon}
-        </div>
       </div>
     </div>
   );

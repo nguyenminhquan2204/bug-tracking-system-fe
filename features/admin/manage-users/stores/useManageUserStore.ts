@@ -1,7 +1,8 @@
 import { DEFAULT_GET_LIST_QUERY } from "@/packages/utils";
-import { IRole, IUser, IUserGetListQuery } from "../inferface";
+import { IUserGetListQuery } from "../inferface";
 import { create } from "zustand";
 import { manageUserService } from '../services/manage-user.service';
+import { IRole, IUser } from "@/packages/interfaces";
 
 interface States {
    isOpenEditUserDialog: boolean,

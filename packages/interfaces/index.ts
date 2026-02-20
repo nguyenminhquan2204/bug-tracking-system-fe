@@ -30,3 +30,23 @@ export interface IRole {
    updatedBy: number | null,
    deletedBy: number | null,
 }
+
+export interface IProject {
+   id: number,
+   isActive: boolean,
+   name: string,
+   description: string,
+   startDate: string,
+   endDate: string,
+   status: string,
+   manageUserId: number,
+   managerUserInfo: IUser,
+   bugCount: number,
+
+   createdAt: string,
+   updatedAt: string,
+   deletedAt:  null,
+   createdBy: number | null,
+   updatedBy: number | null,
+   deletedBy: number | null
+}

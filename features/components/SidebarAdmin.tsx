@@ -120,7 +120,7 @@ export default function SidebarAdmin() {
                 className="flex w-full items-center justify-start gap-3 px-2"
               >
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={profile?.avatar.path} />
+                  <AvatarImage src={profile?.avatar?.path} />
                   <AvatarFallback>
                     {profile?.userName?.charAt(0)}
                   </AvatarFallback>
