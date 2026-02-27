@@ -83,8 +83,12 @@ function Column({ column, onSelect }: { column: ColumnType, onSelect: (bug: IBug
          ref={setNodeRef}
          className="w-72 shrink-0 rounded-md border bg-gray-50 p-2 flex flex-col"
       >
-         <h3 className="mb-3 font-medium">{column.title}</h3>
-
+         <div className='flex flex-row'>
+            <h3 className="mb-3 font-medium">{column.title}</h3>
+            <span className="min-w-[28px] h-6 px-2 flex items-center justify-center rounded-full bg-gray-200 text-xs font-semibold text-gray-700">
+               {column.tasks.length}
+            </span>
+         </div>
          <SortableContext
          items={column.tasks.map((t) => t.id)}
          strategy={verticalListSortingStrategy}

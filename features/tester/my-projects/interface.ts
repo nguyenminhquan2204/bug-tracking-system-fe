@@ -48,3 +48,7 @@ export interface IBugHistory {
   oldValue: string
   newValue: string 
 }
+
+export interface IBugGetListQuery {
+  search: string
+}

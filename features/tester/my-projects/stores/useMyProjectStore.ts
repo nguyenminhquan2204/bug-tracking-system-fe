@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { myProjectService } from "../services/myProject.service";
-import { IBug, IBugHistory, IBugs } from "../interface";
+import { IBug, IBugGetListQuery, IBugHistory, IBugs } from "../interface";
 import { IProject, IUser } from "@/packages/interfaces";
 
 interface States {
@@ -10,10 +10,12 @@ interface States {
    isOpenDialogEditBug: boolean,
    projectList: IProject[],
    selectedProject: IProject | null,
+   selectedProjectId: number | null,
    bugs: IBugs | null,
    developerList: IUser[],
    bugDetail: IBug | null,
-   bugHistorys: IBugHistory[]
+   bugHistorys: IBugHistory[],
+   bugGetListQuery: IBugGetListQuery,
 }
 
 interface Actions {
@@ -22,6 +24,7 @@ interface Actions {
    setIsOpenDrawerCreateBug: (open: boolean) => void,
    setIsOpenDialogEditBug: (open: boolean) => void,
    setSelectedProject: (project: IProject) => void,
+   setBugGetListQuery: (query: IBugGetListQuery, opt?: { reloadList?: boolean }) => void,
 
    getMyProjects: () => Promise<void>,
    getProjectById: (projectId: number) => Promise<void>,
@@ -42,10 +45,14 @@ const intialStates: States = {
    isOpenDialogEditBug: false,
    projectList: [],
    selectedProject: null,
+   selectedProjectId: null,
    bugs: null,
    developerList: [],
    bugDetail: null,
-   bugHistorys: []
+   bugHistorys: [],
+   bugGetListQuery: {
+      search: ''
+   }
 }
 
 export const useMyProjectStore = create<States & Actions>((set, get) => ({
@@ -60,6 +67,18 @@ export const useMyProjectStore = create<States & Actions>((set, get) => ({
    setIsOpenDialogEditBug: (open: boolean) => set({ isOpenDialogEditBug: open }),
 
    setSelectedProject: (project: IProject) => set({ selectedProject: project }),
+
+   setBugGetListQuery: (query: IBugGetListQuery, opt?: { reloadList?: boolean }) => {
+      set((state) => ({
+         bugGetListQuery: { ...state.bugGetListQuery, ...query },
+      }));
+
+      const { reloadList = true } = opt ?? {};
+
+      if (reloadList) {
+         get().getBugs(get().selectedProjectId ?? 0);
+      }
+   },
    
    getMyProjects: async () => {
       try {
@@ -105,8 +124,11 @@ export const useMyProjectStore = create<States & Actions>((set, get) => ({
 
    getBugs: async(projectId: number) => {
       try {
-         set(() => ({ loading: true }));
-         const response = await myProjectService.getBugs(projectId);
+         set(() => ({ 
+            loading: true,
+            selectedProjectId: projectId 
+         }));
+         const response = await myProjectService.getBugs(projectId, get().bugGetListQuery);
          set(() => ({
             bugs: response?.data?.bugs ?? null
          }))

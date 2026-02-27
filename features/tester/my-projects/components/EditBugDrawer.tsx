@@ -4,7 +4,6 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-
 import {
   Sheet,
   SheetContent,
@@ -12,7 +11,6 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet"
-
 import {
   Form,
   FormControl,
@@ -21,10 +19,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-
 import {
   Select,
   SelectContent,
@@ -32,11 +28,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
 import { useEditor, EditorContent } from "@tiptap/react"
 import StarterKit from "@tiptap/starter-kit"
 import Image from "@tiptap/extension-image"
-
 import { IBug } from "../interface"
 import { useMyProjectStore } from "../stores/useMyProjectStore"
 import { useShallow } from "zustand/shallow"
@@ -46,6 +40,17 @@ import { useParams } from "next/navigation"
 import { useProfileStore } from "@/packages/features/stores/useProfileStore"
 import { myProjectService } from "../services/myProject.service"
 import { $ZodVoid } from "zod/v4/core"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -135,6 +140,26 @@ export default function EditBugSheet({
     } catch (error) {
       toast.error("Update failed");
       console.log(error);
+    }
+  }
+
+  const handleDelete = async () => {
+    if (!bug || !params.id) return
+
+    try {
+      const response = await myProjectService.deleteBug(bug.id)
+
+      if (response?.success) {
+        toast.success("Bug deleted successfully")
+        getBugs(Number(params.id))
+        onSuccess()
+        onOpenChange(false)
+      } else {
+        toast.error(response?.message || "Delete failed")
+      }
+    } catch (error) {
+      toast.error("Delete failed")
+      console.log(error)
     }
   }
 
@@ -252,7 +277,35 @@ export default function EditBugSheet({
               >
                 Cancel
               </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                  >
+                    Delete
+                  </Button>
+                </AlertDialogTrigger>
 
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete this bug.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDelete}
+                      className="bg-red-500 hover:bg-red-600"
+                    >
+                      Yes, delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
               <Button type="submit">
                 Save
               </Button>

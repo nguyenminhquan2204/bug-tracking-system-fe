@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   FolderKanban,
-  Settings,
+  MessageCircle,
   LogOut,
   User,
 } from "lucide-react";
@@ -38,6 +38,11 @@ const menuItems = [
       title: "My Projects",
       href: "/tester/my-projects",
       icon: FolderKanban,
+   },
+   {
+      title: "Messages",
+      href: "/tester/chat",
+      icon: MessageCircle,
    }
 ];
 

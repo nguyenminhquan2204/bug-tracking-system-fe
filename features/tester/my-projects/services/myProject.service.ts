@@ -4,6 +4,7 @@ import axiosService from '@/packages/plugins/axios';
 import { ApiService } from '@/packages/plugins/axios/api';
 import { IBodyResponse } from '@/packages/utils/interfaces';
 import { PROJECT_PUBLIC_API_BASE_PATH } from '../constants';
+import { IBugGetListQuery } from '../interface';
 
 class MyProjectService extends ApiService {
    getMyProject(): Promise<IBodyResponse<any>> {
@@ -14,8 +15,8 @@ class MyProjectService extends ApiService {
       return this.client.post(`/bug`, payload)
    }
 
-   getBugs(projectId: number): Promise<IBodyResponse<any>> {
-      return this.client.get(`/bug/all/${projectId}`);
+   getBugs(projectId: number, query: IBugGetListQuery): Promise<IBodyResponse<any>> {
+      return this.client.get(`/bug/all/${projectId}`, { params: query });
    }
 
    getBugDetailById(bugId: number): Promise<IBodyResponse<any>> {
@@ -59,6 +60,10 @@ class MyProjectService extends ApiService {
             'Content-Type': 'multipart/form-data'
          }
       });
+   }
+
+   deleteBug(bugId: number): Promise<IBodyResponse<any>> {
+      return this.client.delete(`/bug/${bugId}`);
    }
 } 
 

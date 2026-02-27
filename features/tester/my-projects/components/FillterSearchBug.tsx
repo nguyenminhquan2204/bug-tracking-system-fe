@@ -10,15 +10,16 @@ import { useShallow } from 'zustand/shallow'
 import { CreateBugDrawer } from './CreateBugDrawer'
 
 export default function SearchAndCreateBug() {
-   const { setIsOpenDrawerCreateBug, isOpenDrawerCreateBug } = useMyProjectStore(useShallow((state) => ({
+   const { setIsOpenDrawerCreateBug, isOpenDrawerCreateBug, setBugGetListQuery } = useMyProjectStore(useShallow((state) => ({
       setIsOpenDrawerCreateBug: state.setIsOpenDrawerCreateBug,
-      isOpenDrawerCreateBug: state.isOpenDrawerCreateBug
+      isOpenDrawerCreateBug: state.isOpenDrawerCreateBug,
+      setBugGetListQuery: state.setBugGetListQuery
    })))
    
    const form = useForm();
 
-   const onSubmit = () => {
-      
+   const onSubmit = (data: any) => {
+      setBugGetListQuery({ search: data.userName });
    }
 
    return (
@@ -32,7 +33,6 @@ export default function SearchAndCreateBug() {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-wrap items-end justify-between gap-4"
             >
-            {/* LEFT: SEARCH */}
             <div className="flex items-end gap-2">
                <FormField
                   control={form.control}
@@ -42,7 +42,7 @@ export default function SearchAndCreateBug() {
                      <FormControl>
                         <Input
                         {...field}
-                        placeholder="Username"
+                        placeholder="Bug name"
                         className="w-56"
                         />
                      </FormControl>

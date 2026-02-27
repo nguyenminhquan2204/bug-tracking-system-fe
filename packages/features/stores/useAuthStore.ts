@@ -53,6 +53,9 @@ export const useAuthStore = create<States & Actions>((set, get) => ({
         if (tokens?.refreshToken) {
           Cookies.set(COOKIES_KEY.REFRESH_TOKEN, tokens.refreshToken);
         }
+        if(tokens?.role) {
+          Cookies.set(COOKIES_KEY.ROLE_NAME, tokens.role);
+        }
         set({ loading: false, error: null });
       }
 

@@ -33,6 +33,7 @@ export enum HeaderKey {
 export enum COOKIES_KEY {
   ACCESS_TOKEN = 'accessToken',
   REFRESH_TOKEN = 'refreshToken',
+  ROLE_NAME = 'role',
 }
 
 export const options: AxiosRequestConfig = {

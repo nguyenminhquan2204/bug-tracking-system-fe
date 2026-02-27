@@ -67,12 +67,7 @@ export default function DashboardTesterPage() {
           Bug Tracking Dashboard
         </h1>
         <div className="flex gap-3">
-          <Select
-            value={selectedProjectId || activeProjectId}
-            onValueChange={(value) => {
-              setSelectedProjectId(value);
-            }}
-          >
+          <Select value={selectedProjectId || activeProjectId}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Select Project" />
             </SelectTrigger>
