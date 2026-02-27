@@ -1,24 +1,14 @@
-import { io } from "socket.io-client";
-import Cookies from "js-cookie";
+import { io, Socket } from "socket.io-client";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+let socket: Socket;
 
-export const socket = io(`${BASE_URL}/chat`, {
-  autoConnect: false,
-  transports: ["websocket"],
-});
-
-export const connectSocket = () => {
-  const token = Cookies.get("accessToken");
-
-  if (!token) {
-    console.log("No token found");
-    return;
+export const getSocket = () => {
+  if (!socket) {
+    socket = io("http://localhost:8686/chat", {
+      transports: ["websocket"],
+      withCredentials: true,
+      autoConnect: false,
+    });
   }
-
-  socket.auth = {
-    accessToken: token,
-  };
-
-  socket.connect();
+  return socket;
 };

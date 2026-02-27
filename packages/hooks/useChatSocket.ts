@@ -1,37 +1,17 @@
-// hooks/useChatSocket.ts
 import { useEffect } from "react";
-import { socket, connectSocket } from "@/lib/socket";
+import { getSocket } from "@/lib/socket";
 
-export interface Message {
-  id: number;
-  senderId: number;
-  content: string;
-}
+export const useChatSocket = (conversationId?: number) => {
+  useEffect(() => {
+    if (!conversationId) return;
 
-interface Props {
-  onNewMessage: (message: Message) => void;
-}
+    const socket = getSocket();
 
-export const useChatSocket = ({ onNewMessage }: Props) => {
-   useEffect(() => {
-      connectSocket();
+    if (!socket.connected) {
+      socket.connect();
+    }
 
-      socket.on("connect", () => {
-         console.log("Connected:", socket.id);
-      });
+    socket.emit("join_conversation", { conversationId });
 
-      socket.on("newMessage", onNewMessage);
-
-      return () => {
-         socket.off("newMessage", onNewMessage);
-         socket.off("connect");
-         // socket.disconnect();
-      };
-   }, [onNewMessage]);
-
-   const sendMessage = (conversationId: number, content: string) => {
-      socket.emit("sendMessage", { conversationId, content });
-   };
-
-   return { sendMessage };
+  }, [conversationId]);
 };
