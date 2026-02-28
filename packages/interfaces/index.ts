@@ -50,3 +50,24 @@ export interface IProject {
    updatedBy: number | null,
    deletedBy: number | null
 }
+
+export interface IUserChat {
+   id: number;
+   username: string;
+   email: string;
+   rolename?: string;
+}
+
+export interface IConver {
+   id: number;
+   type: string
+}
+
+export interface IMessage {
+   id: number;
+   conversationId: number;
+   senderId: number;
+   content: string;
+   isRead: boolean;
+   createdAt: string;
+}

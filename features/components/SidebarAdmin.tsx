@@ -7,9 +7,9 @@ import {
   LayoutDashboard,
   FolderKanban,
   Users,
-  Settings,
   LogOut,
   User,
+  MessageCircle,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -45,6 +45,11 @@ const menuItems = [
     title: "Users",
     href: "/admin/manage-users",
     icon: Users,
+  },
+  {
+    title: "Messages",
+    href: "/admin/chat",
+    icon: MessageCircle,
   }
 ];
 

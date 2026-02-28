@@ -1,16 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import axiosService from '@/packages/plugins/axios';
 import { ApiService } from '@/packages/plugins/axios/api';
 import { IBodyResponse } from '@/packages/utils';
 
-class ChatService extends ApiService {
-   getUsersChat(): Promise<IBodyResponse<any>> {
-      return this.client.get(`/project-public/chat/users`);
-   }
-
-   getAdminsChat(): Promise<IBodyResponse<any>> {
-      return this.client.get(`/project-public/chat/admins`);
+class ChatAdminService extends ApiService {
+   getUsersChatAdmin(): Promise<IBodyResponse<any>> {
+      return this.client.get(`${this.baseUrl}/chat-admin`);
    }
 
    postConversation(toUserId: number): Promise<IBodyResponse<any>> {
@@ -22,7 +17,7 @@ class ChatService extends ApiService {
    }
 } 
 
-export const chatService = new ChatService(
-  { baseUrl: '/chat' },
+export const chatAdminService = new ChatAdminService(
+  { baseUrl: '/user' },
   axiosService,
 );

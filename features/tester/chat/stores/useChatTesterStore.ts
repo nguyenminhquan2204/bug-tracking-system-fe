@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { chatService } from "../services/chat.service";
-import { IConver, IMessage, IUserChat } from "../interfaces";
+import { IConver, IMessage, IUserChat } from "@/packages/interfaces";
 
 interface States {
    loading: boolean,
    usersChat: IUserChat[],
+   adminsChat: IUserChat[],
    selectedConver: IConver | null
    messages: IMessage[]
 }
@@ -14,6 +15,7 @@ interface Actions {
    setMessages: (messages: IMessage[]) => void,
    
    getUsersChat: () => Promise<void>,
+   getAdminsChat: () => Promise<void>,
    getMessages: (converId: number) => Promise<void>,
 
    postConversation: (toUserId: number) => Promise<void>,
@@ -25,11 +27,12 @@ interface Actions {
 const intialStates: States = {
    loading: false,
    usersChat: [],
+   adminsChat: [],
    selectedConver: null,
    messages: []
 }
 
-export const useChatStore = create<States & Actions>((set, get) => ({
+export const useChatTesterStore = create<States & Actions>((set, get) => ({
    ...intialStates,
 
    setLoading: (loading) => set({ loading }),
@@ -41,6 +44,18 @@ export const useChatStore = create<States & Actions>((set, get) => ({
          set(() => ({ loading: true }));
          const response = await chatService.getUsersChat();
          set(() => ({ usersChat: response?.data ?? [] }));         
+      } catch {
+         set(() => ({ loading: false }));
+      } finally {
+         set(() => ({ loading: false }));
+      }
+   },
+
+   getAdminsChat: async () => {
+      try {
+         set(() => ({ loading: true }));
+         const response = await chatService.getAdminsChat();
+         set(() => ({ adminsChat: response?.data ?? [] }));         
       } catch {
          set(() => ({ loading: false }));
       } finally {

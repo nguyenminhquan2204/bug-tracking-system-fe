@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getSocket } from "@/lib/socket";
-import { useChatTesterStore } from "../stores/useChatTesterStore";
+import { useChatAdminStore } from "../stores/useChatAdminStore";
 import { useShallow } from "zustand/shallow";
 import { useChatSocket } from "@/packages/hooks/useChatSocket";
 import { useProfileStore } from "@/packages/features/stores/useProfileStore";
@@ -12,56 +12,49 @@ import { ChatSidebar } from "@/features/components/ChatSiderbar";
 import { ChatMessages } from "@/features/components/ChatMessages";
 import { ChatInput } from "@/features/components/ChatInput";
 
-export default function ChatTesterPage() {
-  const profile = useProfileStore((state) => state.profile);
-  const {
-    getUsersChat,
-    getAdminsChat,
-    adminsChat,
-    usersChat,
-    postConversation,
-    selectedConver,
-    getMessages,
-    messages,
-    addMessage,
-    loading
-  } = useChatTesterStore(
-    useShallow((state) => ({
-      getUsersChat: state.getUsersChat,
-      getAdminsChat: state.getAdminsChat,
-      adminsChat: state.adminsChat,
-      usersChat: state.usersChat,
-      postConversation: state.postConversation,
-      selectedConver: state.selectedConver,
-      getMessages: state.getMessages,
-      messages: state.messages,
-      addMessage: state.addMessage,
-      loading: state.loading
-    }))
-  );
+export default function ChatAdminPage() {
+   const profile = useProfileStore((state) => state.profile);
+   const {
+      getUsersChatAdmin,
+      adminsChat,
+      testersChat,
+      developersChat,
+      postConversation,
+      selectedConver,
+      getMessages,
+      messages,
+      addMessage,
+      loading
+   } = useChatAdminStore(
+      useShallow((state) => ({
+         getUsersChatAdmin: state.getUsersChatAdmin,
+         adminsChat: state.adminsChat,
+         testersChat: state.testersChat,
+         developersChat: state.developersChat,
+         postConversation: state.postConversation,
+         selectedConver: state.selectedConver,
+         getMessages: state.getMessages,
+         messages: state.messages,
+         addMessage: state.addMessage,
+         loading: state.loading
+      }))
+   );
   const socket = getSocket();
   const [selectedUser, setSelectedUser] = useState<IUserChat | null>(null);
   const currentUserId = profile?.id;
 
   useEffect(() => {
-    const fetchApi = async () => {
-      await Promise.all([
-        getUsersChat(),
-        getAdminsChat()
-      ])
-    }
-
-    fetchApi();
-  }, [getUsersChat, getAdminsChat]);
+    getUsersChatAdmin();
+  }, [getUsersChatAdmin]);
 
   useEffect(() => {
     const handleSelectFirstUser = () => {
-      if (usersChat?.length > 0 && !selectedUser) {
-        setSelectedUser(usersChat[0]);
+      if (adminsChat?.length > 0 && !selectedUser) {
+        setSelectedUser(adminsChat[0]);
       }
     }
     handleSelectFirstUser();
-  }, [usersChat, selectedUser]);
+  }, [adminsChat, selectedUser]);
 
   useChatSocket(selectedConver?.id);
 
@@ -118,7 +111,7 @@ export default function ChatTesterPage() {
 
   return (
     <div className="flex h-full bg-gray-100">
-      <ChatSidebar users={adminsChat} testers={usersChat} selectedUser={selectedUser} onSelect={setSelectedUser} />
+      <ChatSidebar users={adminsChat} testers={testersChat} developers={developersChat} selectedUser={selectedUser} onSelect={setSelectedUser} />
       <div className="flex flex-col flex-1">
         <div className="flex items-center gap-3 p-4 bg-white border-b">
           <div className="font-semibold text-lg">
