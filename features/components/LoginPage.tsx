@@ -59,6 +59,9 @@ export default function LoginPage() {
                case 'Tester':
                   router.replace('tester/my-projects');
                   break;
+               case 'Developer':
+                  router.replace('developer/my-projects');
+                  break;
                default:
                   router.replace('/')
             }

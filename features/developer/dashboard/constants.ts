@@ -1,0 +1,1 @@
+export const DASHBOARD_TESTER_API_BASE_PATH = 'project-public'

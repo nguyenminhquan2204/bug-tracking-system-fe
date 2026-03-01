@@ -7,21 +7,21 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
 import { Bug, Flame, CheckCircle2, Loader2, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
-import { useDashboardTesterStore } from "../stores/useDashboardTesterStore";
+import { useDashboardDeveloperStore } from "../stores/useDashboardDeveloperStore";
 import { useShallow } from "zustand/shallow";
 import { useEffect, useMemo, useState } from "react";
 import { getRandomColor } from "@/packages/helpers";
 import SummaryCard from "../../../components/SummaryCard";
 import { useMyProjectStore } from "../../my-projects/stores/useMyProjectStore";
 
-export default function DashboardTesterPage() {
+export default function DashboardDeveloperPage() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null);
   const { getMyProjects, projectList } = useMyProjectStore(useShallow((state) => ({
     getMyProjects: state.getMyProjects,
     loading: state.loading,
     projectList: state.projectList
   })))
-  const { getDashboard, loading, dashboardData } = useDashboardTesterStore(useShallow((state) => ({
+  const { getDashboard, loading, dashboardData } = useDashboardDeveloperStore(useShallow((state) => ({
     getDashboard: state.getDashboard,
     loading: state.loading,
     dashboardData: state.dashboardData
