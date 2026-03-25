@@ -23,76 +23,71 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-
 import { manageProjectService } from "../services/manage-project.service";
 import { UpdateProjectSchema, UpdateProjectType } from "../schema";
 import { useManageProjectStore } from "../stores/useManageProjectStore";
 import { useShallow } from "zustand/shallow";
 
-export default function EditProjectDialog({
-  open,
-  onOpenChange
-}: {
-   open: boolean,
-   onOpenChange: (open: boolean) => void
-}) {
-   const { selectedProject, adminList, getProjectList } = useManageProjectStore(useShallow((state) => ({
-      selectedProject: state.selectedProject,
-      adminList: state.adminList,
-      getProjectList: state.getProjectList
-   })))
+export default function EditProjectDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+  const { selectedProject, adminList, getProjectList } = useManageProjectStore(useShallow((state) => ({
+    selectedProject: state.selectedProject,
+    adminList: state.adminList,
+    getProjectList: state.getProjectList
+  })))
 
-   const form = useForm<UpdateProjectType>({
-      resolver: zodResolver(UpdateProjectSchema),
-      defaultValues: {
-         name: "",
-         description: "",
-         startDate: "",
-         endDate: "",
-         manageUserId: "",
-      },
-   });
+  const form = useForm<UpdateProjectType>({
+    resolver: zodResolver(UpdateProjectSchema),
+    defaultValues: {
+        name: "",
+        description: "",
+        startDate: "",
+        endDate: "",
+        manageUserId: "",
+        status: "",
+    },
+  });
 
-   useEffect(() => {
-      if (!selectedProject) return;
+  useEffect(() => {
+    if (!selectedProject) return;
+    form.reset({
+        name: selectedProject.name,
+        description: selectedProject.description || "",
+        startDate: selectedProject.startDate.slice(0, 10),
+        endDate: selectedProject.endDate.slice(0, 10),
+        manageUserId: String(selectedProject.manageUserId),
+        status: selectedProject.status,
+    });
+  }, [selectedProject]);
 
-      form.reset({
-         name: selectedProject.name,
-         description: selectedProject.description || "",
-         startDate: selectedProject.startDate.slice(0, 10),
-         endDate: selectedProject.endDate.slice(0, 10),
-         manageUserId: String(selectedProject.manageUserId),
-      });
-   }, [selectedProject]);
+  const onSubmit = async (values: UpdateProjectType) => {
+    try {
+        if(!selectedProject) return;
 
-   const onSubmit = async (values: UpdateProjectType) => {
-      try {
-         if(!selectedProject) return;
+        const payload = {
+          name: values.name,
+          description: values.description,
+          startDate: values.startDate,
+          endDate: values.endDate,
+          manageUserId: Number(values.manageUserId),
+          status: values.status,
+        };
 
-         const payload = {
-            name: values.name,
-            description: values.description,
-            startDate: values.startDate,
-            endDate: values.endDate,
-            manageUserId: Number(values.manageUserId),
-         };
+        const response = await manageProjectService.patchUpdateProject(selectedProject.id, payload);
 
-         const response = await manageProjectService.patchUpdateProject(selectedProject.id, payload);
+        if (response?.success) {
+          toast.success("Updated project successfully");
+          getProjectList();
+        } else {
+          toast.error(response?.message || "Failed to update project");
+        }
+    } catch (error) {
+        toast.error("An error occurred while updating project");
+        console.error(error);
+    }
 
-         if (response?.success) {
-            toast.success("Updated project successfully");
-            getProjectList();
-         } else {
-            toast.error(response?.message || "Failed to update project");
-         }
-      } catch (error) {
-         toast.error("An error occurred while updating project");
-         console.error(error);
-      }
-
-      form.reset();
-      onOpenChange(false);
-   };
+    form.reset();
+    onOpenChange(false);
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -106,7 +101,6 @@ export default function EditProjectDialog({
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4"
           >
-            {/* Name */}
             <FormField
               control={form.control}
               name="name"
@@ -120,8 +114,6 @@ export default function EditProjectDialog({
                 </FormItem>
               )}
             />
-
-            {/* Description */}
             <FormField
               control={form.control}
               name="description"
@@ -135,8 +127,6 @@ export default function EditProjectDialog({
                 </FormItem>
               )}
             />
-
-            {/* Start Date */}
             <FormField
               control={form.control}
               name="startDate"
@@ -150,8 +140,6 @@ export default function EditProjectDialog({
                 </FormItem>
               )}
             />
-
-            {/* End Date */}
             <FormField
               control={form.control}
               name="endDate"
@@ -165,39 +153,66 @@ export default function EditProjectDialog({
                 </FormItem>
               )}
             />
-
-            {/* Manager */}
-            <FormField
-              control={form.control}
-              name="manageUserId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Manager</FormLabel>
-                  <Select
-                    value={field.value}
-                    onValueChange={field.onChange}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select manager" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {adminList && adminList.length > 0 && adminList.map((user) => (
-                        <SelectItem
-                          key={user.id}
-                          value={String(user.id)}
-                        >
-                          {user.userName}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
+            <div className="flex flex-row gap-3">
+              <FormField
+                control={form.control}
+                name="manageUserId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Manager</FormLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select manager" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {adminList && adminList.length > 0 && adminList.map((user) => (
+                          <SelectItem
+                            key={user.id}
+                            value={String(user.id)}
+                          >
+                            {user.userName}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Status</FormLabel>
+                    <Select
+                      value={field.value}
+                      onValueChange={field.onChange}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="INIT">Init</SelectItem>
+                        <SelectItem value="PENDING">Pending</SelectItem>
+                        <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+                        <SelectItem value="COMPLETED">Completed</SelectItem>
+                        <SelectItem value="CANCELLED">Cancelled</SelectItem>
+                        <SelectItem value="ARCHIVED">Archived</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <DialogFooter>
               <Button
                 type="button"

@@ -226,12 +226,10 @@ export function InviteMemberPage() {
 
           <CardContent>
             <Tabs defaultValue="tester">
-              <TabsList className="mb-4">
+              <TabsList className="w-full mb-4">
                 <TabsTrigger className='cursor-pointer' value="tester">Tester</TabsTrigger>
                 <TabsTrigger className='cursor-pointer' value="developer">Developer</TabsTrigger>
               </TabsList>
-
-              {/* ===== Tester ===== */}
               <TabsContent value="tester" className="space-y-6">
                 <div>
                   <h3 className="mb-2 font-semibold">
@@ -251,8 +249,6 @@ export function InviteMemberPage() {
                   />
                 </div>
               </TabsContent>
-
-              {/* ===== Developer ===== */}
               <TabsContent
                 value="developer"
                 className="space-y-6"

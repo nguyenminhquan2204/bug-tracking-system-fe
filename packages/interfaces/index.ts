@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface IUser {
    id: number,
-   isActive: boolean,
+   isActive?: boolean,
    userName: string,
-   email: string,
-   roleId: number,
-   role: IRole,
-   imageId: number | null,
-   avatar: any,
-   createdAt: string,
-   updatedAt: string,
-   deletedAt: null,
-   createdBy: number | null,
-   updatedBy: number | null,
-   deletedBy: number | null,
+   email?: string,
+   roleId?: number,
+   role?: IRole,
+   imageId?: number | null,
+   avatar?: any,
+   createdAt?: string,
+   updatedAt?: string,
+   deletedAt?: null,
+   createdBy?: number | null,
+   updatedBy?: number | null,
+   deletedBy?: number | null,
 }
 
 export interface IRole {
@@ -42,7 +42,7 @@ export interface IProject {
    manageUserId: number,
    managerUserInfo: IUser,
    bugCount: number,
-
+   memberCount: number,
    createdAt: string,
    updatedAt: string,
    deletedAt:  null,

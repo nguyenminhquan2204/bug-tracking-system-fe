@@ -13,6 +13,7 @@ interface States {
    selectedProjectId: number | null,
    bugs: IBugs | null,
    developerList: IUser[],
+   usersMention: IUser[],
    bugDetail: IBug | null,
    bugHistorys: IBugHistory[],
    bugGetListQuery: IBugGetListQuery,
@@ -28,6 +29,7 @@ interface Actions {
 
    getMyProjects: () => Promise<void>,
    getProjectById: (projectId: number) => Promise<void>,
+   getUsersMention: (projectId: number) => Promise<void>,
    getDevelopersInProject: (projectId: number) => Promise<void>,
    getBugs: (projectId: number) => Promise<void>,
    getBugDetailById: (bugId: number) => Promise<void>,
@@ -48,6 +50,7 @@ const intialStates: States = {
    selectedProjectId: null,
    bugs: null,
    developerList: [],
+   usersMention: [],
    bugDetail: null,
    bugHistorys: [],
    bugGetListQuery: {
@@ -100,6 +103,20 @@ export const useMyProjectStore = create<States & Actions>((set, get) => ({
          const response = await myProjectService.getProjectById(projectId);
          set(() => ({
             selectedProject: response?.data ?? null
+         }))
+      } catch {
+         set(() => ({ loading: false }));
+      } finally {
+         set(() => ({ loading: false }));
+      }
+   },
+
+   getUsersMention: async (projectId: number) => {
+      try {
+         set(() => ({ loading: true }));
+         const response = await myProjectService.getUsersMention(projectId);
+         set(() => ({
+            usersMention: response?.data ?? []
          }))
       } catch {
          set(() => ({ loading: false }));

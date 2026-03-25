@@ -8,7 +8,9 @@ export const CreateProjectSchema = z.object({
   manageUserId: z.string().min(1, "Manager is required"),
 });
 
-export const UpdateProjectSchema = CreateProjectSchema;
+export const UpdateProjectSchema = CreateProjectSchema.extend({
+  status: z.string()
+});
 
 export const SearchProjectSchema = z.object({
   name: z.string().optional(),

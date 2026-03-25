@@ -173,11 +173,12 @@ function TaskCard({ task, onSelect }: { task: Task, onSelect: (bug: IBug) => voi
 }
 
 export default function ProjectBugDetailPage() {
-   const { getBugs, bugs, patchUpdateBugStatus } = useMyProjectStore(
+   const { getBugs, bugs, patchUpdateBugStatus, getUsersMention } = useMyProjectStore(
       useShallow((state) => ({
          getBugs: state.getBugs,
          bugs: state.bugs,
-         patchUpdateBugStatus: state.patchUpdateBugStatus
+         patchUpdateBugStatus: state.patchUpdateBugStatus,
+         getUsersMention: state.getUsersMention,
       }))
    )
    const params= useParams()
@@ -186,7 +187,13 @@ export default function ProjectBugDetailPage() {
 
    useEffect(() => {
       if(!params.id) return;
-      getBugs(Number(params.id))
+      const fetchApi = async () => {
+         await Promise.all([
+            getBugs(Number(params.id)),
+            getUsersMention(Number(params.id))
+         ])
+      }
+      fetchApi();
    }, [getBugs])
 
    useEffect(() => {

@@ -11,8 +11,8 @@ class MyProjectService extends ApiService {
       return this.client.get(`${this.baseUrl}`);
    }
 
-   postCreateBug(payload: any): Promise<IBodyResponse<any>> {
-      return this.client.post(`/bug`, payload)
+   getUsersMention(projectId: number): Promise<IBodyResponse<any>> {
+      return this.client.get(`${this.baseUrl}/${projectId}/mention`);
    }
 
    getBugs(projectId: number, query: IBugGetListQuery): Promise<IBodyResponse<any>> {
@@ -33,6 +33,10 @@ class MyProjectService extends ApiService {
 
    getProjectById(projectId: number): Promise<IBodyResponse<any>> {
       return this.client.get(`${this.baseUrl}/${projectId}`);
+   }
+
+   postCreateBug(payload: any): Promise<IBodyResponse<any>> {
+      return this.client.post(`/bug`, payload)
    }
      
    patchUpdateBugStatus(bugId: number, newStatus: string) {

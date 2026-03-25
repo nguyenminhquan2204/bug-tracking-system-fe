@@ -1,9 +1,10 @@
 import { DEFAULT_GET_LIST_QUERY } from "@/packages/utils"
-import { IProject, IProjectGetListQuery } from "../interface"
+import { IProjectGetListQuery } from "../interface"
 import { create } from "zustand"
 import { manageProjectService } from "../services/manage-project.service"
-import { IMember, IUser } from "../../manage-users/inferface"
+import { IMember } from "../../manage-users/inferface"
 import { manageUserService } from "../../manage-users/services/manage-user.service"
+import { IProject, IUser } from "@/packages/interfaces"
 
 interface States {
   isOpenEditProjectDialog: boolean

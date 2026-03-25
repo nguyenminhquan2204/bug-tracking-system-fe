@@ -17,13 +17,13 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { MoreVertical } from "lucide-react"
-import { IProject } from "../interface"
 import { useManageProjectStore } from "../stores/useManageProjectStore"
 import { useShallow } from "zustand/shallow"
 import DeleteProjectDialog from "./DeleteProjectDialog"
 import EditProjectDialog from "./EditProjectDialog"
 import InviteMemberDialog from "./InviteMemberDialog"
 import { useRouter } from "next/navigation"
+import { IProject } from "@/packages/interfaces"
 
 export default function ProjectTable({ data }: { data: IProject[] }) {
   const router = useRouter();
@@ -68,6 +68,7 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
               <TableHead className="w-12">#</TableHead>
               <TableHead>Name</TableHead>
               <TableHead>Description</TableHead>
+              <TableHead>Members</TableHead>
               <TableHead>Manager</TableHead>
               <TableHead>Start Date</TableHead>
               <TableHead>End Date</TableHead>
@@ -86,37 +87,32 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
                   onClick={() => router.push(`/admin/manage-projects/${item.id}`)}
                 >
                   <TableCell>{index + 1}</TableCell>
-
                   <TableCell className="font-medium">
                     {item.name}
                   </TableCell>
-
                   <TableCell className="max-w-[300px] truncate">
                     {item.description}
                   </TableCell>
-
+                  <TableCell>
+                    {item.memberCount}
+                  </TableCell>
                   <TableCell>
                     {item.managerUserInfo.userName ?? '—'}
                   </TableCell>
-
                   <TableCell>
                     {new Date(item.startDate).toLocaleDateString()}
                   </TableCell>
-
                   <TableCell>
                     {item.endDate
                       ? new Date(item.endDate).toLocaleDateString()
                       : '—'}
                   </TableCell>
-
                   <TableCell>
                     {item.bugCount ?? 0}
                   </TableCell>
-
                   <TableCell>
                     {item.status}
                   </TableCell>
-
                   <TableCell>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -124,7 +120,6 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
                           <MoreVertical className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
-
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem
                           onClick={(e) => {
@@ -135,7 +130,6 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
                         >
                           Edit
                         </DropdownMenuItem>
-
                         <DropdownMenuItem
                           className="text-red-600"
                           onClick={(e) => {

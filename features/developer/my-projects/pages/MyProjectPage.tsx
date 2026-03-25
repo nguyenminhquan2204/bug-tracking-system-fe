@@ -15,6 +15,7 @@ import { useShallow } from 'zustand/shallow'
 import { useEffect } from 'react'
 import { ProjectInfoDrawer } from '../components/ProjectInfoDrawer'
 import { useRouter } from 'next/navigation'
+import { statusStyles } from '@/packages/helpers'
 
 export default function MyProjectPage() {
   const router = useRouter()
@@ -54,11 +55,8 @@ export default function MyProjectPage() {
                   <Badge
                     variant="outline"
                     className={
-                      project.status === 'Active'
-                        ? 'border-green-500 bg-green-500/10 text-green-600'
-                        : project.status === 'Pending'
-                        ? 'border-yellow-500 bg-yellow-500/10 text-yellow-600'
-                        : 'border-gray-400 text-gray-500'
+                      statusStyles[project.status] ||
+                      'border-gray-400 bg-gray-400/10 text-gray-600'
                     }
                   >
                     {project.status}

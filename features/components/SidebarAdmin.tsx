@@ -10,6 +10,7 @@ import {
   LogOut,
   User,
   MessageCircle,
+  Bell,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -50,6 +51,11 @@ const menuItems = [
     title: "Messages",
     href: "/admin/chat",
     icon: MessageCircle,
+  },
+  {
+    title: "Notifications",
+    href: "/admin/noti",
+    icon: Bell,
   }
 ];
 

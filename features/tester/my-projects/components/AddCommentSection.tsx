@@ -15,21 +15,49 @@ interface Props {
 }
 
 export default function AddCommentSection({ bugId }: Props) {
-  const { getBugDetailById } = useMyProjectStore(useShallow((state) => ({
-    getBugDetailById: state.getBugDetailById
+  const { getBugDetailById, usersMention } = useMyProjectStore(useShallow((state) => ({
+    getBugDetailById: state.getBugDetailById,
+    usersMention: state.usersMention
   })))
   const [content, setContent] = useState("")
   const [files, setFiles] = useState<File[]>([])
   const [loading, setLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [showMention, setShowMention] = useState(false)
+  const [selectedMentions, setSelectedMentions] = useState<any[]>([])
+
+  const handleChange = (value: string) => {
+    setContent(value)
+
+    const match = value.slice(0, value.length).match(/@(\w*)$/)
+    setShowMention(!!match)
+
+    setSelectedMentions((prev) => {
+      return prev.filter(user =>
+        value.includes(`@${user.userName}`)
+      )
+    })
+  }
+
+  const handleSelectUser = (user: any) => {
+    const newText = content.replace(/@(\w*)$/, `@${user.userName} `)
+
+    setContent(newText)
+    setShowMention(false)
+    setSelectedMentions((prev) => {
+      if (prev.find(u => u.id === user.id)) return prev
+      return [...prev, user]
+    })
+  }
 
   const handleSubmit = async () => {
     if (!content.trim() && files.length === 0) return
     setLoading(true)
     try {
+      const mentionIds = selectedMentions.map(u => u.id)
       const formData = new FormData();
       formData.append("content", content);
-
+      formData.append("mentions", JSON.stringify(mentionIds))
       files.forEach((file) => {
         formData.append('files', file);
       })
@@ -40,6 +68,7 @@ export default function AddCommentSection({ bugId }: Props) {
         toast.success("Commented bug successfully")
         setContent("")
         setFiles([])
+        setSelectedMentions([])
         getBugDetailById(bugId)
         if (fileInputRef.current) {
           fileInputRef.current.value = ""
@@ -60,8 +89,21 @@ export default function AddCommentSection({ bugId }: Props) {
       <Textarea
         placeholder="Write a comment..."
         value={content}
-        onChange={(e) => setContent(e.target.value)}
+        onChange={(e) => handleChange(e.target.value)}
       />
+      {showMention && usersMention.length > 0 && (
+        <div className="border rounded-md shadow bg-white max-h-40 overflow-y-auto">
+          {usersMention.map((user) => (
+            <div
+              key={user.id}
+              className="px-3 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => handleSelectUser(user)}
+            >
+              {user.userName}
+            </div>
+          ))}
+        </div>
+      )}
       <input
         ref={fileInputRef}
         type="file"
