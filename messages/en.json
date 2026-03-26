@@ -426,5 +426,147 @@
         "deleteException": "Delete failed"
       }
     }
+  },
+  "Developer": {
+    "Sidebar": {
+      "system": "Bug Tracking",
+      "dashboard": "Dashboard",
+      "myProjects": "My Projects",
+      "messages": "Messages",
+      "profile": "Profile",
+      "logout": "Logout"
+    },
+    "Chat": {
+      "loadingMessages": "Loading messages...",
+      "selectUser": "Select a user",
+      "sidebar": {
+        "title": "Messages",
+        "admins": "Admins",
+        "users": "Users",
+        "empty": "No users"
+      }
+    },
+    "Dashboard": {
+      "title": "Bug Tracking Dashboard",
+      "loading": "Loading dashboard...",
+      "selectProject": "Select project",
+      "refresh": "Refresh",
+      "summary": {
+        "totalBugs": "Total Bugs",
+        "todo": "Todo",
+        "doing": "Doing",
+        "prInReview": "PR in review",
+        "doneInDev": "Done in dev"
+      },
+      "charts": {
+        "statusDistribution": "Status Distribution",
+        "bugsTrend": "Bugs Trend",
+        "openBugsByProject": "Open Bugs by Project",
+        "topBusyDevelopers": "Top 3 Most Busy Developers"
+      },
+      "status": {
+        "total": "Total",
+        "todo": "Todo",
+        "doing": "Doing",
+        "pr_in_review": "PR in review",
+        "merged": "Merged",
+        "ready_for_qc": "Ready for QC",
+        "qc_in_progress": "QC in progress",
+        "done_in_dev": "Done in dev",
+        "on_stg": "On staging"
+      },
+      "units": {
+        "bugs": "bugs"
+      }
+    },
+    "MyProjects": {
+      "title": "My Projects",
+      "actions": {
+        "view": "View",
+        "manage": "Manage"
+      },
+      "filters": {
+        "bugNamePlaceholder": "Bug name"
+      },
+      "fields": {
+        "description": "Description",
+        "priority": "Priority",
+        "status": "Status"
+      },
+      "priority": {
+        "options": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High",
+          "critical": "Critical"
+        }
+      },
+      "status": {
+        "options": {
+          "todo": "Todo",
+          "doing": "Doing",
+          "pr_in_review": "PR in review",
+          "merged": "Merged",
+          "ready_for_qc": "Ready for QC",
+          "qc_in_progress": "QC in progress",
+          "done_in_dev": "Done in dev",
+          "on_stg": "On STG"
+        }
+      },
+      "board": {
+        "title": "Project Bug Board",
+        "dropHere": "Drop here",
+        "unassigned": "Unassigned"
+      },
+      "projectInfo": {
+        "title": "Project information",
+        "description": "Description",
+        "noDescription": "No description",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "manager": "Manager",
+        "noManager": "No manager"
+      },
+      "detail": {
+        "noDescription": "No description provided",
+        "assignedDeveloper": "Assigned Developer",
+        "reportedBy": "Reported By",
+        "noEmail": "No email",
+        "unassigned": "Unassigned",
+        "unknown": "Unknown",
+        "tabs": {
+          "comments": "Comments",
+          "history": "History"
+        }
+      },
+      "comments": {
+        "title": "Comments",
+        "empty": "No comments yet",
+        "writePlaceholder": "Write a comment...",
+        "attachFile": "Attach image / video",
+        "posting": "Posting...",
+        "post": "Post Comment",
+        "postSuccess": "Commented bug successfully",
+        "postError": "Failed to comment bug",
+        "postException": "An error occurred while comment bug"
+      },
+      "history": {
+        "title": "Change History",
+        "old": "Old",
+        "new": "New",
+        "empty": "No history yet"
+      },
+      "editor": {
+        "text": "Text",
+        "uploadImage": "Upload image",
+        "imageUrl": "Image URL",
+        "imageUrlPrompt": "Image URL",
+        "notifications": {
+          "uploadSuccess": "Uploaded successfully",
+          "uploadError": "Failed upload",
+          "uploadException": "An error occurred while upload image"
+        }
+      }
+    }
   }
 }

@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
   DndContext,
   DragEndEvent,
   closestCorners,
+  useDroppable,
 } from '@dnd-kit/core'
 import {
   SortableContext,
@@ -13,7 +13,6 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { useDroppable } from '@dnd-kit/core'
 import SearchAndCreateBug from '../components/FillterSearchBug'
 import { useMyProjectStore } from '../stores/useMyProjectStore'
 import { useShallow } from 'zustand/shallow'
@@ -24,6 +23,8 @@ import {
   AvatarFallback,
 } from '@/components/ui/avatar'
 import BugDetail from '../components/BugDetail'
+import { useTranslations } from 'next-intl'
+import { BUG_STATUS_OPTIONS, normalizeBugPriorityKey } from '../constants'
 
 type Task = {
    id: string,
@@ -36,29 +37,6 @@ type ColumnType = {
    title: string
    tasks: Task[]
 }
-
-const COLUMN_CONFIG = [
-   { id: 'todo', title: 'Todo' },
-   { id: 'doing', title: 'Doing' },
-   { id: 'pr_in_review', title: 'PR in review' },
-   { id: 'merged', title: 'Merged' },
-   { id: 'ready_for_qc', title: 'Ready for QC' },
-   { id: 'qc_in_progress', title: 'QC in progress' },
-   { id: 'done_in_dev', title: 'Done in Dev' },
-   { id: 'on_stg', title: 'On STG' },
-]
-
-const buildColumnsFromBugs = (bugs: IBugs | null): ColumnType[] =>
-   COLUMN_CONFIG.map((col) => ({
-      id: col.id,
-      title: col.title,
-      tasks: (bugs?.[col.id as keyof IBugs] ?? []).map((bug: IBug) => ({
-         id: String(bug.id),
-         title: bug.title,
-         bug: bug
-      })),
-   })
-)
 
 function getStatusColor(status: Task['bug']['priority']) {
    switch (status) {
@@ -75,7 +53,7 @@ function getStatusColor(status: Task['bug']['priority']) {
    }
 }
 
-function Column({ column, onSelect }: { column: ColumnType, onSelect: (bug: IBug) => void }) {
+function Column({ column, onSelect, emptyLabel }: { column: ColumnType, onSelect: (bug: IBug) => void, emptyLabel: string }) {
    const { setNodeRef } = useDroppable({ id: column.id })
 
    return (
@@ -96,7 +74,7 @@ function Column({ column, onSelect }: { column: ColumnType, onSelect: (bug: IBug
          <div className="flex-1 space-y-2">
             {column.tasks.length === 0 && (
                <div className="rounded-md border border-dashed p-3 text-center text-sm text-gray-400">
-                  Drop here
+                  {emptyLabel}
                </div>
             )}
 
@@ -110,6 +88,7 @@ function Column({ column, onSelect }: { column: ColumnType, onSelect: (bug: IBug
 }
 
 function TaskCard({ task, onSelect }: { task: Task, onSelect: (bug: IBug) => void }) {
+  const t = useTranslations('Developer.MyProjects')
   const { setNodeRef, attributes, listeners, transform, transition } =
     useSortable({ id: task.id })
 
@@ -132,11 +111,11 @@ function TaskCard({ task, onSelect }: { task: Task, onSelect: (bug: IBug) => voi
           </h3>
 
           <div
-            className={`w-[80px] whitespace-nowrap text-center rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(
+            className={`w-[100px] whitespace-nowrap text-center rounded-full px-2 py-1 text-xs font-medium ${getStatusColor(
               task.bug.priority
             )}`}
           >
-            {task.bug.priority}
+            {t(`priority.options.${normalizeBugPriorityKey(task.bug.priority)}`)}
           </div>
         </div>
         <div
@@ -145,7 +124,7 @@ function TaskCard({ task, onSelect }: { task: Task, onSelect: (bug: IBug) => voi
           onClick={(e) => e.stopPropagation()}
           className="cursor-grab text-gray-400 hover:text-gray-600 active:cursor-grabbing"
         >
-          ⋮⋮
+          ::
         </div>
       </div>
 
@@ -164,7 +143,7 @@ function TaskCard({ task, onSelect }: { task: Task, onSelect: (bug: IBug) => voi
           </div>
         ) : (
           <span className="text-xs text-muted-foreground italic">
-            Unassigned
+            {t('board.unassigned')}
           </span>
         )}
       </div>
@@ -173,6 +152,7 @@ function TaskCard({ task, onSelect }: { task: Task, onSelect: (bug: IBug) => voi
 }
 
 export default function ProjectBugDetailPage() {
+   const t = useTranslations('Developer.MyProjects')
    const { getBugs, bugs, patchUpdateBugStatus, getUsersMention } = useMyProjectStore(
       useShallow((state) => ({
          getBugs: state.getBugs,
@@ -182,7 +162,6 @@ export default function ProjectBugDetailPage() {
       }))
    )
    const params= useParams()
-   const [columns, setColumns] = useState<ColumnType[]>([])
    const [selectedBug, setSelectedBug] = useState<IBug | null>(null)
 
    useEffect(() => {
@@ -194,11 +173,19 @@ export default function ProjectBugDetailPage() {
          ])
       }
       fetchApi();
-   }, [getBugs])
+   }, [getBugs, getUsersMention, params.id])
 
-   useEffect(() => {
-      setColumns(buildColumnsFromBugs(bugs))
-   }, [bugs])
+   const columns = useMemo(() => {
+      return BUG_STATUS_OPTIONS.map((colId) => ({
+         id: colId,
+         title: t(`status.options.${colId}`),
+         tasks: (bugs?.[colId as keyof IBugs] ?? []).map((bug: IBug) => ({
+            id: String(bug.id),
+            title: bug.title,
+            bug: bug
+         })),
+      }))
+   }, [bugs, t])
 
    const handleDragEnd = async (event: DragEndEvent) => {
       const { active, over } = event
@@ -208,44 +195,38 @@ export default function ProjectBugDetailPage() {
       const overId = over.id as string
 
       let newStatus = ''
+      const next = structuredClone(columns)
 
-      setColumns((prev) => {
-         const next = structuredClone(prev)
+      let sourceColIndex = -1
+      let targetColIndex = -1
 
-         let sourceColIndex = -1
-         let targetColIndex = -1
-         let sourceTaskIndex = -1
+      next.forEach((col, colIndex) => {
+         const taskIndex = col.tasks.findIndex((t) => t.id === activeId)
 
-         next.forEach((col, colIndex) => {
-            const taskIndex = col.tasks.findIndex((t) => t.id === activeId)
-
-            if (taskIndex !== -1) {
-               sourceColIndex = colIndex
-               sourceTaskIndex = taskIndex
-            }
-
-            if (
-               col.id === overId ||
-               col.tasks.some((t) => t.id === overId)
-            ) {
-               targetColIndex = colIndex
-            }
-         })
-
-         if (sourceColIndex === -1 || targetColIndex === -1) return prev
-
-         if (sourceColIndex !== targetColIndex) {
-            const [movedTask] = next[sourceColIndex].tasks.splice(sourceTaskIndex, 1)
-            next[targetColIndex].tasks.push(movedTask)
-            newStatus = next[targetColIndex].id
+         if (taskIndex !== -1) {
+            sourceColIndex = colIndex
          }
 
-         return next
+         if (
+            col.id === overId ||
+            col.tasks.some((t) => t.id === overId)
+         ) {
+            targetColIndex = colIndex
+         }
       })
+
+      if (sourceColIndex === -1 || targetColIndex === -1) return
+
+      if (sourceColIndex !== targetColIndex) {
+         newStatus = next[targetColIndex].id
+      }
 
       if (newStatus) {
          try {
             await patchUpdateBugStatus(Number(activeId), newStatus)
+            if (params.id) {
+              await getBugs(Number(params.id))
+            }
          } catch (err) {
             console.error(err)
          }
@@ -259,7 +240,7 @@ export default function ProjectBugDetailPage() {
             setSelectedBug={setSelectedBug}
          />
          <div className="flex flex-col space-y-4 h-full">
-            <h1 className="text-xl font-semibold">Project Bug Board</h1>
+            <h1 className="text-xl font-semibold">{t('board.title')}</h1>
             <SearchAndCreateBug />
             <div className='flex-1'>
                <DndContext
@@ -268,7 +249,7 @@ export default function ProjectBugDetailPage() {
                >
                <div className="h-full flex gap-4 overflow-x-auto">
                   {columns.map((col) => (
-                     <Column key={col.id} column={col} onSelect={(bug) => setSelectedBug(bug)} />
+                     <Column key={col.id} column={col} onSelect={(bug) => setSelectedBug(bug)} emptyLabel={t('board.dropHere')} />
                   ))}
                </div>
                </DndContext>

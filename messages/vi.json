@@ -425,5 +425,147 @@
         "deleteException": "Xóa thất bại"
       }
     }
+  },
+  "Developer": {
+    "Sidebar": {
+      "system": "Theo dõi lỗi",
+      "dashboard": "Bảng điều khiển",
+      "myProjects": "Dự án của tôi",
+      "messages": "Tin nhắn",
+      "profile": "Hồ sơ",
+      "logout": "Đăng xuất"
+    },
+    "Chat": {
+      "loadingMessages": "Đang tải tin nhắn...",
+      "selectUser": "Chọn người dùng",
+      "sidebar": {
+        "title": "Tin nhắn",
+        "admins": "Quản trị viên",
+        "users": "Người dùng",
+        "empty": "Không có người dùng"
+      }
+    },
+    "Dashboard": {
+      "title": "Bảng điều khiển theo dõi lỗi",
+      "loading": "Đang tải bảng điều khiển...",
+      "selectProject": "Chọn dự án",
+      "refresh": "Làm mới",
+      "summary": {
+        "totalBugs": "Tổng số lỗi",
+        "todo": "Cần làm",
+        "doing": "Đang làm",
+        "prInReview": "PR đang review",
+        "doneInDev": "Hoàn thành phía dev"
+      },
+      "charts": {
+        "statusDistribution": "Phân bố trạng thái",
+        "bugsTrend": "Xu hướng lỗi",
+        "openBugsByProject": "Lỗi đang mở theo dự án",
+        "topBusyDevelopers": "Top 3 lập trình viên bận nhất"
+      },
+      "status": {
+        "total": "Tổng",
+        "todo": "Cần làm",
+        "doing": "Đang làm",
+        "pr_in_review": "PR đang review",
+        "merged": "Đã merge",
+        "ready_for_qc": "Sẵn sàng cho QC",
+        "qc_in_progress": "QC đang xử lý",
+        "done_in_dev": "Hoàn thành phía dev",
+        "on_stg": "Trên staging"
+      },
+      "units": {
+        "bugs": "lỗi"
+      }
+    },
+    "MyProjects": {
+      "title": "Dự án của tôi",
+      "actions": {
+        "view": "Xem",
+        "manage": "Quản lý"
+      },
+      "filters": {
+        "bugNamePlaceholder": "Tên bug"
+      },
+      "fields": {
+        "description": "Mô tả",
+        "priority": "Mức độ ưu tiên",
+        "status": "Trạng thái"
+      },
+      "priority": {
+        "options": {
+          "low": "Thấp",
+          "medium": "Trung bình",
+          "high": "Cao",
+          "critical": "Nghiêm trọng"
+        }
+      },
+      "status": {
+        "options": {
+          "todo": "Cần làm",
+          "doing": "Đang làm",
+          "pr_in_review": "PR đang review",
+          "merged": "Đã merge",
+          "ready_for_qc": "Sẵn sàng cho QC",
+          "qc_in_progress": "QC đang xử lý",
+          "done_in_dev": "Hoàn thành phía dev",
+          "on_stg": "Trên STG"
+        }
+      },
+      "board": {
+        "title": "Bảng bug của dự án",
+        "dropHere": "Thả vào đây",
+        "unassigned": "Chưa phân công"
+      },
+      "projectInfo": {
+        "title": "Thông tin dự án",
+        "description": "Mô tả",
+        "noDescription": "Không có mô tả",
+        "startDate": "Ngày bắt đầu",
+        "endDate": "Ngày kết thúc",
+        "manager": "Quản lý",
+        "noManager": "Không có quản lý"
+      },
+      "detail": {
+        "noDescription": "Chưa có mô tả",
+        "assignedDeveloper": "Lập trình viên phụ trách",
+        "reportedBy": "Người báo lỗi",
+        "noEmail": "Không có email",
+        "unassigned": "Chưa phân công",
+        "unknown": "Không xác định",
+        "tabs": {
+          "comments": "Bình luận",
+          "history": "Lịch sử"
+        }
+      },
+      "comments": {
+        "title": "Bình luận",
+        "empty": "Chưa có bình luận",
+        "writePlaceholder": "Viết bình luận...",
+        "attachFile": "Đính kèm ảnh / video",
+        "posting": "Đang đăng...",
+        "post": "Đăng bình luận",
+        "postSuccess": "Bình luận bug thành công",
+        "postError": "Bình luận bug thất bại",
+        "postException": "Có lỗi xảy ra khi bình luận bug"
+      },
+      "history": {
+        "title": "Lịch sử thay đổi",
+        "old": "Cũ",
+        "new": "Mới",
+        "empty": "Chưa có lịch sử"
+      },
+      "editor": {
+        "text": "Văn bản",
+        "uploadImage": "Tải ảnh lên",
+        "imageUrl": "URL ảnh",
+        "imageUrlPrompt": "URL ảnh",
+        "notifications": {
+          "uploadSuccess": "Tải lên thành công",
+          "uploadError": "Tải lên thất bại",
+          "uploadException": "Có lỗi xảy ra khi tải ảnh lên"
+        }
+      }
+    }
   }
 }

@@ -3,8 +3,10 @@ import { IBug } from "../interface";
 import { useMyProjectStore } from "../stores/useMyProjectStore";
 import { useEffect } from "react";
 import { ArrowRight, User } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function HistoryBugDetail({ selectedBug }: { selectedBug: IBug }) {
+   const t = useTranslations("Developer.MyProjects.history")
    const { getBugHistoryById, bugHistorys } = useMyProjectStore(
       useShallow((state) => ({
          getBugHistoryById: state.getBugHistoryById,
@@ -15,15 +17,14 @@ export default function HistoryBugDetail({ selectedBug }: { selectedBug: IBug })
    useEffect(() => {
       if (!selectedBug) return;
       getBugHistoryById(selectedBug.id);
-   }, [selectedBug]);
+   }, [getBugHistoryById, selectedBug]);
 
    return (
       <div className="mt-4">
-         <h3 className="text-sm font-semibold mb-4">Change History</h3>
+         <h3 className="text-sm font-semibold mb-4">{t("title")}</h3>
 
          {bugHistorys && bugHistorys.length > 0 ? (
             <div className="relative max-h-[350px] overflow-y-auto pr-4 space-y-6">
-               {/* <div className="absolute left-4 top-0 bottom-0 w-[6px] bg-border" /> */}
                {bugHistorys.map((item) => (
                   <div key={item.id} className="relative flex gap-4">
                      <div className="relative z-10 h-3 w-3 mt-3 rounded-full bg-primary" />
@@ -44,16 +45,16 @@ export default function HistoryBugDetail({ selectedBug }: { selectedBug: IBug })
                         </div>
                         <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3 text-sm">
                            <div className="rounded-md border bg-muted/30 p-2">
-                              <p className="text-xs text-muted-foreground mb-1">Old</p>
+                              <p className="text-xs text-muted-foreground mb-1">{t("old")}</p>
                               <p className="font-medium break-words">
-                                 {item.oldValue || "—"}
+                                 {item.oldValue || "--"}
                               </p>
                            </div>
                            <ArrowRight size={16} className="text-muted-foreground" />
                            <div className="rounded-md border bg-primary/5 p-2">
-                              <p className="text-xs text-muted-foreground mb-1">New</p>
+                              <p className="text-xs text-muted-foreground mb-1">{t("new")}</p>
                               <p className="font-medium break-words">
-                                 {item.newValue || "—"}
+                                 {item.newValue || "--"}
                               </p>
                            </div>
                         </div>
@@ -62,7 +63,7 @@ export default function HistoryBugDetail({ selectedBug }: { selectedBug: IBug })
                ))}
             </div>
          ) : (
-            <p className="text-muted-foreground text-sm">No history yet</p>
+            <p className="text-muted-foreground text-sm">{t("empty")}</p>
          )}
       </div>
    );

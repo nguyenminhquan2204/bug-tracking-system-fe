@@ -17,3 +17,17 @@ export enum BugStatus {
   DONE_IN_DEV = 'DONE_IN_DEV',
   ON_STG = 'ON_STG',
 }
+
+export const BUG_STATUS_OPTIONS = [
+  'todo',
+  'doing',
+  'pr_in_review',
+  'merged',
+  'ready_for_qc',
+  'qc_in_progress',
+  'done_in_dev',
+  'on_stg',
+] as const
+
+export const normalizeBugStatusKey = (status: string) => status.toLowerCase()
+export const normalizeBugPriorityKey = (priority: string) => priority.toLowerCase()

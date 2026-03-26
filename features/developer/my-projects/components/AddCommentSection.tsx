@@ -9,12 +9,14 @@ import { toast } from "sonner"
 import { Paperclip, X } from "lucide-react"
 import { useMyProjectStore } from "../stores/useMyProjectStore"
 import { useShallow } from "zustand/shallow"
+import { useTranslations } from "next-intl"
 
 interface Props {
   bugId: number
 }
 
 export default function AddCommentSection({ bugId }: Props) {
+  const t = useTranslations("Developer.MyProjects.comments")
   const { getBugDetailById, usersMention } = useMyProjectStore(useShallow((state) => ({
     getBugDetailById: state.getBugDetailById,
     usersMention: state.usersMention
@@ -65,18 +67,19 @@ export default function AddCommentSection({ bugId }: Props) {
       const response = await myProjectService.postComment(bugId, formData);
 
       if (response?.success) {
-        toast.success("Commented bug successfully")
+        toast.success(t("postSuccess"))
         setContent("")
         setFiles([])
+        setSelectedMentions([])
         getBugDetailById(bugId)
         if (fileInputRef.current) {
           fileInputRef.current.value = ""
         }
       } else {
-        toast.error(response?.message || "Failed to comment bug")
+        toast.error(response?.message || t("postError"))
       }
     } catch (error) {
-      toast.error("An error occurred while comment bug")
+      toast.error(t("postException"))
       console.error(error)
     } finally {
       setLoading(false)
@@ -86,7 +89,7 @@ export default function AddCommentSection({ bugId }: Props) {
   return (
     <div className="space-y-4">
       <Textarea
-        placeholder="Write a comment..."
+        placeholder={t("writePlaceholder")}
         value={content}
         onChange={(e) => handleChange(e.target.value)}
       />
@@ -125,7 +128,7 @@ export default function AddCommentSection({ bugId }: Props) {
           className="flex items-center gap-2"
         >
           <Paperclip className="h-4 w-4" />
-          Attach image / video
+          {t("attachFile")}
         </Button>
       </div>
       {files.length > 0 && (
@@ -158,7 +161,7 @@ export default function AddCommentSection({ bugId }: Props) {
           onClick={handleSubmit}
           disabled={loading}
         >
-          {loading ? "Posting..." : "Post Comment"}
+          {loading ? t("posting") : t("post")}
         </Button>
       </div>
     </div>

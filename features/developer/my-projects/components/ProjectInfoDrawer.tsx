@@ -11,6 +11,8 @@ import { Badge } from '@/components/ui/badge'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { useMyProjectStore } from '../stores/useMyProjectStore'
 import { useShallow } from 'zustand/shallow'
+import { useTranslations } from 'next-intl'
+import { normalizeProjectStatusKey } from '@/features/admin/manage-projects/constants'
 
 export function ProjectInfoDrawer({
   open,
@@ -19,6 +21,8 @@ export function ProjectInfoDrawer({
   open: boolean
   onOpenChange: (open: boolean) => void
 }) {
+   const t = useTranslations('Developer.MyProjects.projectInfo')
+   const tProjectStatus = useTranslations('Admin.ManageProject.table.columns.status')
    const { selectedProject } = useMyProjectStore(
       useShallow((state) => ({
          selectedProject: state.selectedProject,
@@ -33,7 +37,7 @@ export function ProjectInfoDrawer({
       status,
       startDate,
       endDate,
-      managerUserInfo, // manageInfo
+      managerUserInfo,
    } = selectedProject
 
   const formatDate = (date?: string) => date ? new Date(date).toLocaleDateString() : '--'
@@ -44,40 +48,30 @@ export function ProjectInfoDrawer({
         <SheetHeader>
           <SheetTitle className="flex items-center gap-3">
             {name}
-            <Badge
-              variant="outline"
-              className={
-                status === 'Active'
-                  ? 'border-green-500 bg-green-500/10 text-green-600'
-                  : status === 'Pending'
-                  ? 'border-yellow-500 bg-yellow-500/10 text-yellow-600'
-                  : 'border-gray-400 text-gray-500'
-              }
-            >
-              {status}
+            <Badge variant="outline" className="border-gray-400 text-gray-500">
+              {tProjectStatus(`options.${normalizeProjectStatusKey(status)}`)}
             </Badge>
           </SheetTitle>
-          <SheetDescription>Information project</SheetDescription>
+          <SheetDescription>{t('title')}</SheetDescription>
         </SheetHeader>
 
         <div className="mt-6 space-y-6 text-sm">
-          {/* DESCRIPTION */}
           <div>
-            <p className="mb-1 font-medium">Description</p>
+            <p className="mb-1 font-medium">{t('description')}</p>
             <p className="text-muted-foreground">
-              {description || 'No description'}
+              {description || t('noDescription')}
             </p>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="mb-1 font-medium">Start date</p>
+              <p className="mb-1 font-medium">{t('startDate')}</p>
               <p className="text-muted-foreground">
                 {formatDate(startDate)}
               </p>
             </div>
             <div>
-              <p className="mb-1 font-medium">End date</p>
+              <p className="mb-1 font-medium">{t('endDate')}</p>
               <p className="text-muted-foreground">
                 {formatDate(endDate)}
               </p>
@@ -85,7 +79,7 @@ export function ProjectInfoDrawer({
           </div>
 
           <div>
-            <p className="mb-2 font-medium">Manager</p>
+            <p className="mb-2 font-medium">{t('manager')}</p>
 
             {managerUserInfo ? (
               <div className="flex items-center gap-3 rounded-md border p-3">
@@ -103,7 +97,7 @@ export function ProjectInfoDrawer({
                 </div>
               </div>
             ) : (
-              <p className="text-muted-foreground">No manager</p>
+              <p className="text-muted-foreground">{t('noManager')}</p>
             )}
           </div>
         </div>
