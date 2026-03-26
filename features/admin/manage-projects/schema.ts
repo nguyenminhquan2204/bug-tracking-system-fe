@@ -1,18 +1,22 @@
 import { z } from "zod";
 
-export const CreateProjectSchema = z.object({
-  name: z.string().min(1, "Project name is required"),
-  description: z.string().optional(),
-  startDate: z.string().min(1, "Start date is required"),
-  endDate: z.string().min(1, "End date is required"),
-  manageUserId: z.string().min(1, "Manager is required"),
-});
+type TranslateFn = (key: string) => string;
 
-export const UpdateProjectSchema = CreateProjectSchema.extend({
-  status: z.string()
-});
+export const createProjectSchema = (t: TranslateFn) =>
+  z.object({
+    name: z.string().min(1, t("nameRequired")),
+    description: z.string().optional(),
+    startDate: z.string().min(1, t("startDateRequired")),
+    endDate: z.string().min(1, t("endDateRequired")),
+    manageUserId: z.string().min(1, t("managerRequired")),
+  });
 
-export const SearchProjectSchema = z.object({
+export const updateProjectSchema = (t: TranslateFn) =>
+  createProjectSchema(t).extend({
+    status: z.string().min(1, t("statusRequired")),
+  });
+
+export const searchProjectSchema = z.object({
   name: z.string().optional(),
   status: z.string().optional(),
   startDate: z.string().optional(),
@@ -20,6 +24,6 @@ export const SearchProjectSchema = z.object({
   manageUserId: z.string().optional(),
 });
 
-export type SearchProjectType = z.infer<typeof SearchProjectSchema>;
-export type CreateProjectType = z.infer<typeof CreateProjectSchema>;
-export type UpdateProjectType = z.infer<typeof UpdateProjectSchema>;
+export type SearchProjectType = z.infer<typeof searchProjectSchema>;
+export type CreateProjectType = z.infer<ReturnType<typeof createProjectSchema>>;
+export type UpdateProjectType = z.infer<ReturnType<typeof updateProjectSchema>>;

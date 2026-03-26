@@ -1,144 +1,202 @@
 {
-   "Button": {
-      "cancel": "Cancel",
-      "save": "Save",
-      "saveLoading": "Saving...",
-      "delete": "Delete",
-      "search": "Search",
-      "addUser": "Add User",
-      "addProject": "Add Project"
-   },
-   "Pagination": {
-      "previous": "Previous",
-      "next": "Next"
-   },
-   "Noti": {
-      "logoutSuccess": "Logout successfully",
-      "logoutError": "Failed to logout",
-      "logoutException": "An error occurred while logout system"
-   },
-   "Admin": {
-      "Sidebar": {
-         "system": "Bug Tracking",
-         "dashboard": "Dashboard",
-         "projects": "Projects",
-         "users": "Users",
-         "messages": "Messages",
-         "notifications": "Notifications",
-         "profile": "Profile",
-         "logout": "Logout"
+  "Button": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "saveLoading": "Saving...",
+    "delete": "Delete",
+    "search": "Search",
+    "addUser": "Add User",
+    "addProject": "Add Project",
+    "invite": "Invite"
+  },
+  "Pagination": {
+    "previous": "Previous",
+    "next": "Next"
+  },
+  "Noti": {
+    "logoutSuccess": "Logout successfully",
+    "logoutError": "Failed to logout",
+    "logoutException": "An error occurred while logout system"
+  },
+  "Admin": {
+    "Sidebar": {
+      "system": "Bug Tracking",
+      "dashboard": "Dashboard",
+      "projects": "Projects",
+      "users": "Users",
+      "messages": "Messages",
+      "notifications": "Notifications",
+      "profile": "Profile",
+      "logout": "Logout"
+    },
+    "EditProfile": {
+      "title": "Edit Profile",
+      "changeAvatar": "Change avatar",
+      "userName": "Username",
+      "email": "Email"
+    },
+    "ManageUser": {
+      "title": "Manage Users",
+      "description": "View and manage information users.",
+      "table": {
+        "columns": {
+          "userName": "Username",
+          "email": "Email",
+          "role": "Role",
+          "status": {
+            "title": "Status",
+            "options": {
+              "active": "Active",
+              "inactive": "Inactive"
+            }
+          },
+          "actions": {
+            "title": "Action",
+            "options": {
+              "edit": "Edit",
+              "delete": "Delete"
+            }
+          }
+        }
       },
-      "EditProfile": {
-         "title": "Edit Profile",
-         "changeAvatar": "Change avatar",
-         "userName": "Username",
-         "email": "Email"
-      },
-      "ManageUser": {
-         "title": "Manage Users",
-         "description": "View and manage information users.",
-         "table": {
-            "columns": {
-               "userName": "Username",
-               "email": "Email",
-               "role": "Role",
-               "status": {
-                  "title": "Status",
-                  "options": {
-                     "active": "Active",
-                     "inactive": "Inactive"
-                  }
-               },
-               "actions": {
-                  "title": "Action",
-                  "options": {
-                     "edit": "Edit",
-                     "delete": "Delete"
-                  }
-               }
-            }
-         },
-         "dialogs": {
-            "editUser": {
-               "title": "Edit User",
-               "userName": "Username",
-               "email": "Email",
-               "role": "Role",
-               "active": {
-                  "title": "Active",
-                  "description": "User can login and use the system"
-               }
-            },
-            "deleteUser": {
-               "title": "Delete User",
-               "description": "Are you sure you want to delete"
-            },
-            "addUser": {
-               "title": "Add New User",
-               "userName": "UserName",
-               "email": "Email",
-               "role": "Role",
-               "password": "Password",
-               "confirmPassword": "Confirm Password"
-            }
-         }
-      },
-      "ManageProject": {
-         "title": "Manage Projects",
-         "description": "View and manage information projects.",
-         "table": {
-            "columns": {
-               "name": "Name",
-               "description": "Description",
-               "members": "Members",
-               "manager": "Manager",
-               "startDate": "Start Date",
-               "endDate": "End Date",
-               "bug": "Bug",
-               "status": {
-                  "title": "Status",
-                  "options": {
-                     "init": "INIT",
-                     "pending": "PENDING",
-                     "in_progress": "IN_PROGRESS",
-                     "completed": "COMPLETED",
-                     "cancelled": "CANCELLED",
-                     "archived": "ARCHIVED"
-                  }
-               },
-               "actions": {
-                  "title": "Action",
-                  "options": {
-                     "edit": "Edit",
-                     "delete": "Delete"
-                  }
-               }
-            }
-         },
-         "dialogs": {
-            "editUser": {
-               "title": "Edit User",
-               "userName": "Username",
-               "email": "Email",
-               "role": "Role",
-               "active": {
-                  "title": "Active",
-                  "description": "User can login and use the system"
-               }
-            },
-            "deleteUser": {
-               "title": "Delete User",
-               "description": "Are you sure you want to delete"
-            },
-            "addProject": {
-               "title": "Add New Project",
-               "name": "Project name",
-               "description": "Description",
-               "startDate": "Start Date",
-               "endDate": "End Date",
-               "manager": "Project Manager"
-            }
-         }
+      "dialogs": {
+        "editUser": {
+          "title": "Edit User",
+          "userName": "Username",
+          "email": "Email",
+          "role": "Role",
+          "active": {
+            "title": "Active",
+            "description": "User can login and use the system"
+          }
+        },
+        "deleteUser": {
+          "title": "Delete User",
+          "description": "Are you sure you want to delete"
+        },
+        "addUser": {
+          "title": "Add New User",
+          "userName": "UserName",
+          "email": "Email",
+          "role": "Role",
+          "password": "Password",
+          "confirmPassword": "Confirm Password"
+        }
       }
-   }
+    },
+    "ManageProject": {
+      "title": "Manage Projects",
+      "description": "View and manage project information.",
+      "table": {
+        "columns": {
+          "name": "Name",
+          "description": "Description",
+          "members": "Members",
+          "manager": "Manager",
+          "startDate": "Start Date",
+          "endDate": "End Date",
+          "bug": "Bug",
+          "status": {
+            "title": "Status",
+            "options": {
+              "init": "Init",
+              "pending": "Pending",
+              "in_progress": "In Progress",
+              "completed": "Completed",
+              "cancelled": "Cancelled",
+              "archived": "Archived"
+            }
+          },
+          "actions": {
+            "title": "Action",
+            "options": {
+              "edit": "Edit",
+              "delete": "Delete"
+            }
+          },
+          "empty": "No projects found."
+        }
+      },
+      "filters": {
+        "namePlaceholder": "Project name",
+        "statusPlaceholder": "Status",
+        "managerPlaceholder": "Manager",
+        "all": "All"
+      },
+      "dialogs": {
+        "addProject": {
+          "title": "Add New Project",
+          "name": "Project name",
+          "description": "Description",
+          "startDate": "Start Date",
+          "endDate": "End Date",
+          "manager": "Project Manager",
+          "managerPlaceholder": "Select manager"
+        },
+        "editProject": {
+          "title": "Edit Project",
+          "name": "Project name",
+          "description": "Description",
+          "startDate": "Start Date",
+          "endDate": "End Date",
+          "manager": "Project Manager",
+          "managerPlaceholder": "Select manager",
+          "status": "Status",
+          "statusPlaceholder": "Select status"
+        },
+        "deleteProject": {
+          "title": "Delete Project",
+          "description": "Are you sure you want to delete"
+        },
+        "inviteMemberDialog": {
+          "title": "Invite members to project",
+          "currentMembers": "Current members",
+          "developers": "Developers",
+          "testers": "Testers",
+          "developer": "Developer",
+          "tester": "Tester",
+          "inviteNewMember": "Invite new member",
+          "noUserSelected": "No user selected",
+          "selectUser": "Select user",
+          "sendInvite": "Send invite"
+        }
+      },
+      "inviteMemberPage": {
+        "title": "Add Members",
+        "description": "Add members to join the project.",
+        "cardTitle": "Invite Member",
+        "testerCurrent": "Current testers",
+        "developerCurrent": "Current developers",
+        "inviteTester": "Invite tester",
+        "inviteDeveloper": "Invite developer",
+        "testerTab": "Tester",
+        "developerTab": "Developer",
+        "selectUser": "Select user"
+      },
+      "validation": {
+        "nameRequired": "Project name is required",
+        "startDateRequired": "Start date is required",
+        "endDateRequired": "End date is required",
+        "managerRequired": "Manager is required",
+        "statusRequired": "Status is required"
+      },
+      "notifications": {
+        "createSuccess": "Created project successfully",
+        "createError": "Failed to create project",
+        "createException": "An error occurred while creating project",
+        "updateSuccess": "Updated project successfully",
+        "updateError": "Failed to update project",
+        "updateException": "An error occurred while updating project",
+        "deleteSuccess": "Deleted project successfully",
+        "deleteError": "Failed to delete project",
+        "deleteException": "An error occurred while deleting project",
+        "inviteMembersSuccess": "Added project members successfully",
+        "inviteMembersError": "Failed to add project members",
+        "inviteMembersException": "An error occurred while adding project members",
+        "removeMemberSuccess": "Removed member successfully",
+        "removeMemberError": "Failed to remove member",
+        "removeMemberException": "An error occurred while removing member"
+      }
+    }
+  }
 }

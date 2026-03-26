@@ -1,144 +1,202 @@
 {
-   "Button": {
-      "cancel": "Hủy",
-      "save": "Lưu",
-      "saveLoading": "Lưu...",
-      "delete": "Xóa",
-      "search": "Tìm kiếm",
-      "addUser": "Thêm người dùng",
-      "addProject": "Thêm dự án"
-   },
-   "Pagination": {
-      "previous": "Quay lại",
-      "next": "Tiếp"
-   },
-   "Noti": {
-      "logoutSuccess": "Logout successfully",
-      "logoutError": "Failed to logout",
-      "logoutException": "An error occurred while logout system"
-   },
-   "Admin": {
-      "Sidebar": {
-         "system": "Truy xuất lỗi",
-         "dashboard": "Bảng điều khiển",
-         "projects": "Dự án",
-         "users": "Người dùng",
-         "messages": "Tin nhắn",
-         "notifications": "Thông báo",
-         "profile": "Hồ sơ",
-         "logout": "Đăng xuất"
+  "Button": {
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "saveLoading": "Đang lưu...",
+    "delete": "Xóa",
+    "search": "Tìm kiếm",
+    "addUser": "Thêm người dùng",
+    "addProject": "Thêm dự án",
+    "invite": "Mời"
+  },
+  "Pagination": {
+    "previous": "Quay lại",
+    "next": "Tiếp"
+  },
+  "Noti": {
+    "logoutSuccess": "Đăng xuất thành công",
+    "logoutError": "Đăng xuất thất bại",
+    "logoutException": "Có lỗi xảy ra khi đăng xuất hệ thống"
+  },
+  "Admin": {
+    "Sidebar": {
+      "system": "Theo dõi lỗi",
+      "dashboard": "Bảng điều khiển",
+      "projects": "Dự án",
+      "users": "Người dùng",
+      "messages": "Tin nhắn",
+      "notifications": "Thông báo",
+      "profile": "Hồ sơ",
+      "logout": "Đăng xuất"
+    },
+    "EditProfile": {
+      "title": "Sửa hồ sơ",
+      "changeAvatar": "Thay đổi ảnh",
+      "userName": "Tên người dùng",
+      "email": "Email"
+    },
+    "ManageUser": {
+      "title": "Quản lý người dùng",
+      "description": "Xem và quản lý thông tin người dùng.",
+      "table": {
+        "columns": {
+          "userName": "Tên người dùng",
+          "email": "Email",
+          "role": "Vai trò",
+          "status": {
+            "title": "Trạng thái",
+            "options": {
+              "active": "Hoạt động",
+              "inactive": "Ngừng hoạt động"
+            }
+          },
+          "actions": {
+            "title": "Hành động",
+            "options": {
+              "edit": "Sửa",
+              "delete": "Xóa"
+            }
+          }
+        }
       },
-      "EditProfile": {
-         "title": "Sửa hồ sơ",
-         "changeAvatar": "Thay đổi ảnh",
-         "userName": "Tên",
-         "email": "Email"
-      },
-      "ManageUser": {
-         "title": "Quản lý người dùng",
-         "description": "Xem và quản lý thông tin người dùng.",
-         "table": {
-            "columns": {
-               "userName": "Tên",
-               "email": "Email",
-               "role": "Quyền",
-               "status": {
-                  "title": "Trạng thái",
-                  "options": {
-                     "active": "Hoạt động",
-                     "inactive": "Dừng hoạt động"
-                  }
-               },
-               "actions": {
-                  "title": "Hành động",
-                  "options": {
-                     "edit": "Sửa",
-                     "delete": "Xóa"
-                  }
-               }
-            }
-         },
-         "dialogs": {
-            "editUser": {
-               "title": "Sửa thông tin người dùng",
-               "userName": "Tên",
-               "email": "Email",
-               "role": "Quyền",
-               "active": {
-                  "title": "Hoạt động",
-                  "description": "Người dùng có thể đăng nhập và sửa dụng hệ thống"
-               }
-            },
-            "deleteUser": {
-               "title": "Xóa người dùng",
-               "description": "Bạn có chắc chắn muốn xóa"
-            },
-            "addUser": {
-               "title": "Thêm mới người dùng",
-               "userName": "Tên",
-               "email": "Email",
-               "role": "Quyền",
-               "password": "Mật khẩu",
-               "confirmPassword": "Nhập lại mật khẩu"
-            }
-         }
-      },
-      "ManageProject": {
-         "title": "Quản lý dự án",
-         "description": "Xem và quản lý chi tiết các dự án.",
-         "table": {
-            "columns": {
-               "name": "Tên",
-               "description": "Mô tả",
-               "members": "Số lượng",
-               "manager": "Quản lý",
-               "startDate": "Ngày bắt đầu",
-               "endDate": "Ngày kết thúc",
-               "bug": "Lỗi",
-               "status": {
-                  "title": "Trạng thái",
-                  "options": {
-                     "init": "Khởi tạo",
-                     "pending": "Đang chờ",
-                     "in_progress": "Đang xử lý",
-                     "completed": "Hoàn thành",
-                     "cancelled": "Đã hủy",
-                     "archived": "Lưu trữ"
-                  }
-               },
-               "actions": {
-                  "title": "Hành động",
-                  "options": {
-                     "edit": "Sửa",
-                     "delete": "Xóa"
-                  }
-               }
-            }
-         },
-         "dialogs": {
-            "editUser": {
-               "title": "Edit User",
-               "userName": "Username",
-               "email": "Email",
-               "role": "Role",
-               "active": {
-                  "title": "Active",
-                  "description": "User can login and use the system"
-               }
-            },
-            "deleteUser": {
-               "title": "Delete User",
-               "description": "Are you sure you want to delete"
-            },
-            "addProject": {
-               "title": "Thêm mới dự án",
-               "name": "Tên",
-               "description": "Mô tả",
-               "startDate": "Ngày bắt đầu",
-               "endDate": "Ngày kết thúc",
-               "manager": "Người quản lý"
-            }
-         }
+      "dialogs": {
+        "editUser": {
+          "title": "Sửa người dùng",
+          "userName": "Tên người dùng",
+          "email": "Email",
+          "role": "Vai trò",
+          "active": {
+            "title": "Hoạt động",
+            "description": "Người dùng có thể đăng nhập và sử dụng hệ thống"
+          }
+        },
+        "deleteUser": {
+          "title": "Xóa người dùng",
+          "description": "Bạn có chắc chắn muốn xóa"
+        },
+        "addUser": {
+          "title": "Thêm người dùng mới",
+          "userName": "Tên người dùng",
+          "email": "Email",
+          "role": "Vai trò",
+          "password": "Mật khẩu",
+          "confirmPassword": "Nhập lại mật khẩu"
+        }
       }
-   }
+    },
+    "ManageProject": {
+      "title": "Quản lý dự án",
+      "description": "Xem và quản lý thông tin dự án.",
+      "table": {
+        "columns": {
+          "name": "Tên",
+          "description": "Mô tả",
+          "members": "Thành viên",
+          "manager": "Quản lý",
+          "startDate": "Ngày bắt đầu",
+          "endDate": "Ngày kết thúc",
+          "bug": "Lỗi",
+          "status": {
+            "title": "Trạng thái",
+            "options": {
+              "init": "Khởi tạo",
+              "pending": "Đang chờ",
+              "in_progress": "Đang xử lý",
+              "completed": "Hoàn thành",
+              "cancelled": "Đã hủy",
+              "archived": "Lưu trữ"
+            }
+          },
+          "actions": {
+            "title": "Hành động",
+            "options": {
+              "edit": "Sửa",
+              "delete": "Xóa"
+            }
+          },
+          "empty": "Không tìm thấy dự án nào."
+        }
+      },
+      "filters": {
+        "namePlaceholder": "Tên dự án",
+        "statusPlaceholder": "Trạng thái",
+        "managerPlaceholder": "Quản lý",
+        "all": "Tất cả"
+      },
+      "dialogs": {
+        "addProject": {
+          "title": "Thêm dự án mới",
+          "name": "Tên dự án",
+          "description": "Mô tả",
+          "startDate": "Ngày bắt đầu",
+          "endDate": "Ngày kết thúc",
+          "manager": "Quản lý dự án",
+          "managerPlaceholder": "Chọn quản lý"
+        },
+        "editProject": {
+          "title": "Sửa dự án",
+          "name": "Tên dự án",
+          "description": "Mô tả",
+          "startDate": "Ngày bắt đầu",
+          "endDate": "Ngày kết thúc",
+          "manager": "Quản lý dự án",
+          "managerPlaceholder": "Chọn quản lý",
+          "status": "Trạng thái",
+          "statusPlaceholder": "Chọn trạng thái"
+        },
+        "deleteProject": {
+          "title": "Xóa dự án",
+          "description": "Bạn có chắc chắn muốn xóa"
+        },
+        "inviteMemberDialog": {
+          "title": "Mời thành viên vào dự án",
+          "currentMembers": "Thành viên hiện tại",
+          "developers": "Lập trình viên",
+          "testers": "Kiểm thử viên",
+          "developer": "Lập trình viên",
+          "tester": "Kiểm thử viên",
+          "inviteNewMember": "Mời thành viên mới",
+          "noUserSelected": "Chưa chọn người dùng",
+          "selectUser": "Chọn người dùng",
+          "sendInvite": "Gửi lời mời"
+        }
+      },
+      "inviteMemberPage": {
+        "title": "Thêm thành viên",
+        "description": "Thêm thành viên tham gia dự án.",
+        "cardTitle": "Mời thành viên",
+        "testerCurrent": "Kiểm thử viên hiện tại",
+        "developerCurrent": "Lập trình viên hiện tại",
+        "inviteTester": "Mời kiểm thử viên",
+        "inviteDeveloper": "Mời lập trình viên",
+        "testerTab": "Kiểm thử viên",
+        "developerTab": "Lập trình viên",
+        "selectUser": "Chọn người dùng"
+      },
+      "validation": {
+        "nameRequired": "Tên dự án là bắt buộc",
+        "startDateRequired": "Ngày bắt đầu là bắt buộc",
+        "endDateRequired": "Ngày kết thúc là bắt buộc",
+        "managerRequired": "Quản lý là bắt buộc",
+        "statusRequired": "Trạng thái là bắt buộc"
+      },
+      "notifications": {
+        "createSuccess": "Tạo dự án thành công",
+        "createError": "Tạo dự án thất bại",
+        "createException": "Có lỗi xảy ra khi tạo dự án",
+        "updateSuccess": "Cập nhật dự án thành công",
+        "updateError": "Cập nhật dự án thất bại",
+        "updateException": "Có lỗi xảy ra khi cập nhật dự án",
+        "deleteSuccess": "Xóa dự án thành công",
+        "deleteError": "Xóa dự án thất bại",
+        "deleteException": "Có lỗi xảy ra khi xóa dự án",
+        "inviteMembersSuccess": "Thêm thành viên vào dự án thành công",
+        "inviteMembersError": "Thêm thành viên vào dự án thất bại",
+        "inviteMembersException": "Có lỗi xảy ra khi thêm thành viên vào dự án",
+        "removeMemberSuccess": "Xóa thành viên thành công",
+        "removeMemberError": "Xóa thành viên thất bại",
+        "removeMemberException": "Có lỗi xảy ra khi xóa thành viên"
+      }
+    }
+  }
 }

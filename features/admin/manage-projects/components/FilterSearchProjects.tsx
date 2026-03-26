@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { Button } from "@/components/ui/button";
@@ -13,12 +12,13 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { SearchProjectSchema, SearchProjectType } from "../schema";
+import { searchProjectSchema, SearchProjectType } from "../schema";
 import { useManageProjectStore } from "../stores/useManageProjectStore";
 import { useShallow } from "zustand/shallow";
 import { DEFAULT_GET_LIST_QUERY } from "@/packages/utils";
 import { useTranslations } from "next-intl"
 import { IUser } from "@/packages/interfaces";
+import { normalizeProjectStatusKey, PROJECT_STATUS_OPTIONS } from "../constants";
 
 interface IProps {
   data: IUser[];
@@ -26,6 +26,8 @@ interface IProps {
 
 export default function FilterSearchProjects({ data }: IProps) {
    const tButton = useTranslations('Button');
+   const t = useTranslations('Admin.ManageProject.filters');
+   const tStatus = useTranslations('Admin.ManageProject.table.columns.status');
    const { setProjectGetListQuery } = useManageProjectStore(
       useShallow((state) => ({
          setProjectGetListQuery: state.setProjectGetListQuery,
@@ -33,7 +35,7 @@ export default function FilterSearchProjects({ data }: IProps) {
    );
 
    const form = useForm<SearchProjectType>({
-      resolver: zodResolver(SearchProjectSchema),
+      resolver: zodResolver(searchProjectSchema),
       defaultValues: {
          name: "",
          status: "",
@@ -74,7 +76,7 @@ export default function FilterSearchProjects({ data }: IProps) {
                <FormControl>
                   <Input
                      {...field}
-                     placeholder="Project name"
+                     placeholder={t('namePlaceholder')}
                      className="w-56"
                   />
                </FormControl>
@@ -94,17 +96,16 @@ export default function FilterSearchProjects({ data }: IProps) {
                >
                   <FormControl>
                      <SelectTrigger className="w-40">
-                     <SelectValue placeholder="Status" />
+                     <SelectValue placeholder={t('statusPlaceholder')} />
                      </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                     <SelectItem value="all">All</SelectItem>
-                     <SelectItem value="INIT">INIT</SelectItem>
-                     <SelectItem value="PENDING">PENDING</SelectItem>
-                     <SelectItem value="IN_PROGRESS">IN_PROGRESS</SelectItem>
-                     <SelectItem value="COMPLETED">COMPLETED</SelectItem>
-                     <SelectItem value="CANCELLED">CANCELLED</SelectItem>
-                     <SelectItem value="ARCHIVED">ARCHIVED</SelectItem>
+                     <SelectItem value="all">{t('all')}</SelectItem>
+                     {PROJECT_STATUS_OPTIONS.map((status) => (
+                        <SelectItem key={status} value={status}>
+                           {tStatus(`options.${normalizeProjectStatusKey(status)}`)}
+                        </SelectItem>
+                     ))}
                   </SelectContent>
                </Select>
                </FormItem>
@@ -149,11 +150,11 @@ export default function FilterSearchProjects({ data }: IProps) {
                >
                   <FormControl>
                      <SelectTrigger className="w-44">
-                     <SelectValue placeholder="Manager" />
+                     <SelectValue placeholder={t('managerPlaceholder')} />
                      </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                     <SelectItem value="all">All</SelectItem>
+                     <SelectItem value="all">{t('all')}</SelectItem>
                      {data && data.length > 0 && data.map((user) => (
                      <SelectItem
                         key={user.id}

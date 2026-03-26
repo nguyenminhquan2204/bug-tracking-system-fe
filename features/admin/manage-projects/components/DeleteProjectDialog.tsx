@@ -12,11 +12,15 @@ import { toast } from "sonner";
 import { useShallow } from "zustand/shallow";
 import { useManageProjectStore } from "../stores/useManageProjectStore";
 import { manageProjectService } from "../services/manage-project.service";
+import { useTranslations } from "next-intl";
 
 export default function DeleteProjectDialog({
   open,
   onOpenChange,
 }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+  const t = useTranslations('Admin.ManageProject.dialogs.deleteProject');
+  const tButton = useTranslations('Button');
+  const tNoti = useTranslations('Admin.ManageProject.notifications');
 
   const { selectedProject, getProjectList } = useManageProjectStore(
     useShallow((state) => ({
@@ -32,14 +36,14 @@ export default function DeleteProjectDialog({
       const response = await manageProjectService.deleteProject(selectedProject.id);
 
       if (response?.success) {
-        toast.success("Deleted project successfully");
+        toast.success(tNoti('deleteSuccess'));
         getProjectList();
         onOpenChange(false);
       } else {
-        toast.error(response?.message || "Failed to delete project");
+        toast.error(response?.message || tNoti('deleteError'));
       }
     } catch (error) {
-      toast.error("An error occurred while deleting project");
+      toast.error(tNoti('deleteException'));
       console.error(error);
     }
   };
@@ -48,11 +52,11 @@ export default function DeleteProjectDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete Project</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
 
         <div className="text-sm text-muted-foreground">
-          Are you sure you want to delete{" "}
+          {t('description')}{" "}
           <span className="font-medium text-foreground">
             {selectedProject?.name}
           </span>
@@ -64,7 +68,7 @@ export default function DeleteProjectDialog({
             onClick={() => onOpenChange(false)}
             className="cursor-pointer"
           >
-            Cancel
+            {tButton('cancel')}
           </Button>
 
           <Button
@@ -72,7 +76,7 @@ export default function DeleteProjectDialog({
             onClick={handleDelete}
             className="cursor-pointer"
           >
-            Delete
+            {tButton('delete')}
           </Button>
         </DialogFooter>
       </DialogContent>

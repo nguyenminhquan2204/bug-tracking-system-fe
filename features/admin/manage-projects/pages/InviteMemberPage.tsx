@@ -27,6 +27,7 @@ import { toast } from 'sonner'
 import { manageProjectService } from '../services/manage-project.service'
 import { X } from 'lucide-react'
 import { IUser } from '@/packages/interfaces'
+import { useTranslations } from 'next-intl'
 
 function MemberList({
   members,
@@ -49,7 +50,7 @@ function MemberList({
               size="icon"
               variant="ghost"
               className="
-                absolute right-1 top-1 h-6 w-6 
+                absolute right-1 top-1 h-6 w-6
                 opacity-0 group-hover:opacity-100
                 transition
               "
@@ -80,10 +81,12 @@ function InviteSection({
   allUsers,
   selected,
   setSelected,
+  selectPlaceholder,
 }: {
   allUsers: IUser[]
   selected: IUser[]
   setSelected: React.Dispatch<React.SetStateAction<IUser[]>>
+  selectPlaceholder: string
 }) {
   const availableUsers = allUsers.filter(
     (u) => !selected.some((s) => s.id === u.id),
@@ -103,7 +106,7 @@ function InviteSection({
               )
             }
           >
-            {user.userName} ✕
+            {user.userName} x
           </Badge>
         ))}
       </div>
@@ -119,7 +122,7 @@ function InviteSection({
         }}
       >
         <SelectTrigger className="cursor-pointer">
-          <SelectValue placeholder="Select" />
+          <SelectValue placeholder={selectPlaceholder} />
         </SelectTrigger>
         <SelectContent>
           {availableUsers.map((user) => (
@@ -138,6 +141,9 @@ function InviteSection({
 }
 
 export function InviteMemberPage() {
+  const tButton = useTranslations('Button')
+  const t = useTranslations('Admin.ManageProject.inviteMemberPage')
+  const tNoti = useTranslations('Admin.ManageProject.notifications')
   const params = useParams()
   const [selectedTesters, setSelectedTesters] = useState<IUser[]>([])
   const [selectedDevelopers, setSelectedDevelopers] = useState<IUser[]>([])
@@ -163,7 +169,7 @@ export function InviteMemberPage() {
   )
 
   useEffect(() => {
-    if(!params.id) return;
+    if (!params.id) return
     const fetchApi = async () => {
       await Promise.all([
         getTesterList(),
@@ -172,26 +178,26 @@ export function InviteMemberPage() {
       ])
     }
     fetchApi()
-  }, [])
+  }, [getDeveloperList, getProjectMembers, getTesterList, params.id])
 
   const handleInvite = async () => {
-    if(!params.id) return;
+    if (!params.id) return
     try {
       const [response] = await Promise.all([
         manageProjectService.addMembers(+params.id, selectedTesters),
         manageProjectService.addMembers(+params.id, selectedDevelopers),
       ])
-      if(response?.success) {
-        toast.success("Added members project successfully");
-        setSelectedTesters([]);
-        setSelectedDevelopers([]);
-        getProjectMembers(Number(params.id));
+      if (response?.success) {
+        toast.success(tNoti('inviteMembersSuccess'))
+        setSelectedTesters([])
+        setSelectedDevelopers([])
+        getProjectMembers(Number(params.id))
       } else {
-        toast.error(response?.message || "Failed to add member project");
+        toast.error(response?.message || tNoti('inviteMembersError'))
       }
     } catch (error) {
-      toast.error("An error occurred while creating project");
-      console.error(error);
+      toast.error(tNoti('inviteMembersException'))
+      console.error(error)
     }
   }
 
@@ -200,52 +206,53 @@ export function InviteMemberPage() {
     try {
       const response = await manageProjectService.removeMember(+params.id, memberId)
       if (response?.success) {
-        toast.success("Removed member successfully");
+        toast.success(tNoti('removeMemberSuccess'))
         getProjectMembers(Number(params.id))
       } else {
-        toast.error(response?.message || "Failed to create project");
+        toast.error(response?.message || tNoti('removeMemberError'))
       }
     } catch (error) {
-      toast.error('Failed to remove member');
-      console.error(error);
+      toast.error(tNoti('removeMemberException'))
+      console.error(error)
     }
   }
 
   return (
     <>
       <TitleDescription
-        title="Add Members"
-        description={`Add members join project`}
+        title={t('title')}
+        description={t('description')}
       />
 
       <div className="mt-5">
         <Card className="w-full">
           <CardHeader>
-            <CardTitle>Invite Member</CardTitle>
+            <CardTitle>{t('cardTitle')}</CardTitle>
           </CardHeader>
 
           <CardContent>
             <Tabs defaultValue="tester">
               <TabsList className="w-full mb-4">
-                <TabsTrigger className='cursor-pointer' value="tester">Tester</TabsTrigger>
-                <TabsTrigger className='cursor-pointer' value="developer">Developer</TabsTrigger>
+                <TabsTrigger className='cursor-pointer' value="tester">{t('testerTab')}</TabsTrigger>
+                <TabsTrigger className='cursor-pointer' value="developer">{t('developerTab')}</TabsTrigger>
               </TabsList>
               <TabsContent value="tester" className="space-y-6">
                 <div>
                   <h3 className="mb-2 font-semibold">
-                    Tester Current
+                    {t('testerCurrent')}
                   </h3>
                   <MemberList members={testersCurrent} onRemove={handleRemoveMember} />
                 </div>
 
                 <div>
                   <h3 className="mb-2 font-semibold">
-                    Invite Tester
+                    {t('inviteTester')}
                   </h3>
                   <InviteSection
                     allUsers={testerList}
                     selected={selectedTesters}
                     setSelected={setSelectedTesters}
+                    selectPlaceholder={t('selectUser')}
                   />
                 </div>
               </TabsContent>
@@ -255,26 +262,27 @@ export function InviteMemberPage() {
               >
                 <div>
                   <h3 className="mb-2 font-semibold">
-                    Developer Current
+                    {t('developerCurrent')}
                   </h3>
                   <MemberList members={developersCurrent} onRemove={handleRemoveMember} />
                 </div>
 
                 <div>
                   <h3 className="mb-2 font-semibold">
-                    Invite Developer
+                    {t('inviteDeveloper')}
                   </h3>
                   <InviteSection
                     allUsers={developerList}
                     selected={selectedDevelopers}
                     setSelected={setSelectedDevelopers}
+                    selectPlaceholder={t('selectUser')}
                   />
                 </div>
               </TabsContent>
             </Tabs>
 
             <div className="mt-6 flex justify-end">
-              <Button onClick={() => handleInvite()}>Invite</Button>
+              <Button onClick={() => handleInvite()}>{tButton('invite')}</Button>
             </div>
           </CardContent>
         </Card>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Form,
   FormControl,
@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { CreateProjectSchema, CreateProjectType } from "../schema";
+import { createProjectSchema, CreateProjectType } from "../schema";
 import { manageProjectService } from "../services/manage-project.service";
 import { useManageProjectStore } from "../stores/useManageProjectStore";
 import { useShallow } from "zustand/shallow";
@@ -33,13 +33,15 @@ import { useTranslations } from "next-intl";
 export default function AddProjectDialog({ data }: { data: IUser[]}) {
    const tButton = useTranslations('Button');
    const t = useTranslations('Admin.ManageProject.dialogs.addProject');
+   const tValidation = useTranslations('Admin.ManageProject.validation');
+   const tNoti = useTranslations('Admin.ManageProject.notifications');
    const [open, setOpen] = useState(false);
    const { getProjectList } = useManageProjectStore(useShallow((state) => ({
       getProjectList: state.getProjectList
    })))
 
    const form = useForm<CreateProjectType>({
-      resolver: zodResolver(CreateProjectSchema),
+      resolver: zodResolver(createProjectSchema(tValidation)),
       defaultValues: {
          name: "",
          description: "",
@@ -62,13 +64,13 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
          const response = await manageProjectService.postCreateProject(payload);
 
          if (response?.success) {
-            toast.success("Created project successfully");
+            toast.success(tNoti('createSuccess'));
             getProjectList();
          } else {
-            toast.error(response?.message || "Failed to create project");
+            toast.error(response?.message || tNoti('createError'));
          }
       } catch (error) {
-         toast.error("An error occurred while creating project");
+         toast.error(tNoti('createException'));
          console.error(error);
       }
       setOpen(false);
@@ -162,7 +164,7 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
                      <Select onValueChange={field.onChange}>
                         <FormControl>
                            <SelectTrigger>
-                           <SelectValue placeholder="Select manager" />
+                           <SelectValue placeholder={t('managerPlaceholder')} />
                            </SelectTrigger>
                         </FormControl>
                         <SelectContent>

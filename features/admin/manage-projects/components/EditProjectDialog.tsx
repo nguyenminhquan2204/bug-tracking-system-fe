@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -24,11 +23,18 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { manageProjectService } from "../services/manage-project.service";
-import { UpdateProjectSchema, UpdateProjectType } from "../schema";
+import { updateProjectSchema, UpdateProjectType } from "../schema";
 import { useManageProjectStore } from "../stores/useManageProjectStore";
 import { useShallow } from "zustand/shallow";
+import { useTranslations } from "next-intl";
+import { normalizeProjectStatusKey, PROJECT_STATUS_OPTIONS } from "../constants";
 
 export default function EditProjectDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+  const tButton = useTranslations('Button');
+  const t = useTranslations('Admin.ManageProject.dialogs.editProject');
+  const tValidation = useTranslations('Admin.ManageProject.validation');
+  const tNoti = useTranslations('Admin.ManageProject.notifications');
+  const tStatus = useTranslations('Admin.ManageProject.table.columns.status');
   const { selectedProject, adminList, getProjectList } = useManageProjectStore(useShallow((state) => ({
     selectedProject: state.selectedProject,
     adminList: state.adminList,
@@ -36,7 +42,7 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
   })))
 
   const form = useForm<UpdateProjectType>({
-    resolver: zodResolver(UpdateProjectSchema),
+    resolver: zodResolver(updateProjectSchema(tValidation)),
     defaultValues: {
         name: "",
         description: "",
@@ -53,11 +59,11 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
         name: selectedProject.name,
         description: selectedProject.description || "",
         startDate: selectedProject.startDate.slice(0, 10),
-        endDate: selectedProject.endDate.slice(0, 10),
+        endDate: selectedProject.endDate?.slice(0, 10) || "",
         manageUserId: String(selectedProject.manageUserId),
         status: selectedProject.status,
     });
-  }, [selectedProject]);
+  }, [form, selectedProject]);
 
   const onSubmit = async (values: UpdateProjectType) => {
     try {
@@ -75,13 +81,13 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
         const response = await manageProjectService.patchUpdateProject(selectedProject.id, payload);
 
         if (response?.success) {
-          toast.success("Updated project successfully");
+          toast.success(tNoti('updateSuccess'));
           getProjectList();
         } else {
-          toast.error(response?.message || "Failed to update project");
+          toast.error(response?.message || tNoti('updateError'));
         }
     } catch (error) {
-        toast.error("An error occurred while updating project");
+        toast.error(tNoti('updateException'));
         console.error(error);
     }
 
@@ -91,10 +97,9 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild></DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Project</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -106,7 +111,7 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Project Name</FormLabel>
+                  <FormLabel>{t('name')}</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -119,7 +124,7 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t('description')}</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -132,7 +137,7 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
               name="startDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Start Date</FormLabel>
+                  <FormLabel>{t('startDate')}</FormLabel>
                   <FormControl>
                     <Input type="date" {...field} />
                   </FormControl>
@@ -145,7 +150,7 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
               name="endDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>End Date</FormLabel>
+                  <FormLabel>{t('endDate')}</FormLabel>
                   <FormControl>
                     <Input type="date" {...field} />
                   </FormControl>
@@ -159,14 +164,14 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
                 name="manageUserId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Project Manager</FormLabel>
+                    <FormLabel>{t('manager')}</FormLabel>
                     <Select
                       value={field.value}
                       onValueChange={field.onChange}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select manager" />
+                          <SelectValue placeholder={t('managerPlaceholder')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -189,23 +194,22 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>
+                    <FormLabel>{t('status')}</FormLabel>
                     <Select
                       value={field.value}
                       onValueChange={field.onChange}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Select status" />
+                          <SelectValue placeholder={t('statusPlaceholder')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="INIT">Init</SelectItem>
-                        <SelectItem value="PENDING">Pending</SelectItem>
-                        <SelectItem value="IN_PROGRESS">In Progress</SelectItem>
-                        <SelectItem value="COMPLETED">Completed</SelectItem>
-                        <SelectItem value="CANCELLED">Cancelled</SelectItem>
-                        <SelectItem value="ARCHIVED">Archived</SelectItem>
+                        {PROJECT_STATUS_OPTIONS.map((status) => (
+                          <SelectItem key={status} value={status}>
+                            {tStatus(`options.${normalizeProjectStatusKey(status)}`)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -219,9 +223,9 @@ export default function EditProjectDialog({ open, onOpenChange }: { open: boolea
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {tButton('cancel')}
               </Button>
-              <Button type="submit">Save</Button>
+              <Button type="submit">{tButton('save')}</Button>
             </DialogFooter>
           </form>
         </Form>

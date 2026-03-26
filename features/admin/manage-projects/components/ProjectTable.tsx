@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -24,11 +23,13 @@ import EditProjectDialog from "./EditProjectDialog"
 import InviteMemberDialog from "./InviteMemberDialog"
 import { useRouter } from "next/navigation"
 import { IProject } from "@/packages/interfaces"
-import { useTranslations } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
+import { normalizeProjectStatusKey } from "../constants"
 
 export default function ProjectTable({ data }: { data: IProject[] }) {
-  const t = useTranslations('Admin.ManageProject.table.columns');
-  const router = useRouter();
+  const t = useTranslations('Admin.ManageProject.table.columns')
+  const locale = useLocale()
+  const router = useRouter()
   const {
     setSelectedProject,
     isOpenEditProjectDialog,
@@ -49,6 +50,9 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
     }))
   )
 
+  const formatDate = (value?: string) =>
+    value ? new Intl.DateTimeFormat(locale).format(new Date(value)) : '—'
+
   return (
     <>
       <EditProjectDialog
@@ -59,7 +63,7 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
         open={isOpenDeleteProjectDialog}
         onOpenChange={setIsOpenDeleteProjectDialog}
       />
-      <InviteMemberDialog 
+      <InviteMemberDialog
         open={isOpenInviteMemberProjectDialog}
         onOpenChange={setIsOpenInviteMemberProjectDialog}
       />
@@ -81,39 +85,25 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
           </TableHeader>
 
           <TableBody>
-            {data?.length > 0 &&
+            {data?.length > 0 ? (
               data.map((item, index) => (
-                <TableRow 
+                <TableRow
                   key={item.id}
                   className="cursor-pointer"
                   onClick={() => router.push(`/admin/manage-projects/${item.id}`)}
                 >
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell className="font-medium">
-                    {item.name}
-                  </TableCell>
+                  <TableCell className="font-medium">{item.name}</TableCell>
                   <TableCell className="max-w-[300px] truncate">
                     {item.description}
                   </TableCell>
+                  <TableCell>{item.memberCount}</TableCell>
+                  <TableCell>{item.managerUserInfo.userName ?? '—'}</TableCell>
+                  <TableCell>{formatDate(item.startDate)}</TableCell>
+                  <TableCell>{formatDate(item.endDate)}</TableCell>
+                  <TableCell>{item.bugCount ?? 0}</TableCell>
                   <TableCell>
-                    {item.memberCount}
-                  </TableCell>
-                  <TableCell>
-                    {item.managerUserInfo.userName ?? '—'}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(item.startDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    {item.endDate
-                      ? new Date(item.endDate).toLocaleDateString()
-                      : '—'}
-                  </TableCell>
-                  <TableCell>
-                    {item.bugCount ?? 0}
-                  </TableCell>
-                  <TableCell>
-                    {item.status}
+                    {t(`status.options.${normalizeProjectStatusKey(item.status)}`)}
                   </TableCell>
                   <TableCell>
                     <DropdownMenu>
@@ -130,7 +120,7 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
                             setIsOpenEditProjectDialog(true)
                           }}
                         >
-                          Edit
+                          {t('actions.options.edit')}
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-red-600"
@@ -140,13 +130,20 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
                             setIsOpenDeleteProjectDialog(true)
                           }}
                         >
-                          Delete
+                          {t('actions.options.delete')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
                 </TableRow>
-              ))}
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={10} className="text-center text-muted-foreground">
+                  {t('empty')}
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>

@@ -39,7 +39,7 @@ export function ManageProjectPage () {
          ])
       }
       fetchApi()
-   }, [])
+   }, [getAdminList, getProjectList])
 
    return (
       <div className="space-y-6">
