@@ -14,12 +14,14 @@ import { SearchUserSchema, SearchUserType } from "../schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { IRole } from "../inferface";
 import { useManageUserStore } from "../stores/useManageUserStore";
 import { useShallow } from "zustand/shallow";
 import { DEFAULT_GET_LIST_QUERY } from "@/packages/utils";
+import { useTranslations } from "next-intl";
+import { IRole } from "@/packages/interfaces";
 
 export default function FilterSearchUser({ data }: { data: IRole[] }) {
+   const tButton = useTranslations('Button');
    const { setUserGetListQuery } = useManageUserStore(useShallow((state) => ({
       setUserGetListQuery: state.setUserGetListQuery
    })))
@@ -96,7 +98,7 @@ export default function FilterSearchUser({ data }: { data: IRole[] }) {
                )}
                />
 
-               <Button className="cursor-pointer" type="submit">Search</Button>
+               <Button className="cursor-pointer" type="submit">{tButton('search')}</Button>
             </div>
          </div>
          </form>

@@ -12,12 +12,14 @@ import { toast } from "sonner";
 import { manageUserService } from "../services/manage-user.service";
 import { useManageUserStore } from "../stores/useManageUserStore";
 import { useShallow } from "zustand/shallow";
+import { useTranslations } from "next-intl";
 
 export default function DeleteUserDialog({
   open,
   onOpenChange,
 }: { open: boolean, onOpenChange: (open: boolean) => void }) {
-
+  const t = useTranslations('Admin.ManageUser.dialogs.deleteUser');
+  const tButton = useTranslations('Button');
   const { selectedUser, getUserList } = useManageUserStore(
     useShallow((state) => ({
       selectedUser: state.selectedUser,
@@ -48,11 +50,11 @@ export default function DeleteUserDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Delete User</DialogTitle>
+          <DialogTitle>{t('title')}</DialogTitle>
         </DialogHeader>
 
         <div className="text-sm text-muted-foreground">
-          Are you sure you want to delete{" "}
+          {t('description')}{" "}
           <span className="font-medium text-foreground">
             {selectedUser?.userName}
           </span>
@@ -64,7 +66,7 @@ export default function DeleteUserDialog({
             onClick={() => onOpenChange(false)}
             className="cursor-pointer"
           >
-            Cancel
+            {tButton('cancel')}
           </Button>
 
           <Button
@@ -72,7 +74,7 @@ export default function DeleteUserDialog({
             onClick={handleDelete}
             className="cursor-pointer"
           >
-            Delete
+            {tButton('delete')}
           </Button>
         </DialogFooter>
       </DialogContent>

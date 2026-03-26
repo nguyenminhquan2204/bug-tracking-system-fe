@@ -19,6 +19,7 @@ import { useProfileStore } from "@/packages/features/stores/useProfileStore";
 import { useShallow } from "zustand/shallow";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { profileService } from "@/packages/features/services/profile.service";
+import { useTranslations } from "next-intl";
 
 const schema = z.object({
   userName: z.string().min(3, "Username must be at least 3 characters"),
@@ -33,6 +34,8 @@ interface Props {
 }
 
 export default function EditProfileAdminDialog({ open, onOpenChange }: Props) {
+   const tButton = useTranslations('Button');
+   const t = useTranslations('Admin.EditProfile');
    const [loading, setLoading] = useState(false);
    const [preview, setPreview] = useState<string | null>(null);
    const [imageId, setImageId] = useState<number | null>(null);
@@ -105,7 +108,7 @@ export default function EditProfileAdminDialog({ open, onOpenChange }: Props) {
       <Dialog open={open} onOpenChange={onOpenChange}>
          <DialogContent>
             <DialogHeader>
-               <DialogTitle className="text-center">Edit Profile</DialogTitle>
+               <DialogTitle className="text-center">{t('title')}</DialogTitle>
             </DialogHeader>
             <div className="flex flex-col items-center gap-3 mt-2">
                <Avatar className="h-24 w-24">
@@ -115,7 +118,7 @@ export default function EditProfileAdminDialog({ open, onOpenChange }: Props) {
                   </AvatarFallback>
                </Avatar>
                <label className="text-sm text-primary cursor-pointer hover:underline">
-                  Change avatar
+                  {t('changeAvatar')}
                   <input
                      type="file"
                      accept="image/*"
@@ -126,7 +129,7 @@ export default function EditProfileAdminDialog({ open, onOpenChange }: Props) {
             </div>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
                <div>
-                  <label className="text-sm font-medium">Username</label>
+                  <label className="text-sm font-medium">{t('userName')}</label>
                   <Input {...register("userName")} />
                   {errors.userName && (
                   <p className="text-sm text-red-500 mt-1">
@@ -135,7 +138,7 @@ export default function EditProfileAdminDialog({ open, onOpenChange }: Props) {
                   )}
                </div>
                <div>
-                  <label className="text-sm font-medium">Email</label>
+                  <label className="text-sm font-medium">{t('email')}</label>
                   <Input readOnly {...register("email")} />
                   {errors.email && (
                   <p className="text-sm text-red-500 mt-1">
@@ -149,10 +152,10 @@ export default function EditProfileAdminDialog({ open, onOpenChange }: Props) {
                      variant="outline"
                      onClick={() => onOpenChange(false)}
                   >
-                     Cancel
+                     {tButton('cancel')}
                   </Button>
                   <Button type="submit" disabled={loading}>
-                     {loading ? "Saving..." : "Save Changes"}
+                     {loading ? tButton('saveLoading') : tButton('save')}
                   </Button>
                </DialogFooter>
             </form>

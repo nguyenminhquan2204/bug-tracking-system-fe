@@ -28,8 +28,11 @@ import { manageProjectService } from "../services/manage-project.service";
 import { useManageProjectStore } from "../stores/useManageProjectStore";
 import { useShallow } from "zustand/shallow";
 import { IUser } from "@/packages/interfaces";
+import { useTranslations } from "next-intl";
 
 export default function AddProjectDialog({ data }: { data: IUser[]}) {
+   const tButton = useTranslations('Button');
+   const t = useTranslations('Admin.ManageProject.dialogs.addProject');
    const [open, setOpen] = useState(false);
    const { getProjectList } = useManageProjectStore(useShallow((state) => ({
       getProjectList: state.getProjectList
@@ -76,12 +79,12 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
       <div className="ml-auto">
          <Dialog open={open} onOpenChange={setOpen}>
          <DialogTrigger asChild>
-            <Button className="cursor-pointer">+ Add Project</Button>
+            <Button className="cursor-pointer">{tButton('addProject')}</Button>
          </DialogTrigger>
 
          <DialogContent>
             <DialogHeader>
-               <DialogTitle>Add New Project</DialogTitle>
+               <DialogTitle>{t('title')}</DialogTitle>
             </DialogHeader>
 
             <Form {...form}>
@@ -95,7 +98,7 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
                   name="name"
                   render={({ field }) => (
                      <FormItem>
-                     <FormLabel>Project Name</FormLabel>
+                     <FormLabel>{t('name')}</FormLabel>
                      <FormControl>
                         <Input {...field} />
                      </FormControl>
@@ -110,7 +113,7 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
                   name="description"
                   render={({ field }) => (
                      <FormItem>
-                     <FormLabel>Description</FormLabel>
+                     <FormLabel>{t('description')}</FormLabel>
                      <FormControl>
                         <Input {...field} />
                      </FormControl>
@@ -125,7 +128,7 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
                   name="startDate"
                   render={({ field }) => (
                      <FormItem>
-                     <FormLabel>Start Date</FormLabel>
+                     <FormLabel>{t('startDate')}</FormLabel>
                      <FormControl>
                         <Input type="date" {...field} />
                      </FormControl>
@@ -140,7 +143,7 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
                   name="endDate"
                   render={({ field }) => (
                      <FormItem>
-                     <FormLabel>End Date</FormLabel>
+                     <FormLabel>{t('endDate')}</FormLabel>
                      <FormControl>
                         <Input type="date" {...field} />
                      </FormControl>
@@ -155,7 +158,7 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
                   name="manageUserId"
                   render={({ field }) => (
                      <FormItem>
-                     <FormLabel>Project Manager</FormLabel>
+                     <FormLabel>{t('manager')}</FormLabel>
                      <Select onValueChange={field.onChange}>
                         <FormControl>
                            <SelectTrigger>
@@ -184,9 +187,9 @@ export default function AddProjectDialog({ data }: { data: IUser[]}) {
                      variant="outline"
                      onClick={() => setOpen(false)}
                   >
-                     Cancel
+                     {tButton('cancel')}
                   </Button>
-                  <Button type="submit">Save</Button>
+                  <Button type="submit">{tButton('save')}</Button>
                </DialogFooter>
                </form>
             </Form>

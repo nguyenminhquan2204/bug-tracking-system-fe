@@ -21,14 +21,16 @@ import { toast } from "sonner";
 import { UpdateUserSchema, UpdateUserType } from "../schema";
 import { useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
+import { useTranslations } from "next-intl";
 
 export default function EditUserDialog({ open, onOpenChange }: { open: boolean, onOpenChange: (open: boolean) => void }) {
+   const tButton = useTranslations('Button');
+   const t = useTranslations('Admin.ManageUser.dialogs.editUser');
    const { getUserList, roleList, selectedUser } = useManageUserStore(useShallow((state) => ({
       getUserList: state.getUserList,
       roleList: state.roleList,
       selectedUser: state.selectedUser
    })))
-
    const form = useForm<UpdateUserType>({ resolver: zodResolver(UpdateUserSchema) });
 
    const onSubmit = async (values: UpdateUserType) => {
@@ -74,7 +76,7 @@ export default function EditUserDialog({ open, onOpenChange }: { open: boolean, 
 
             <DialogContent>
                <DialogHeader>
-                  <DialogTitle>Edit User</DialogTitle>
+                  <DialogTitle>{t('title')}</DialogTitle>
                </DialogHeader>
                <Form {...form}>
                   <form
@@ -86,7 +88,7 @@ export default function EditUserDialog({ open, onOpenChange }: { open: boolean, 
                         name="userName"
                         render={({ field }) => (
                            <FormItem>
-                              <FormLabel>User Name</FormLabel>
+                              <FormLabel>{t('userName')}</FormLabel>
                               <FormControl>
                                  <Input {...field} />
                               </FormControl>
@@ -100,7 +102,7 @@ export default function EditUserDialog({ open, onOpenChange }: { open: boolean, 
                         name="email"
                         render={({ field }) => (
                            <FormItem>
-                              <FormLabel>Email</FormLabel>
+                              <FormLabel>{t('email')}</FormLabel>
                               <FormControl>
                                  <Input readOnly type="email" {...field} />
                               </FormControl>
@@ -114,7 +116,7 @@ export default function EditUserDialog({ open, onOpenChange }: { open: boolean, 
                         name="role"
                         render={({ field }) => (
                            <FormItem>
-                              <FormLabel>Role</FormLabel>
+                              <FormLabel>{t('role')}</FormLabel>
                               <Select
                                  value={field.value}
                                  onValueChange={field.onChange}
@@ -144,9 +146,9 @@ export default function EditUserDialog({ open, onOpenChange }: { open: boolean, 
                         render={({ field }) => (
                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                               <div className="space-y-0.5">
-                              <FormLabel>Active</FormLabel>
+                              <FormLabel>{t('active.title')}</FormLabel>
                               <div className="text-sm text-muted-foreground">
-                                 User can login and use the system
+                                 {t('active.description')}
                               </div>
                               </div>
                               <FormControl>
@@ -167,9 +169,9 @@ export default function EditUserDialog({ open, onOpenChange }: { open: boolean, 
                            className="cursor-pointer"
                            onClick={() => onOpenChange(false)}
                         >
-                           Cancel
+                           {tButton('cancel')}
                         </Button>
-                        <Button className="cursor-pointer" type="submit">Save</Button>
+                        <Button className="cursor-pointer" type="submit">{tButton('save')}</Button>
                      </DialogFooter>
                   </form>
                </Form>

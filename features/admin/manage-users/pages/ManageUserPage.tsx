@@ -9,8 +9,10 @@ import { useManageUserStore } from "../stores/useManageUserStore";
 import { useShallow } from "zustand/shallow";
 import { useEffect } from "react";
 import { DEFAULT_FIRST_PAGE } from "@/packages/utils";
+import { useTranslations } from "next-intl";
 
 export default function ManageUserPage() {
+  const t = useTranslations('Admin.ManageUser')
   const { 
     getUserList, 
     userList, 
@@ -41,7 +43,7 @@ export default function ManageUserPage() {
 
   return (
     <div className="space-y-6">
-      <TitleDescription title='Manage Users' description='View and manage information users.' />
+      <TitleDescription title={t('title')} description={t('description')} />
       <div className="flex flex-wrap items-end gap-4">
         <FilterSearchUser data={roleList} />
         <AddUserDialog data={roleList} />

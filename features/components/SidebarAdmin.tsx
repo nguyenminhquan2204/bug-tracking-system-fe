@@ -30,36 +30,34 @@ import { useRouter } from 'next/navigation'
 import { useProfileStore } from "@/packages/features/stores/useProfileStore";
 import { useEffect, useState } from "react";
 import EditProfileAdminDialog from "./EditProfileAdminDialog";
+import { useTranslations } from "next-intl";
+import { setLocale } from "@/app/locale";
 
 const menuItems = [
   {
-    title: "Dashboard",
+    key: "dashboard",
     href: "/admin/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: "Projects",
+    key: "projects",
     href: "/admin/manage-projects",
     icon: FolderKanban,
   },
   {
-    title: "Users",
+    key: "users",
     href: "/admin/manage-users",
     icon: Users,
   },
   {
-    title: "Messages",
+    key: "messages",
     href: "/admin/chat",
     icon: MessageCircle,
-  },
-  {
-    title: "Notifications",
-    href: "/admin/noti",
-    icon: Bell,
   }
 ];
 
 export default function SidebarAdmin() {
+  const t = useTranslations('Admin.Sidebar');
   const router = useRouter()
   const { logout } = useAuthStore(useShallow((state) => ({
     logout: state.logout
@@ -87,6 +85,11 @@ export default function SidebarAdmin() {
     }
   }
 
+  const handleChangeLanguage = async (locale: 'en' | 'vi') => {
+    await setLocale(locale);
+    router.refresh();
+  }
+
   useEffect(() => {
     getProfile()
   }, [])
@@ -99,7 +102,7 @@ export default function SidebarAdmin() {
       />
       <aside className="flex h-screen w-64 flex-col border-r bg-background">
         <div className="flex h-16 items-center px-6 text-xl font-bold">
-          Bug Tracking 🐞
+          {t('system')} 🐞
         </div>
         <Separator />
         <nav className="flex-1 space-y-1 p-4">
@@ -118,7 +121,7 @@ export default function SidebarAdmin() {
                 )}
               >
                 <Icon className="h-4 w-4" />
-                {item.title}
+                {t(item.key)}
               </Link>
             );
           })}
@@ -150,16 +153,26 @@ export default function SidebarAdmin() {
               align="start"
               className="w-56"
             >
+              <DropdownMenuItem
+                onClick={() => handleChangeLanguage("en")}
+              >
+                🌐 English
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => handleChangeLanguage("vi")}
+              >
+                🌐 Tiếng Việt
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setOpenProfile(true)}>
                 <User className="mr-2 h-4 w-4" />
-                Profile
+                {t('profile')}
               </DropdownMenuItem>
               <DropdownMenuItem 
                 className="text-red-500 cursor-pointer"
                 onClick={() => handleLogout()}
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                  Logout
+                  {t('logout')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

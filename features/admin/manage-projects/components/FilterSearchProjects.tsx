@@ -13,18 +13,19 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-
 import { SearchProjectSchema, SearchProjectType } from "../schema";
 import { useManageProjectStore } from "../stores/useManageProjectStore";
 import { useShallow } from "zustand/shallow";
 import { DEFAULT_GET_LIST_QUERY } from "@/packages/utils";
-import { IUser } from "../../manage-users/inferface";
+import { useTranslations } from "next-intl"
+import { IUser } from "@/packages/interfaces";
 
 interface IProps {
   data: IUser[];
 }
 
 export default function FilterSearchProjects({ data }: IProps) {
+   const tButton = useTranslations('Button');
    const { setProjectGetListQuery } = useManageProjectStore(
       useShallow((state) => ({
          setProjectGetListQuery: state.setProjectGetListQuery,
@@ -168,7 +169,7 @@ export default function FilterSearchProjects({ data }: IProps) {
          />
 
          <Button type="submit" className="cursor-pointer">
-            Search
+            {tButton('search')}
          </Button>
          </form>
       </Form>

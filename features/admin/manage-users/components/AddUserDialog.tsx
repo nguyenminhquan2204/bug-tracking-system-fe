@@ -21,8 +21,11 @@ import { useShallow } from "zustand/shallow";
 import { manageUserService } from "../services/manage-user.service";
 import { toast } from "sonner";
 import { IRole } from "@/packages/interfaces";
+import { useTranslations } from "next-intl";
 
 export default function AddUserDialog({ data }: { data: IRole[] }) {
+   const tButton = useTranslations('Button');
+   const t = useTranslations('Admin.ManageUser.dialogs.addUser');
    const [open, setOpen] = useState(false)
    const { getUserList } = useManageUserStore(useShallow((state) => ({
       getUserList: state.getUserList
@@ -65,12 +68,12 @@ export default function AddUserDialog({ data }: { data: IRole[] }) {
       <div className="ml-auto">
          <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-               <Button className="cursor-pointer">+ Add User</Button>
+               <Button className="cursor-pointer">{tButton('addUser')}</Button>
             </DialogTrigger>
 
             <DialogContent>
                <DialogHeader>
-                  <DialogTitle>Add New User</DialogTitle>
+                  <DialogTitle>{t('title')}</DialogTitle>
                </DialogHeader>
                <Form {...form}>
                   <form
@@ -82,7 +85,7 @@ export default function AddUserDialog({ data }: { data: IRole[] }) {
                         name="userName"
                         render={({ field }) => (
                            <FormItem>
-                              <FormLabel>User Name</FormLabel>
+                              <FormLabel>{t('userName')}</FormLabel>
                               <FormControl>
                                  <Input {...field} />
                               </FormControl>
@@ -96,7 +99,7 @@ export default function AddUserDialog({ data }: { data: IRole[] }) {
                         name="email"
                         render={({ field }) => (
                            <FormItem>
-                              <FormLabel>Email</FormLabel>
+                              <FormLabel>{t('email')}</FormLabel>
                               <FormControl>
                                  <Input type="email" {...field} />
                               </FormControl>
@@ -110,7 +113,7 @@ export default function AddUserDialog({ data }: { data: IRole[] }) {
                         name="role"
                         render={({ field }) => (
                            <FormItem>
-                              <FormLabel>Role</FormLabel>
+                              <FormLabel>{t('role')}</FormLabel>
                               <Select
                                  onValueChange={field.onChange}
                               >
@@ -137,7 +140,7 @@ export default function AddUserDialog({ data }: { data: IRole[] }) {
                         name="password"
                         render={({ field }) => (
                            <FormItem>
-                           <FormLabel>Password</FormLabel>
+                           <FormLabel>{t('password')}</FormLabel>
                            <FormControl>
                               <Input type="password" {...field} />
                            </FormControl>
@@ -151,7 +154,7 @@ export default function AddUserDialog({ data }: { data: IRole[] }) {
                         name="confirmPassword"
                         render={({ field }) => (
                            <FormItem>
-                           <FormLabel>Confirm Password</FormLabel>
+                           <FormLabel>{t('confirmPassword')}</FormLabel>
                            <FormControl>
                               <Input type="password" {...field} />
                            </FormControl>
@@ -168,9 +171,9 @@ export default function AddUserDialog({ data }: { data: IRole[] }) {
                            className="cursor-pointer"
                            onClick={() => setOpen(false)}
                         >
-                           Cancel
+                           {tButton('cancel')}
                         </Button>
-                        <Button className="cursor-pointer" type="submit">Save</Button>
+                        <Button className="cursor-pointer" type="submit">{tButton('save')}</Button>
                      </DialogFooter>
                   </form>
                </Form>

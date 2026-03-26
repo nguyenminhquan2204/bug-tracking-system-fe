@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { COOKIES_KEY } from './packages/plugins/axios'
 
 const roleRoutes: Record<string, string[]> = {
   Admin: ['/admin'],

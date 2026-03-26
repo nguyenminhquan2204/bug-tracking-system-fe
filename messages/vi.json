@@ -1,0 +1,144 @@
+{
+   "Button": {
+      "cancel": "Hủy",
+      "save": "Lưu",
+      "saveLoading": "Lưu...",
+      "delete": "Xóa",
+      "search": "Tìm kiếm",
+      "addUser": "Thêm người dùng",
+      "addProject": "Thêm dự án"
+   },
+   "Pagination": {
+      "previous": "Quay lại",
+      "next": "Tiếp"
+   },
+   "Noti": {
+      "logoutSuccess": "Logout successfully",
+      "logoutError": "Failed to logout",
+      "logoutException": "An error occurred while logout system"
+   },
+   "Admin": {
+      "Sidebar": {
+         "system": "Truy xuất lỗi",
+         "dashboard": "Bảng điều khiển",
+         "projects": "Dự án",
+         "users": "Người dùng",
+         "messages": "Tin nhắn",
+         "notifications": "Thông báo",
+         "profile": "Hồ sơ",
+         "logout": "Đăng xuất"
+      },
+      "EditProfile": {
+         "title": "Sửa hồ sơ",
+         "changeAvatar": "Thay đổi ảnh",
+         "userName": "Tên",
+         "email": "Email"
+      },
+      "ManageUser": {
+         "title": "Quản lý người dùng",
+         "description": "Xem và quản lý thông tin người dùng.",
+         "table": {
+            "columns": {
+               "userName": "Tên",
+               "email": "Email",
+               "role": "Quyền",
+               "status": {
+                  "title": "Trạng thái",
+                  "options": {
+                     "active": "Hoạt động",
+                     "inactive": "Dừng hoạt động"
+                  }
+               },
+               "actions": {
+                  "title": "Hành động",
+                  "options": {
+                     "edit": "Sửa",
+                     "delete": "Xóa"
+                  }
+               }
+            }
+         },
+         "dialogs": {
+            "editUser": {
+               "title": "Sửa thông tin người dùng",
+               "userName": "Tên",
+               "email": "Email",
+               "role": "Quyền",
+               "active": {
+                  "title": "Hoạt động",
+                  "description": "Người dùng có thể đăng nhập và sửa dụng hệ thống"
+               }
+            },
+            "deleteUser": {
+               "title": "Xóa người dùng",
+               "description": "Bạn có chắc chắn muốn xóa"
+            },
+            "addUser": {
+               "title": "Thêm mới người dùng",
+               "userName": "Tên",
+               "email": "Email",
+               "role": "Quyền",
+               "password": "Mật khẩu",
+               "confirmPassword": "Nhập lại mật khẩu"
+            }
+         }
+      },
+      "ManageProject": {
+         "title": "Quản lý dự án",
+         "description": "Xem và quản lý chi tiết các dự án.",
+         "table": {
+            "columns": {
+               "name": "Tên",
+               "description": "Mô tả",
+               "members": "Số lượng",
+               "manager": "Quản lý",
+               "startDate": "Ngày bắt đầu",
+               "endDate": "Ngày kết thúc",
+               "bug": "Lỗi",
+               "status": {
+                  "title": "Trạng thái",
+                  "options": {
+                     "init": "Khởi tạo",
+                     "pending": "Đang chờ",
+                     "in_progress": "Đang xử lý",
+                     "completed": "Hoàn thành",
+                     "cancelled": "Đã hủy",
+                     "archived": "Lưu trữ"
+                  }
+               },
+               "actions": {
+                  "title": "Hành động",
+                  "options": {
+                     "edit": "Sửa",
+                     "delete": "Xóa"
+                  }
+               }
+            }
+         },
+         "dialogs": {
+            "editUser": {
+               "title": "Edit User",
+               "userName": "Username",
+               "email": "Email",
+               "role": "Role",
+               "active": {
+                  "title": "Active",
+                  "description": "User can login and use the system"
+               }
+            },
+            "deleteUser": {
+               "title": "Delete User",
+               "description": "Are you sure you want to delete"
+            },
+            "addProject": {
+               "title": "Thêm mới dự án",
+               "name": "Tên",
+               "description": "Mô tả",
+               "startDate": "Ngày bắt đầu",
+               "endDate": "Ngày kết thúc",
+               "manager": "Người quản lý"
+            }
+         }
+      }
+   }
+}

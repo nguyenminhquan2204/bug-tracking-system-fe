@@ -9,8 +9,10 @@ import AddProjectDialog from "../components/AddProjectDialog"
 import PaginationCustom from "@/features/components/PaginationCustom"
 import { DEFAULT_FIRST_PAGE } from "@/packages/utils"
 import FilterSearchProjects from "../components/FilterSearchProjects"
+import { useTranslations } from "next-intl"
 
 export function ManageProjectPage () {
+   const t = useTranslations('Admin.ManageProject')
    const { 
       getProjectList, 
       projectList, 
@@ -41,7 +43,7 @@ export function ManageProjectPage () {
 
    return (
       <div className="space-y-6">
-         <TitleDescription title="Manage Projects" description="View and manage information projects." />
+         <TitleDescription title={t('title')} description={t('description')} />
          <div className="flex flex-wrap items-end gap-4">
             <FilterSearchProjects data={adminList} />
             <AddProjectDialog data={adminList} />

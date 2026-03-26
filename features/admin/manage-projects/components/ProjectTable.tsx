@@ -24,8 +24,10 @@ import EditProjectDialog from "./EditProjectDialog"
 import InviteMemberDialog from "./InviteMemberDialog"
 import { useRouter } from "next/navigation"
 import { IProject } from "@/packages/interfaces"
+import { useTranslations } from "next-intl"
 
 export default function ProjectTable({ data }: { data: IProject[] }) {
+  const t = useTranslations('Admin.ManageProject.table.columns');
   const router = useRouter();
   const {
     setSelectedProject,
@@ -66,15 +68,15 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-12">#</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Description</TableHead>
-              <TableHead>Members</TableHead>
-              <TableHead>Manager</TableHead>
-              <TableHead>Start Date</TableHead>
-              <TableHead>End Date</TableHead>
-              <TableHead>Bug</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>{t('name')}</TableHead>
+              <TableHead>{t('description')}</TableHead>
+              <TableHead>{t('members')}</TableHead>
+              <TableHead>{t('manager')}</TableHead>
+              <TableHead>{t('startDate')}</TableHead>
+              <TableHead>{t('endDate')}</TableHead>
+              <TableHead>{t('bug')}</TableHead>
+              <TableHead>{t('status.title')}</TableHead>
+              <TableHead>{t('actions.title')}</TableHead>
             </TableRow>
           </TableHeader>
 

@@ -1,0 +1,144 @@
+{
+   "Button": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "saveLoading": "Saving...",
+      "delete": "Delete",
+      "search": "Search",
+      "addUser": "Add User",
+      "addProject": "Add Project"
+   },
+   "Pagination": {
+      "previous": "Previous",
+      "next": "Next"
+   },
+   "Noti": {
+      "logoutSuccess": "Logout successfully",
+      "logoutError": "Failed to logout",
+      "logoutException": "An error occurred while logout system"
+   },
+   "Admin": {
+      "Sidebar": {
+         "system": "Bug Tracking",
+         "dashboard": "Dashboard",
+         "projects": "Projects",
+         "users": "Users",
+         "messages": "Messages",
+         "notifications": "Notifications",
+         "profile": "Profile",
+         "logout": "Logout"
+      },
+      "EditProfile": {
+         "title": "Edit Profile",
+         "changeAvatar": "Change avatar",
+         "userName": "Username",
+         "email": "Email"
+      },
+      "ManageUser": {
+         "title": "Manage Users",
+         "description": "View and manage information users.",
+         "table": {
+            "columns": {
+               "userName": "Username",
+               "email": "Email",
+               "role": "Role",
+               "status": {
+                  "title": "Status",
+                  "options": {
+                     "active": "Active",
+                     "inactive": "Inactive"
+                  }
+               },
+               "actions": {
+                  "title": "Action",
+                  "options": {
+                     "edit": "Edit",
+                     "delete": "Delete"
+                  }
+               }
+            }
+         },
+         "dialogs": {
+            "editUser": {
+               "title": "Edit User",
+               "userName": "Username",
+               "email": "Email",
+               "role": "Role",
+               "active": {
+                  "title": "Active",
+                  "description": "User can login and use the system"
+               }
+            },
+            "deleteUser": {
+               "title": "Delete User",
+               "description": "Are you sure you want to delete"
+            },
+            "addUser": {
+               "title": "Add New User",
+               "userName": "UserName",
+               "email": "Email",
+               "role": "Role",
+               "password": "Password",
+               "confirmPassword": "Confirm Password"
+            }
+         }
+      },
+      "ManageProject": {
+         "title": "Manage Projects",
+         "description": "View and manage information projects.",
+         "table": {
+            "columns": {
+               "name": "Name",
+               "description": "Description",
+               "members": "Members",
+               "manager": "Manager",
+               "startDate": "Start Date",
+               "endDate": "End Date",
+               "bug": "Bug",
+               "status": {
+                  "title": "Status",
+                  "options": {
+                     "init": "INIT",
+                     "pending": "PENDING",
+                     "in_progress": "IN_PROGRESS",
+                     "completed": "COMPLETED",
+                     "cancelled": "CANCELLED",
+                     "archived": "ARCHIVED"
+                  }
+               },
+               "actions": {
+                  "title": "Action",
+                  "options": {
+                     "edit": "Edit",
+                     "delete": "Delete"
+                  }
+               }
+            }
+         },
+         "dialogs": {
+            "editUser": {
+               "title": "Edit User",
+               "userName": "Username",
+               "email": "Email",
+               "role": "Role",
+               "active": {
+                  "title": "Active",
+                  "description": "User can login and use the system"
+               }
+            },
+            "deleteUser": {
+               "title": "Delete User",
+               "description": "Are you sure you want to delete"
+            },
+            "addProject": {
+               "title": "Add New Project",
+               "name": "Project name",
+               "description": "Description",
+               "startDate": "Start Date",
+               "endDate": "End Date",
+               "manager": "Project Manager"
+            }
+         }
+      }
+   }
+}
