@@ -197,6 +197,58 @@
         "removeMemberError": "Xóa thành viên thất bại",
         "removeMemberException": "Có lỗi xảy ra khi xóa thành viên"
       }
+    },
+    "Chat": {
+      "loadingMessages": "Đang tải tin nhắn...",
+      "selectUser": "Chọn người dùng",
+      "noMessages": "Chưa có tin nhắn",
+      "sidebar": {
+        "title": "Tin nhắn",
+        "admins": "Quản trị viên",
+        "testers": "Kiểm thử viên",
+        "developers": "Lập trình viên",
+        "empty": "Không có người dùng"
+      },
+      "input": {
+        "placeholder": "Nhập tin nhắn..."
+      },
+      "actions": {
+        "send": "Gửi"
+      }
+    },
+    "Dashboard": {
+      "title": "Bảng điều khiển theo dõi lỗi",
+      "loading": "Đang tải bảng điều khiển...",
+      "selectProject": "Chọn dự án",
+      "allProjects": "Tất cả",
+      "refresh": "Làm mới",
+      "summary": {
+        "totalBugs": "Tổng số lỗi",
+        "todo": "Cần làm",
+        "doing": "Đang làm",
+        "prInReview": "PR đang review",
+        "doneInDev": "Hoàn thành Dev"
+      },
+      "charts": {
+        "statusDistribution": "Phân bố trạng thái",
+        "bugsTrend": "Xu hướng lỗi",
+        "openBugsByProject": "Lỗi đang mở theo dự án",
+        "topBusyDevelopers": "Top 3 lập trình viên bận nhất"
+      },
+      "status": {
+        "total": "Tổng",
+        "todo": "Cần làm",
+        "doing": "Đang làm",
+        "pr_in_review": "PR đang review",
+        "merged": "Đã merge",
+        "ready_for_qc": "Sẵn sàng cho QC",
+        "qc_in_progress": "QC đang xử lý",
+        "done_in_dev": "Hoàn thành phía dev",
+        "on_stg": "Trên staging"
+      },
+      "units": {
+        "bugs": "lỗi"
+      }
     }
   }
 }

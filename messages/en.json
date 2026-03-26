@@ -197,6 +197,59 @@
         "removeMemberError": "Failed to remove member",
         "removeMemberException": "An error occurred while removing member"
       }
+    },
+    "Chat": {
+      "loadingMessages": "Loading messages...",
+      "selectUser": "Select a user",
+      "noMessages": "No messages",
+      "sidebar": {
+        "title": "Messages",
+        "admins": "Admins",
+        "testers": "Testers",
+        "developers": "Developers",
+        "empty": "No users"
+      },
+      "input": {
+        "placeholder": "Type a message..."
+      },
+      "actions": {
+        "send": "Send"
+      }
+    },
+    "Dashboard": {
+      "title": "Bug Tracking Dashboard",
+      "loading": "Loading dashboard...",
+      "selectProject": "Select project",
+      "allProjects": "All",
+      "refresh": "Refresh",
+      "summary": {
+        "totalBugs": "Total Bugs",
+        "todo": "Todo",
+        "doing": "Doing",
+        "prInReview": "PR in review",
+        "doneInDev": "Done in dev"
+      },
+      "charts": {
+        "statusDistribution": "Status Distribution",
+        "bugsTrend": "Bugs Trend",
+        "openBugsByProject": "Open Bugs by Project",
+        "topBusyDevelopers": "Top 3 Most Busy Developers"
+      },
+      "status": {
+        "total": "Total",
+        "todo": "Todo",
+        "doing": "Doing",
+        "pr_in_review": "PR in review",
+        "merged": "Merged",
+        "ready_for_qc": "Ready for QC",
+        "qc_in_progress": "QC in progress",
+        "done_in_dev": "Done in dev"
+        ,
+        "on_stg": "On staging"
+      },
+      "units": {
+        "bugs": "bugs"
+      }
     }
   }
 }

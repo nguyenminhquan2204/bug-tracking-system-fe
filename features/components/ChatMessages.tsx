@@ -1,7 +1,8 @@
-'use-client';
+'use client';
 import { formatTime } from "@/packages/helpers";
 import { IMessage } from "@/packages/interfaces";
 import { useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   messages: IMessage[];
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export function ChatMessages({ messages, currentUserId }: Props) {
+   const t = useTranslations("Admin.Chat");
    const messagesEndRef = useRef<HTMLDivElement>(null);
 
    useEffect(() => {
@@ -18,7 +20,7 @@ export function ChatMessages({ messages, currentUserId }: Props) {
    if (!messages || messages.length === 0) {
       return (
          <div className="flex-1 flex items-center justify-center bg-gray-50 text-gray-400">
-            No messages
+            {t("noMessages")}
          </div>
       );
    }

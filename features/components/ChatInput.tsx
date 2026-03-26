@@ -1,5 +1,6 @@
-'use-client';
+'use client';
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 interface Props {
   onSend: (message: string) => void;
@@ -7,6 +8,7 @@ interface Props {
 }
 
 export function ChatInput({ onSend, disabled }: Props) {
+  const t = useTranslations("Admin.Chat");
   const [input, setInput] = useState("");
 
   const handleSend = () => {
@@ -21,7 +23,7 @@ export function ChatInput({ onSend, disabled }: Props) {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && handleSend()}
-        placeholder="Type a message..."
+        placeholder={t("input.placeholder")}
         className="flex-1 px-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
 
@@ -30,7 +32,7 @@ export function ChatInput({ onSend, disabled }: Props) {
         disabled={disabled}
         className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-full transition disabled:opacity-50"
       >
-        Send
+        {t("actions.send")}
       </button>
     </div>
   );

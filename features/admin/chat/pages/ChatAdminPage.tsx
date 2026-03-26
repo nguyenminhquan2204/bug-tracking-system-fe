@@ -11,8 +11,10 @@ import { IMessage, IUserChat } from "@/packages/interfaces";
 import { ChatSidebar } from "@/features/components/ChatSiderbar";
 import { ChatMessages } from "@/features/components/ChatMessages";
 import { ChatInput } from "@/features/components/ChatInput";
+import { useTranslations } from "next-intl";
 
 export default function ChatAdminPage() {
+   const t = useTranslations("Admin.Chat");
    const profile = useProfileStore((state) => state.profile);
    const {
       getUsersChatAdmin,
@@ -49,12 +51,13 @@ export default function ChatAdminPage() {
 
   useEffect(() => {
     const handleSelectFirstUser = () => {
-      if (adminsChat?.length > 0 && !selectedUser) {
-        setSelectedUser(adminsChat[0]);
+      const firstUser = adminsChat?.[0] ?? testersChat?.[0] ?? developersChat?.[0];
+      if (firstUser && !selectedUser) {
+        setSelectedUser(firstUser);
       }
     }
     handleSelectFirstUser();
-  }, [adminsChat, selectedUser]);
+  }, [adminsChat, testersChat, developersChat, selectedUser]);
 
   useChatSocket(selectedConver?.id);
 
@@ -102,7 +105,7 @@ export default function ChatAdminPage() {
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="h-10 w-10 animate-spin text-blue-500" />
           <p className="text-slate-600 dark:text-slate-300 font-medium">
-            Loading messages...
+            {t("loadingMessages")}
           </p>
         </div>
       </div>
@@ -115,7 +118,7 @@ export default function ChatAdminPage() {
       <div className="flex flex-col flex-1">
         <div className="flex items-center gap-3 p-4 bg-white border-b">
           <div className="font-semibold text-lg">
-            {selectedUser?.username || "Select a user"}
+            {selectedUser?.username || t("selectUser")}
           </div>
         </div>
         <ChatMessages messages={messages} currentUserId={currentUserId} />
