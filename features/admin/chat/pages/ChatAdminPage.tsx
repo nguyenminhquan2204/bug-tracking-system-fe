@@ -41,7 +41,7 @@ export default function ChatAdminPage() {
          loading: state.loading
       }))
    );
-  const socket = getSocket();
+  const socket = getSocket('chat');
   const [selectedUser, setSelectedUser] = useState<IUserChat | null>(null);
   const currentUserId = profile?.id;
 
@@ -116,7 +116,7 @@ export default function ChatAdminPage() {
     <div className="flex h-full bg-gray-100">
       <ChatSidebar users={adminsChat} testers={testersChat} developers={developersChat} selectedUser={selectedUser} onSelect={setSelectedUser} />
       <div className="flex flex-col flex-1">
-        <div className="flex items-center gap-3 p-4 bg-white border-b">
+        <div className="flex items-center gap-3 p-2.5 bg-white border-b">
           <div className="font-semibold text-lg">
             {selectedUser?.username || t("selectUser")}
           </div>

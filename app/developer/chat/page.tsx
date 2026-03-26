@@ -1,5 +1,5 @@
-import ChatTesterPage from "@/features/tester/chat/pages/ChatTesterPage";
+import ChatDeveloperPage from "@/features/developer/chat/pages/ChatDeveloperPage";
 
 export default function Page() {
-   return <ChatTesterPage />
+   return <ChatDeveloperPage />
 }

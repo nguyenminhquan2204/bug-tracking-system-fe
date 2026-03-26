@@ -258,6 +258,7 @@
       "dashboard": "Dashboard",
       "myProjects": "My Projects",
       "messages": "Messages",
+      "notifications": "Notifications",
       "profile": "Profile",
       "logout": "Logout"
     },
@@ -433,6 +434,7 @@
       "dashboard": "Dashboard",
       "myProjects": "My Projects",
       "messages": "Messages",
+      "notifications": "Notifications",
       "profile": "Profile",
       "logout": "Logout"
     },

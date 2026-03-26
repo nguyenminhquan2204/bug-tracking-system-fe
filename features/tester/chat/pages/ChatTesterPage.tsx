@@ -41,7 +41,7 @@ export default function ChatTesterPage() {
       loading: state.loading,
     })),
   );
-  const socket = getSocket();
+  const socket = getSocket('chat');
   const [selectedUser, setSelectedUser] = useState<IUserChat | null>(null);
   const activeSelectedUser = selectedUser ?? usersChat?.[0] ?? adminsChat?.[0] ?? null;
   const currentUserId = profile?.id;
@@ -122,7 +122,7 @@ export default function ChatTesterPage() {
         emptyLabel={t("sidebar.empty")}
       />
       <div className="flex flex-col flex-1">
-        <div className="flex items-center gap-3 p-4 bg-white border-b">
+        <div className="flex items-center gap-3 p-2.5 bg-white border-b">
           <div className="font-semibold text-lg">
             {activeSelectedUser?.username || t("selectUser")}
           </div>

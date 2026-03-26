@@ -5,7 +5,7 @@ export const useChatSocket = (conversationId?: number) => {
   useEffect(() => {
     if (!conversationId) return;
 
-    const socket = getSocket();
+    const socket = getSocket('chat');
 
     if (!socket.connected) {
       socket.connect();

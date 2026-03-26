@@ -41,7 +41,7 @@ export function ChatSidebar({
 
   return (
     <div className="w-72 bg-white border-r flex flex-col">
-      <div className="text-xl font-bold p-4 border-b">{title}</div>
+      <div className="text-xl font-bold p-2.5">{title}</div>
       <div className="flex-1 overflow-y-auto">
         {hasUsers ? (
           sections.map((section) =>

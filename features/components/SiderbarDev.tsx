@@ -9,6 +9,7 @@ import {
   MessageCircle,
   LogOut,
   User,
+  Bell,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -44,6 +45,11 @@ const menuItems = [
     key: "messages",
     href: "/developer/chat",
     icon: MessageCircle,
+  },
+  {
+    key: "notifications",
+    href: "/developer/noti",
+    icon: Bell,
   },
 ];
 
