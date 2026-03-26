@@ -16,8 +16,12 @@ import { useEffect } from 'react'
 import { ProjectInfoDrawer } from '../components/ProjectInfoDrawer'
 import { useRouter } from 'next/navigation'
 import { statusStyles } from '@/packages/helpers'
+import { useTranslations } from 'next-intl'
+import { normalizeProjectStatusKey } from '@/features/admin/manage-projects/constants'
 
 export default function MyProjectPage() {
+  const t = useTranslations('Tester.MyProjects')
+  const tProjectStatus = useTranslations('Admin.ManageProject.table.columns.status')
   const router = useRouter()
   const { 
     getMyProjects, 
@@ -35,7 +39,7 @@ export default function MyProjectPage() {
 
   useEffect(() => {
     getMyProjects();
-  }, [])
+  }, [getMyProjects])
 
   return (
     <>
@@ -44,7 +48,7 @@ export default function MyProjectPage() {
         onOpenChange={setIsOpenDrawerInfoProject}
       />
       <div className="p-2">
-        <h1 className="mb-6 text-2xl font-semibold">My Projects</h1>
+        <h1 className="mb-6 text-2xl font-semibold">{t('title')}</h1>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projectList && projectList.length > 0 && projectList.map((project) => (
@@ -59,7 +63,7 @@ export default function MyProjectPage() {
                       'border-gray-400 bg-gray-400/10 text-gray-600'
                     }
                   >
-                    {project.status}
+                    {tProjectStatus(`options.${normalizeProjectStatusKey(project.status)}`)}
                   </Badge>
                 </CardTitle>
                 <CardDescription>{project.description}</CardDescription>
@@ -71,8 +75,8 @@ export default function MyProjectPage() {
                 <Button variant="outline" onClick={() => {
                   setIsOpenDrawerInfoProject(true);
                   setSelectedProject(project)
-                }}>View</Button>
-                <Button onClick={() => router.push(`/tester/my-projects/${project.id}`)}>Manage</Button>
+                }}>{t('actions.view')}</Button>
+                <Button onClick={() => router.push(`/tester/my-projects/${project.id}`)}>{t('actions.manage')}</Button>
               </CardFooter>
             </Card>
           ))}

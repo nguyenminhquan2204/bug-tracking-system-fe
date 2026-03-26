@@ -8,8 +8,11 @@ import { useForm } from 'react-hook-form'
 import { useMyProjectStore } from '../stores/useMyProjectStore'
 import { useShallow } from 'zustand/shallow'
 import { CreateBugDrawer } from './CreateBugDrawer'
+import { useTranslations } from 'next-intl'
 
 export default function SearchAndCreateBug() {
+   const t = useTranslations('Tester.MyProjects')
+   const tButton = useTranslations('Button')
    const { setIsOpenDrawerCreateBug, isOpenDrawerCreateBug, setBugGetListQuery } = useMyProjectStore(useShallow((state) => ({
       setIsOpenDrawerCreateBug: state.setIsOpenDrawerCreateBug,
       isOpenDrawerCreateBug: state.isOpenDrawerCreateBug,
@@ -42,7 +45,7 @@ export default function SearchAndCreateBug() {
                      <FormControl>
                         <Input
                         {...field}
-                        placeholder="Bug name"
+                        placeholder={t('filters.bugNamePlaceholder')}
                         className="w-56"
                         />
                      </FormControl>
@@ -50,9 +53,9 @@ export default function SearchAndCreateBug() {
                   )}
                />
 
-               <Button type="submit">Search</Button>
+               <Button type="submit">{tButton('search')}</Button>
             </div>
-            <Button onClick={() => setIsOpenDrawerCreateBug(true)}>+ Create</Button>
+            <Button onClick={() => setIsOpenDrawerCreateBug(true)}>{t('actions.create')}</Button>
             </form>
          </Form>
       </>

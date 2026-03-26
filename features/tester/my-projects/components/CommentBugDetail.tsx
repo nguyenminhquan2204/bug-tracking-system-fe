@@ -4,8 +4,10 @@ import { IBug } from "../interface";
 import { useMyProjectStore } from "../stores/useMyProjectStore";
 import AddCommentSection from "./AddCommentSection";
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 export default function CommentBugDetail({ selectedBug }: { selectedBug: IBug }) {
+   const t = useTranslations("Tester.MyProjects.comments")
    const { getBugDetailById, bugDetail } = useMyProjectStore(useShallow((state) => ({
       getBugDetailById: state.getBugDetailById,
       bugDetail: state.bugDetail
@@ -14,13 +16,13 @@ export default function CommentBugDetail({ selectedBug }: { selectedBug: IBug })
    useEffect(() => {
       if(!selectedBug) return;
       getBugDetailById(selectedBug.id)
-   }, [])
+   }, [getBugDetailById, selectedBug])
 
    return (
       <>
          <div className="space-y-4">
          <h3 className="text-sm font-semibold tracking-wide uppercase text-muted-foreground">
-            Comments
+            {t("title")}
          </h3>
          <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
             {bugDetail && bugDetail.comments && bugDetail.comments.length > 0 ? (
@@ -29,7 +31,6 @@ export default function CommentBugDetail({ selectedBug }: { selectedBug: IBug })
                      key={comment.id}
                      className="rounded-xl border bg-white dark:bg-zinc-900 p-4 shadow-sm hover:shadow-md transition"
                   >
-                     {/* Header */}
                      <div className="flex justify-between items-center mb-2">
                      <p className="font-semibold text-sm">
                         {comment.user?.userName}
@@ -74,7 +75,7 @@ export default function CommentBugDetail({ selectedBug }: { selectedBug: IBug })
                                        target="_blank"
                                        className="flex flex-col items-center justify-center h-32 text-xs text-center p-2 hover:bg-muted/40 transition"
                                     >
-                                       <div className="text-3xl mb-2">📎</div>
+                                       <div className="text-3xl mb-2">File</div>
                                        <span className="truncate w-full">{file.name}</span>
                                     </a>
                                  )}
@@ -92,7 +93,7 @@ export default function CommentBugDetail({ selectedBug }: { selectedBug: IBug })
                ))
                ) : (
                   <p className="text-muted-foreground text-sm">
-                     No comments yet
+                     {t("empty")}
                   </p>
             )}
          </div>

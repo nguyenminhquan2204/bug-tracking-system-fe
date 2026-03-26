@@ -9,22 +9,39 @@ interface Props {
   developers?: IUserChat[];
   selectedUser: IUserChat | null;
   onSelect: (user: IUserChat) => void;
+  titleKey?: string;
+  sectionLabels?: {
+    users?: string;
+    testers?: string;
+    developers?: string;
+  };
+  emptyLabel?: string;
 }
 
-export function ChatSidebar({ users, testers, developers, selectedUser, onSelect }: Props) {
+export function ChatSidebar({
+  users,
+  testers,
+  developers,
+  selectedUser,
+  onSelect,
+  titleKey,
+  sectionLabels,
+  emptyLabel,
+}: Props) {
   const t = useTranslations("Admin.Chat.sidebar");
+  const title = titleKey ?? t("title");
 
   const sections = [
-    { key: "admins", label: t("admins"), items: users ?? [] },
-    { key: "testers", label: t("testers"), items: testers ?? [] },
-    { key: "developers", label: t("developers"), items: developers ?? [] },
+    { key: "admins", label: sectionLabels?.users ?? t("admins"), items: users ?? [] },
+    { key: "testers", label: sectionLabels?.testers ?? t("testers"), items: testers ?? [] },
+    { key: "developers", label: sectionLabels?.developers ?? t("developers"), items: developers ?? [] },
   ] as const;
 
   const hasUsers = sections.some((section) => section.items.length > 0);
 
   return (
     <div className="w-72 bg-white border-r flex flex-col">
-      <div className="text-xl font-bold p-4 border-b">{t("title")}</div>
+      <div className="text-xl font-bold p-4 border-b">{title}</div>
       <div className="flex-1 overflow-y-auto">
         {hasUsers ? (
           sections.map((section) =>
@@ -53,7 +70,7 @@ export function ChatSidebar({ users, testers, developers, selectedUser, onSelect
             ) : null,
           )
         ) : (
-          <div className="p-4 text-sm text-gray-500">{t("empty")}</div>
+          <div className="p-4 text-sm text-gray-500">{emptyLabel ?? t("empty")}</div>
         )}
       </div>
     </div>

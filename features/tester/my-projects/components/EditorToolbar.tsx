@@ -2,7 +2,6 @@ import {
   Bold,
   Italic,
   Strikethrough,
-  Underline,
   Code,
   List,
   ListOrdered,
@@ -19,16 +18,19 @@ import {
 import { Editor } from '@tiptap/react'
 import { myProjectService } from '../services/myProject.service'
 import { toast } from 'sonner'
+import { useTranslations } from 'next-intl'
 
 function Divider() {
   return <div className="mx-1 h-5 w-px bg-border" />
 }
 
 export default function EditorToolbar({ editor }: { editor: Editor }) {
+  const t = useTranslations('Tester.MyProjects.editor')
+  const tNoti = useTranslations('Tester.MyProjects.editor.notifications')
   if (!editor) return null
 
   const addImageByUrl = () => {
-    const url = prompt('Image URL')
+    const url = prompt(t('imageUrlPrompt'))
     if (!url) return
 
     editor.chain().focus().setImage({ src: url }).run()
@@ -46,13 +48,13 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
 
         const response = await myProjectService.uploadFile(file);
         if(response?.success) {
-          toast.success("Uploaded successfully");
+          toast.success(tNoti("uploadSuccess"));
           editor.chain().focus().setImage({ src: response.data.url }).run();
         } else {
-          toast.error(response?.message || "Failed upload");
+          toast.error(response?.message || tNoti("uploadError"));
         }
       } catch (error) {
-        toast.error("An error occurred while upload image");
+        toast.error(tNoti("uploadException"));
         console.error(error);
       }
     }
@@ -77,11 +79,11 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
           }
         }}
       >
-        <SelectTrigger className="h-7 w-[60px]">
-          <SelectValue placeholder="Text" />
+        <SelectTrigger className="h-7 w-[80px]">
+          <SelectValue placeholder={t("text")} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="paragraph">Text</SelectItem>
+          <SelectItem value="paragraph">{t("text")}</SelectItem>
           <SelectItem value="h2">H2</SelectItem>
         </SelectContent>
       </Select>
@@ -147,7 +149,7 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
         type="button"
         onClick={uploadImage}
         className="flex h-8 items-center justify-center rounded px-2 hover:bg-muted"
-        title="Upload image"
+        title={t("uploadImage")}
       >
         <ImageIcon className="h-4 w-4" />
       </button>
@@ -157,7 +159,7 @@ export default function EditorToolbar({ editor }: { editor: Editor }) {
         onClick={addImageByUrl}
         className="px-2 text-xs text-muted-foreground hover:text-foreground"
       >
-        Image URL
+        {t("imageUrl")}
       </button>
     </div>
   )

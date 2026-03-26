@@ -39,7 +39,6 @@ import EditorToolbar from "./EditorToolbar"
 import { useParams } from "next/navigation"
 import { useProfileStore } from "@/packages/features/stores/useProfileStore"
 import { myProjectService } from "../services/myProject.service"
-import { $ZodVoid } from "zod/v4/core"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -51,6 +50,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useTranslations } from "next-intl"
+import { BUG_PRIORITY_OPTIONS, normalizeBugPriorityKey } from "../constants"
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -72,6 +73,8 @@ export default function EditBugSheet({
   bug: IBug | null
   onSuccess: () => void
 }) {
+  const t = useTranslations("Tester.MyProjects")
+  const tButton = useTranslations("Button")
   const params = useParams()
   const { developerList, getBugs } = useMyProjectStore(
     useShallow((state) => ({
@@ -112,13 +115,12 @@ export default function EditBugSheet({
 
       editor?.commands.setContent(bug.description || "")
     }
-  }, [bug, editor])
+  }, [bug, editor, form])
 
   const onSubmit = async (values: FormValues) => {
     if (!bug || !params.id || !profile) return
 
     try {
-      
       const payload = {
         title: values.title,
         description: values.description,
@@ -130,15 +132,15 @@ export default function EditBugSheet({
 
       const response = await myProjectService.patchEditBug(bug.id, payload);
       if(response?.success) {
-        toast.success("Bug updated successfully");
+        toast.success(t("notifications.updateSuccess"));
         getBugs(Number(params.id));
         onSuccess();
       } else {
-        toast.error(response?.message || "Failed to edit bug");
+        toast.error(response?.message || t("notifications.updateError"));
       }
       onOpenChange(false)
     } catch (error) {
-      toast.error("Update failed");
+      toast.error(t("notifications.updateException"));
       console.log(error);
     }
   }
@@ -150,15 +152,15 @@ export default function EditBugSheet({
       const response = await myProjectService.deleteBug(bug.id)
 
       if (response?.success) {
-        toast.success("Bug deleted successfully")
+        toast.success(t("notifications.deleteSuccess"))
         getBugs(Number(params.id))
         onSuccess()
         onOpenChange(false)
       } else {
-        toast.error(response?.message || "Delete failed")
+        toast.error(response?.message || t("notifications.deleteError"))
       }
     } catch (error) {
-      toast.error("Delete failed")
+      toast.error(t("notifications.deleteException"))
       console.log(error)
     }
   }
@@ -172,8 +174,8 @@ export default function EditBugSheet({
         className="!max-w-[700px] p-4 flex flex-col flex-1 min-h-0 overflow-hidden"
       >
         <SheetHeader>
-          <SheetTitle className="text-[24px]">Edit Bug</SheetTitle>
-          <SheetDescription>Update bug information</SheetDescription>
+          <SheetTitle className="text-[24px]">{t("drawer.edit.title")}</SheetTitle>
+          <SheetDescription>{t("drawer.edit.description")}</SheetDescription>
         </SheetHeader>
         <Form {...form}>
           <form
@@ -185,7 +187,7 @@ export default function EditBugSheet({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title</FormLabel>
+                  <FormLabel>{t("fields.title")}</FormLabel>
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
@@ -199,7 +201,7 @@ export default function EditBugSheet({
                 name="priority"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Priority</FormLabel>
+                    <FormLabel>{t("fields.priority")}</FormLabel>
                     <Select
                       value={field.value}
                       onValueChange={field.onChange}
@@ -210,10 +212,11 @@ export default function EditBugSheet({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="LOW">Low</SelectItem>
-                        <SelectItem value="MEDIUM">Medium</SelectItem>
-                        <SelectItem value="HIGH">High</SelectItem>
-                        <SelectItem value="CRITICAL">Critical</SelectItem>
+                        {BUG_PRIORITY_OPTIONS.map((item) => (
+                          <SelectItem key={item} value={item}>
+                            {t(`priority.options.${normalizeBugPriorityKey(item)}`)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </FormItem>
@@ -224,7 +227,7 @@ export default function EditBugSheet({
                 name="developerId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Assign Developer</FormLabel>
+                    <FormLabel>{t("fields.assignDeveloper")}</FormLabel>
                     <Select
                       value={field.value || "none"}
                       onValueChange={(value) =>
@@ -233,10 +236,11 @@ export default function EditBugSheet({
                     >
                       <FormControl>
                         <SelectTrigger className="w-40">
-                          <SelectValue placeholder="Select dev" />
+                          <SelectValue placeholder={t("fields.selectDeveloper")} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
+                        <SelectItem value="none">{t("detail.unassigned")}</SelectItem>
                         {developerList?.map((dev) => (
                           <SelectItem
                             key={dev.id}
@@ -256,7 +260,7 @@ export default function EditBugSheet({
               name="description"
               render={() => (
                 <FormItem className="flex flex-col flex-1 min-h-0 gap-2">
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t("fields.description")}</FormLabel>
                   <FormControl className="flex flex-col flex-1 min-h-0">
                     <div className="flex flex-col flex-1 min-h-0">
                       {editor && <EditorToolbar editor={editor} />}
@@ -275,7 +279,7 @@ export default function EditBugSheet({
                 variant="outline"
                 onClick={() => onOpenChange(false)}
               >
-                Cancel
+                {tButton("cancel")}
               </Button>
               <AlertDialog>
                 <AlertDialogTrigger asChild>
@@ -283,31 +287,31 @@ export default function EditBugSheet({
                     type="button"
                     variant="destructive"
                   >
-                    Delete
+                    {tButton("delete")}
                   </Button>
                 </AlertDialogTrigger>
 
                 <AlertDialogContent>
                   <AlertDialogHeader>
-                    <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                    <AlertDialogTitle>{t("deleteDialog.title")}</AlertDialogTitle>
                     <AlertDialogDescription>
-                      This action cannot be undone. This will permanently delete this bug.
+                      {t("deleteDialog.description")}
                     </AlertDialogDescription>
                   </AlertDialogHeader>
 
                   <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogCancel>{tButton("cancel")}</AlertDialogCancel>
                     <AlertDialogAction
                       onClick={handleDelete}
                       className="bg-red-500 hover:bg-red-600"
                     >
-                      Yes, delete
+                      {t("deleteDialog.confirm")}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
               <Button type="submit">
-                Save
+                {tButton("save")}
               </Button>
             </div>
           </form>
