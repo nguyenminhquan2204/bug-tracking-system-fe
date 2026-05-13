@@ -5,7 +5,8 @@ import { INotification } from "../interface";
 
 interface States {
    loading: boolean,
-   totalItems: number,
+   totalItems: number, // unreadCount
+   hasNewNotification: boolean,
    notificationList: INotification[]
 }
 
@@ -16,12 +17,15 @@ interface Actions {
 
    getMyNotifications: () => Promise<void>,
 
+   clearAnimation: () => void;
+
    resetState: () => void,
 }
 
 const intialStates: States = {
    loading: false,
    totalItems: 0,
+   hasNewNotification: false,
    notificationList: []
 }
 
@@ -34,7 +38,8 @@ export const useNotificationStore = create<States & Actions>((set, get) => ({
       const { notificationList } = get();
       set({
          notificationList: [...notificationList, noti],
-         totalItems: get().totalItems + 1
+         totalItems: get().totalItems + 1,
+         hasNewNotification: true
       });
    },
 
@@ -52,6 +57,12 @@ export const useNotificationStore = create<States & Actions>((set, get) => ({
       } finally {
          set(() => ({ loading: false }));
       }
+   },
+
+   clearAnimation: () => {
+      set({
+         hasNewNotification: false
+      })
    },
    
    resetState: () => set({ ...intialStates }),
