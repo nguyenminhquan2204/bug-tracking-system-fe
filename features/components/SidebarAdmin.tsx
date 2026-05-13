@@ -32,6 +32,7 @@ import { useEffect, useState } from "react";
 import EditProfileAdminDialog from "./EditProfileAdminDialog";
 import { useTranslations } from "next-intl";
 import { setLocale } from "@/app/locale";
+import { useNotificationSocket } from "@/packages/hooks/useNotificationSocket";
 
 const menuItems = [
   {
@@ -53,7 +54,12 @@ const menuItems = [
     key: "messages",
     href: "/admin/chat",
     icon: MessageCircle,
-  }
+  },
+  {
+    key: "notifications",
+    href: "/admin/noti",
+    icon: Bell,
+  },
 ];
 
 export default function SidebarAdmin() {
@@ -93,6 +99,8 @@ export default function SidebarAdmin() {
   useEffect(() => {
     getProfile()
   }, [])
+
+  useNotificationSocket(profile?.id);
 
   return (
     <>

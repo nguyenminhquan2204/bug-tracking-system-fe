@@ -29,6 +29,7 @@ import { useEffect, useState } from "react";
 import EditProfileAdminDialog from "./EditProfileAdminDialog";
 import { useTranslations } from "next-intl";
 import { setLocale } from "@/app/locale";
+import { useNotificationSocket } from "@/packages/hooks/useNotificationSocket";
 
 const menuItems = [
   {
@@ -94,6 +95,8 @@ export default function SidebarTester() {
   useEffect(() => {
     getProfile();
   }, [getProfile]);
+
+  useNotificationSocket(profile?.id);
 
   return (
     <>
