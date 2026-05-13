@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { getSocket } from "@/lib/socket";
 
-export const useNotificationSocker = (userId?: number) => {
+export const useNotificationSocket = (userId?: number) => {
   useEffect(() => {
     if (!userId) return;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getSocket } from "@/lib/socket";
 import { useChatAdminStore } from "../stores/useChatAdminStore";
 import { useShallow } from "zustand/shallow";
@@ -41,7 +41,7 @@ export default function ChatAdminPage() {
          loading: state.loading
       }))
    );
-  const socket = getSocket('chat');
+  const socket = useMemo(() => getSocket('chat'), []);
   const [selectedUser, setSelectedUser] = useState<IUserChat | null>(null);
   const currentUserId = profile?.id;
 
@@ -96,6 +96,8 @@ export default function ChatAdminPage() {
       conversationId: selectedConver.id,
       senderId: currentUserId,
       content: message,
+      toUserId: selectedUser?.id,
+      senderName: profile?.userName ?? "None",
     });
   };
 

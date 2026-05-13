@@ -90,6 +90,8 @@ export default function ChatTesterPage() {
     socket.emit("send_message", {
       conversationId: selectedConver.id,
       senderId: currentUserId,
+      senderName: profile?.userName ?? "None",
+      toUserId: selectedUser?.id,
       content: message,
     });
   };

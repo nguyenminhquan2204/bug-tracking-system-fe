@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getSocket } from "@/lib/socket";
-import { useChatTesterStore } from "../stores/useChatTesterStore";
 import { useShallow } from "zustand/shallow";
 import { useChatSocket } from "@/packages/hooks/useChatSocket";
 import { useProfileStore } from "@/packages/features/stores/useProfileStore";
@@ -12,6 +11,7 @@ import { ChatSidebar } from "@/features/components/ChatSiderbar";
 import { ChatMessages } from "@/features/components/ChatMessages";
 import { ChatInput } from "@/features/components/ChatInput";
 import { useTranslations } from "next-intl";
+import { useChatDevStore } from "../stores/useChatDevStore";
 
 export default function ChatDeveloperPage() {
   const t = useTranslations("Developer.Chat");
@@ -27,7 +27,7 @@ export default function ChatDeveloperPage() {
     messages,
     addMessage,
     loading,
-  } = useChatTesterStore(
+  } = useChatDevStore(
     useShallow((state) => ({
       getUsersChat: state.getUsersChat,
       getAdminsChat: state.getAdminsChat,
@@ -41,7 +41,7 @@ export default function ChatDeveloperPage() {
       loading: state.loading,
     })),
   );
-  const socket = getSocket('chat');
+  const socket = useMemo(() => getSocket('chat'), []);
   const [selectedUser, setSelectedUser] = useState<IUserChat | null>(null);
   const activeSelectedUser = selectedUser ?? usersChat?.[0] ?? adminsChat?.[0] ?? null;
   const currentUserId = profile?.id;
@@ -90,6 +90,8 @@ export default function ChatDeveloperPage() {
     socket.emit("send_message", {
       conversationId: selectedConver.id,
       senderId: currentUserId,
+      senderName: profile?.userName ?? "None",
+      toUserId: selectedUser?.id,
       content: message,
     });
   };

@@ -32,7 +32,7 @@ const intialStates: States = {
    messages: []
 }
 
-export const useChatTesterStore = create<States & Actions>((set, get) => ({
+export const useChatDevStore = create<States & Actions>((set, get) => ({
    ...intialStates,
 
    setLoading: (loading) => set({ loading }),
