@@ -41,7 +41,7 @@ export default function ChatDeveloperPage() {
       loading: state.loading,
     })),
   );
-  const socket = useMemo(() => getSocket('chat'), []);
+  const socket = getSocket('chat');
   const [selectedUser, setSelectedUser] = useState<IUserChat | null>(null);
   const activeSelectedUser = selectedUser ?? usersChat?.[0] ?? adminsChat?.[0] ?? null;
   const currentUserId = profile?.id;
