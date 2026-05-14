@@ -30,7 +30,7 @@ import EditProfileAdminDialog from "./EditProfileAdminDialog";
 import { useTranslations } from "next-intl";
 import { setLocale } from "@/app/locale";
 import { useNotificationSocket } from "@/packages/hooks/useNotificationSocket";
-import { useNotificationStore } from "../developer/noti/stores/useNotificationStore";
+import { useNotificationStore } from "@/packages/features/stores/useNotificationStore";
 
 const menuItems = [
   {

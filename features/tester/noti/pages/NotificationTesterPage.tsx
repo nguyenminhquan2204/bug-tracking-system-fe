@@ -2,24 +2,27 @@
 
 import { useEffect } from "react";
 import { useShallow } from "zustand/shallow";
-import { useNotificationStore } from "../stores/useNotificationStore";
+import { useNotificationStore } from "@/packages/features/stores/useNotificationStore";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getAvatarStyle } from "@/packages/helpers";
 import { getSocket } from "@/lib/socket";
 import { useProfileStore } from "@/packages/features/stores/useProfileStore";
 import { INotification } from "../interface";
-import { notificationService } from "../services/notification.service";
+import { notificationService } from "@/packages/features/services/notification.service";
 import { toast } from "sonner";
+import { usePathname } from "next/navigation";
 
 export default function NotificationTesterPage() {
-  const { profile } = useProfileStore();
-  const socket = getSocket('notification');
-  const { getMyNotifications, notificationList, totalItems, addNotification } = useNotificationStore(useShallow((state) => ({
-    getMyNotifications: state.getMyNotifications,
-    notificationList: state.notificationList,
-    totalItems: state.totalItems,
-    addNotification: state.addNotification
-  })))
+  const pathname = usePathname();
+  const { getMyNotifications, notificationList, totalItems, clearAnimation } =
+    useNotificationStore(
+      useShallow((state) => ({
+        getMyNotifications: state.getMyNotifications,
+        notificationList: state.notificationList,
+        totalItems: state.totalItems,
+        clearAnimation: state.clearAnimation,
+      })),
+    );
 
   const handleRead = async (noti: INotification) => {
     try {
@@ -42,18 +45,10 @@ export default function NotificationTesterPage() {
   }, []);
 
   useEffect(() => {
-    if (!socket) return;
-
-    socket.emit('join_notification', { userId: profile?.id });
-
-    socket.on('receive_notification', (data) => {
-      addNotification(data);
-    });
-
-    return () => {
-      socket.off('receive_notification');
-    };
-  }, [socket, addNotification]);
+    if (pathname.startsWith("/tester/noti")) {
+      clearAnimation();
+    }
+  }, [pathname, clearAnimation]);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 p-6">

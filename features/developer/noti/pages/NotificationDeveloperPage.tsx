@@ -2,13 +2,13 @@
 
 import { useEffect } from "react";
 import { useShallow } from "zustand/shallow";
-import { useNotificationStore } from "../stores/useNotificationStore";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { getAvatarStyle } from "@/packages/helpers";
 import { INotification } from "../interface";
-import { notificationService } from "../services/notification.service";
+import { notificationService } from "@/packages/features/services/notification.service";
 import { toast } from "sonner";
 import { usePathname } from "next/navigation";
+import { useNotificationStore } from "@/packages/features/stores/useNotificationStore";
 
 export default function NotificationDeveloperPage() {
   const pathname = usePathname();

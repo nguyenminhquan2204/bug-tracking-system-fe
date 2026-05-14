@@ -33,6 +33,7 @@ import EditProfileAdminDialog from "./EditProfileAdminDialog";
 import { useTranslations } from "next-intl";
 import { setLocale } from "@/app/locale";
 import { useNotificationSocket } from "@/packages/hooks/useNotificationSocket";
+import { useNotificationStore } from "@/packages/features/stores/useNotificationStore";
 
 const menuItems = [
   {
@@ -72,6 +73,12 @@ export default function SidebarAdmin() {
     profile: state.profile,
     getProfile: state.getProfile
   })))
+  const { totalItems, hasNewNotification } = useNotificationStore(
+    useShallow((state) => ({
+      totalItems: state.totalItems,
+      hasNewNotification: state.hasNewNotification,
+    })),
+  );
   const pathname = usePathname();
   const [openProfile, setOpenProfile] = useState(false);
 
@@ -128,8 +135,27 @@ export default function SidebarAdmin() {
                     : "text-muted-foreground hover:bg-muted hover:text-foreground"
                 )}
               >
-                <Icon className="h-4 w-4" />
-                {t(item.key)}
+                <div className="relative">
+                  <Icon
+                    className={cn(
+                      "h-4 w-4",
+                      item.key === "notifications" &&
+                        hasNewNotification &&
+                        "animate-bounce",
+                    )}
+                  />
+                  {item.key === "notifications" && totalItems > 0 && (
+                    <span
+                      className={cn(
+                        "absolute -right-3 -top-3 flex h-5 min-w-[20px] items-center justify-center rounded-full bg-blue-500 px-1 text-[10px] font-bold text-white",
+                        hasNewNotification && "animate-pulse",
+                      )}
+                    >
+                      {totalItems > 99 ? "99+" : totalItems}
+                    </span>
+                  )}
+                </div>
+                <span>{t(item.key)}</span>
               </Link>
             );
           })}

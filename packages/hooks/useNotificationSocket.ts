@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { toast } from "sonner";
 import { getSocket } from "@/lib/socket";
-import { useNotificationStore } from "@/features/developer/noti/stores/useNotificationStore";
+import { useNotificationStore } from "../features/stores/useNotificationStore.ts";
 
 export const useNotificationSocket = (userId?: number) => {
   const { addNotification } = useNotificationStore();
