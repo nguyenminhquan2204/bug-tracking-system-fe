@@ -7,7 +7,9 @@
     "search": "Search",
     "addUser": "Add User",
     "addProject": "Add Project",
-    "invite": "Invite"
+    "invite": "Invite",
+    "back": "Back",
+    "create": "Create"
   },
   "Pagination": {
     "previous": "Previous",
@@ -111,7 +113,8 @@
             "title": "Action",
             "options": {
               "edit": "Edit",
-              "delete": "Delete"
+              "delete": "Delete",
+              "expense": "Expense"
             }
           },
           "empty": "No projects found."
@@ -196,6 +199,37 @@
         "removeMemberSuccess": "Removed member successfully",
         "removeMemberError": "Failed to remove member",
         "removeMemberException": "An error occurred while removing member"
+      }
+    },
+    "ManageExpense": {
+      "title": "Manage Project Expenses",
+      "description": "View an overview, add, edit, or delete project expenses quickly.",
+      "subtitle": {
+        "totalExpense": "Total Expense",
+        "expenseCount": "Expense Count",
+        "lastExpense": "Latest Expense"
+      },
+      "table": {
+        "title": "Expense List",
+        "description": "Manage and view project expenses.",
+        "columns": {
+          "name": "Name",
+          "description": "Description",
+          "paymentDate": "Payment Date",
+          "amount": "Amount",
+          "currency": "Currency",
+          "status": "Status",
+          "buyer": "Buyer",
+          "manager": "Manager",
+          "actions": {
+            "title": "Actions",
+            "options": {
+              "edit": "Edit",
+              "delete": "Delete"
+            }
+          },
+          "empty": "No expenses found."
+        }
       }
     },
     "Chat": {

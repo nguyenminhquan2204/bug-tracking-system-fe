@@ -117,6 +117,15 @@ export default function ProjectTable({ data }: { data: IProject[] }) {
                           onClick={(e) => {
                             e.stopPropagation()
                             setSelectedProject(item)
+                            router.push(`/admin/manage-projects/${item.id}/expense`)
+                          }}
+                        >
+                          {t('actions.options.expense')}
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            setSelectedProject(item)
                             setIsOpenEditProjectDialog(true)
                           }}
                         >

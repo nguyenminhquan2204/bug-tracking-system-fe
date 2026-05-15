@@ -7,7 +7,9 @@
     "search": "Tìm kiếm",
     "addUser": "Thêm người dùng",
     "addProject": "Thêm dự án",
-    "invite": "Mời"
+    "invite": "Mời",
+    "back": "Quay lại",
+    "create": "Tạo"
   },
   "Pagination": {
     "previous": "Quay lại",
@@ -111,7 +113,8 @@
             "title": "Hành động",
             "options": {
               "edit": "Sửa",
-              "delete": "Xóa"
+              "delete": "Xóa",
+              "expense": "Chí phí"
             }
           },
           "empty": "Không tìm thấy dự án nào."
@@ -196,6 +199,37 @@
         "removeMemberSuccess": "Xóa thành viên thành công",
         "removeMemberError": "Xóa thành viên thất bại",
         "removeMemberException": "Có lỗi xảy ra khi xóa thành viên"
+      }
+    },
+    "ManageExpense": {
+      "title": "Quản lý chi phí dự án",
+      "description": "Xem tổng quan, thêm mới, sửa hoặc xóa chi phí dự án nhanh chóng.",
+      "subtitle": {
+        "totalExpense": "Tổng chi phí",
+        "expenseCount": "Số mục chi phí",
+        "lastExpense": "Chi phí mới nhất"
+      },
+      "table": {
+        "title": "Danh sách chi phí",
+        "description": "Quản lý và xem các khoản chi phí của dự án.",
+        "columns": {
+          "name": "Tên",
+          "description": "Mô tả",
+          "paymentDate": "Ngày thanh toán",
+          "amount": "Số tiền",
+          "currency": "Loại tiền",
+          "status": "Trạng thái",
+          "buyer": "Người mua",
+          "manager": "Người quản lý",
+          "actions": {
+            "title": "Hành động",
+            "options": {
+              "edit": "Sửa",
+              "delete": "Xóa"
+            }
+          },
+          "empty": "Không tìm thấy chi phí nào."
+        }
       }
     },
     "Chat": {
