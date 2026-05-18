@@ -1,0 +1,1 @@
+export const MANAGE_BUG_API_BASE_PATH = 'bug';

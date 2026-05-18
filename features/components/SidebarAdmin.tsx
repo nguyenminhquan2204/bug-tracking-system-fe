@@ -42,6 +42,11 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
+    key: "bugs",
+    href: "/admin/manage-bugs",
+    icon: LayoutDashboard,
+  },
+  {
     key: "projects",
     href: "/admin/manage-projects",
     icon: FolderKanban,

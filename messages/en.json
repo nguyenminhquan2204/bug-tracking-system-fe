@@ -9,7 +9,9 @@
     "addProject": "Add Project",
     "invite": "Invite",
     "back": "Back",
-    "create": "Create"
+    "create": "Create",
+    "filter": "Apply Filter",
+    "to": "to"
   },
   "Pagination": {
     "previous": "Previous",
@@ -24,6 +26,7 @@
     "Sidebar": {
       "system": "Bug Tracking",
       "dashboard": "Dashboard",
+      "bugs":"Bugs",
       "projects": "Projects",
       "users": "Users",
       "messages": "Messages",
@@ -306,6 +309,10 @@
       "units": {
         "bugs": "bugs"
       }
+    },
+    "ManageBug": {
+      "title": "Bug Management",
+      "description": "Track, categorize, and update the status of technical issues and bugs in the project."
     }
   },
   "Tester": {

@@ -9,7 +9,9 @@
     "addProject": "Thêm dự án",
     "invite": "Mời",
     "back": "Quay lại",
-    "create": "Tạo"
+    "create": "Tạo",
+    "filter": "Lọc",
+    "to": "tới"
   },
   "Pagination": {
     "previous": "Quay lại",
@@ -25,6 +27,7 @@
       "system": "Theo dõi lỗi",
       "dashboard": "Bảng điều khiển",
       "projects": "Dự án",
+      "bugs": "Lỗi",
       "users": "Người dùng",
       "messages": "Tin nhắn",
       "notifications": "Thông báo",
@@ -305,6 +308,10 @@
       "units": {
         "bugs": "lỗi"
       }
+    },
+    "ManageBug": {
+      "title": "Quản lý lỗi hệ thống",
+      "description": "Theo dõi, phân loại và cập nhật trạng thái các lỗi kỹ thuật phát sinh trong dự án."
     }
   },
   "Tester": {

@@ -18,6 +18,41 @@ export enum BugStatus {
   ON_STG = 'ON_STG',
 }
 
+export const BUG_STATUS_OPTIONS_WITH_LABEL = [
+  {
+    label: "Todo",
+    value: BugStatus.TODO,
+  },
+  {
+    label: "Doing",
+    value: BugStatus.DOING,
+  },
+  {
+    label: "Pr in review",
+    value: BugStatus.PR_IN_REVIEW,
+  },
+  {
+    label: "Merged",
+    value: BugStatus.MERGED,
+  },
+  {
+    label: "Ready for qc",
+    value: BugStatus.READY_FOR_QC,
+  },
+  {
+    label: "Qc in progress",
+    value: BugStatus.QC_IN_PROGRESS,
+  },
+  {
+    label: "Done in dev",
+    value: BugStatus.DONE_IN_DEV,
+  },
+  {
+    label: "On stg",
+    value: BugStatus.ON_STG,
+  },
+];
+
 export const BUG_STATUS_OPTIONS = [
   'todo',
   'doing',
