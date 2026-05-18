@@ -18,6 +18,7 @@ interface States {
   adminList: IUser[],
   testerList: IUser[],
   developerList: IUser[],
+  usersList: IUser[],
   testersCurrent: IMember[],
   developersCurrent: IMember[]
 }
@@ -39,6 +40,7 @@ interface Actions {
   getAdminList: () => Promise<void>
   getTesterList: () => Promise<void>
   getDeveloperList: () => Promise<void>
+  getUsersList: () => Promise<void>
   getProjectMembers: (projectId: number) => Promise<void>
 
   resetState: () => void
@@ -56,6 +58,7 @@ const initialState: States = {
   adminList: [],
   testerList: [],
   developerList: [],
+  usersList: [],
   testersCurrent: [],
   developersCurrent: []
 }
@@ -146,6 +149,21 @@ export const useManageProjectStore = create<States & Actions>((set, get) => ({
       const response = await manageUserService.getDeveloperList();
       set(() => ({
         developerList: response?.data?.items ?? []
+      }))
+    } catch {
+      set({ loading: false })
+      
+    } finally {
+      set({ loading: false })
+    }
+  },
+
+  getUsersList: async () => {
+    try {
+      set({ loading: true })
+      const response = await manageUserService.getUsersList();
+      set(() => ({
+        usersList: response?.data ?? []
       }))
     } catch {
       set({ loading: false })

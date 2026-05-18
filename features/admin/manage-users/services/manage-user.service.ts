@@ -14,6 +14,10 @@ class ManageUserService extends ApiService {
     return this._getList<IUser>(query);
   }
 
+  getUsersList(): Promise<IBodyResponse<any>> {
+    return this.client.get(`${this.baseUrl}/list`);
+  }
+
   getRoleList(): Promise<IBodyResponse<IGetListResponse<IRole>>> {
     return this.client.get(`/role?page=${1}&limit=${1000}`);
   }

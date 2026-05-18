@@ -26,16 +26,23 @@ export const searchProjectSchema = z.object({
 
 export const createExpenseSchema = (t: TranslateFn) =>
   z.object({
-    name: z.string().min(1, t("nameRequired")),
-    amount: z.number().min(0, t("amountRequired")),
-    description: z.string().optional(),
-    date: z.string().min(1, t("dateRequired")),
-    category: z.string().min(1, t("categoryRequired")),
-    projectId: z.string().min(1, t("projectRequired")),
+    name: z.string().min(1, t("validate.nameRequired")),
+    description: z.string().min(1, t("validate.descriptionRequired")),
+    paymentDate: z.string().min(1, t("validate.paymentDateRequired")),
+    amount: z.number().positive(t("validate.amountRequired")),
+    currency: z.string().min(1, t("validate.currencyRequired")),
+    status: z.enum(["PENDING", "PAID", "CANCELLED"]),
+    receiptUrl: z
+      .string()
+      .url(t("validate.receiptUrlInvalid"))
+      .optional()
+      .or(z.literal("")),
+    buyerId: z.number(),
+    managerId: z.number(),
+    projectId: z.number(),
   });
 
-export const updateExpenseSchema = (t: TranslateFn) =>
-  createExpenseSchema(t);
+export const updateExpenseSchema = createExpenseSchema;
 
 export type SearchProjectType = z.infer<typeof searchProjectSchema>;
 export type CreateProjectType = z.infer<ReturnType<typeof createProjectSchema>>;

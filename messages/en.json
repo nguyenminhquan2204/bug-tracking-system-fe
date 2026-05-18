@@ -230,6 +230,28 @@
           },
           "empty": "No expenses found."
         }
+      },
+      "validate": {
+        "nameRequired": "Expense name is required",
+        "amountRequired": "Amount is required",
+        "descriptionRequired": "Description is required",
+        "amountInvalid": "Amount must be a positive number",
+        "paymentDateRequired": "Payment date is required",
+        "currencyRequired": "Currency is required",
+        "receiptUrlInvalid": "Receipt URL must be a valid URL",
+        "buyerRequired": "Buyer is required",
+        "managerRequired": "Manager is required"
+      },
+      "notifications": {
+        "createSuccess": "Expense created successfully",
+        "createError": "Failed to create expense",
+        "createException": "An error occurred while creating the expense",
+        "updateSuccess": "Expense updated successfully",
+        "updateError": "Failed to update expense",
+        "updateException": "An error occurred while updating the expense",
+        "deleteSuccess": "Expense deleted successfully",
+        "deleteError": "Failed to delete expense",
+        "deleteException": "An error occurred while deleting the expense"
       }
     },
     "Chat": {

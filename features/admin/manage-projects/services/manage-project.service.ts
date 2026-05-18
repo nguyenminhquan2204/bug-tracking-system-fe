@@ -4,7 +4,8 @@ import axiosService from '@/packages/plugins/axios';
 import { ApiService } from '@/packages/plugins/axios/api';
 import { IBodyResponse, IGetListResponse } from '@/packages/utils/interfaces';
 import { PROJECT_API_BASE_PATH } from '../constants';
-import { IProject, IProjectGetListQuery } from '../interface';
+import { IProjectGetListQuery } from '../interface';
+import { IProject } from '@/packages/interfaces';
 
 class ManageProjectService extends ApiService {
   getProjectList(

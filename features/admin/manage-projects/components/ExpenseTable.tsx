@@ -25,16 +25,12 @@ export default function ExpenseTable({ data }: { data: IExpense[] }) {
   const locale = useLocale();
   const {
     setSelectedExpense,
-    isOpenEditExpenseDialog,
     setIsOpenEditExpenseDialog,
-    isOpenDeleteExpenseDialog,
     setIsOpenDeleteExpenseDialog,
   } = useManageExpenseStore(
     useShallow((state) => ({
       setSelectedExpense: state.setSelectedExpense,
-      isOpenEditExpenseDialog: state.isOpenEditExpenseDialog,
       setIsOpenEditExpenseDialog: state.setIsOpenEditExpenseDialog,
-      isOpenDeleteExpenseDialog: state.isOpenDeleteExpenseDialog,
       setIsOpenDeleteExpenseDialog: state.setIsOpenDeleteExpenseDialog,
     })),
   );

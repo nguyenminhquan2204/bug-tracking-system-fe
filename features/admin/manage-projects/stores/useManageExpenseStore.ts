@@ -4,7 +4,7 @@ import { create } from "zustand";
 import { manageExpenseService } from "../services/manage-expense.service";
 
 interface States {
-  isOpenAddExpenseDialog: boolean;
+  isOpenCreateExpenseDialog: boolean;
   isOpenEditExpenseDialog: boolean;
   isOpenDeleteExpenseDialog: boolean;
 
@@ -15,17 +15,16 @@ interface States {
   totalAmount: number;
   totalTransactions: number;
 
-
   latestTransaction: IExpense | null;
   projectId: number | null;
-  
+
   expenseList: IExpense[];
-  
+
   selectedExpense: IExpense | null;
 }
 
 interface Actions {
-  setIsOpenAddExpenseDialog: (open: boolean) => void;
+  setisOpenCreateExpenseDialog: (open: boolean) => void;
   setIsOpenEditExpenseDialog: (open: boolean) => void;
   setIsOpenDeleteExpenseDialog: (open: boolean) => void;
   setLoading: (loading: boolean) => void;
@@ -39,13 +38,13 @@ interface Actions {
   setProjectId: (projectId: number) => void;
 
   getExpenseList: (projectId?: number) => Promise<void>;
-  getExpenseSumanry: (projectId: number) => Promise<void>;
+  getExpenseSummary: (projectId: number) => Promise<void>;
 
   resetState: () => void;
 }
 
 const initialState: States = {
-  isOpenAddExpenseDialog: false,
+  isOpenCreateExpenseDialog: false,
   isOpenEditExpenseDialog: false,
   isOpenDeleteExpenseDialog: false,
   loading: false,
@@ -62,7 +61,8 @@ const initialState: States = {
 export const useManageExpenseStore = create<States & Actions>((set, get) => ({
   ...initialState,
 
-  setIsOpenAddExpenseDialog: (open) => set({ isOpenAddExpenseDialog: open }),
+  setisOpenCreateExpenseDialog: (open) =>
+    set({ isOpenCreateExpenseDialog: open }),
 
   setIsOpenEditExpenseDialog: (open) => set({ isOpenEditExpenseDialog: open }),
 
@@ -98,16 +98,14 @@ export const useManageExpenseStore = create<States & Actions>((set, get) => ({
     try {
       set({ loading: true });
 
-      const currentProjectId =
-        projectId ?? get().projectId;
+      const currentProjectId = projectId ?? get().projectId;
 
       if (!currentProjectId) return;
 
-      const response =
-        await manageExpenseService.getExpenseList(
-          currentProjectId,
-          get().expenseGetListQuery
-        );
+      const response = await manageExpenseService.getExpenseList(
+        currentProjectId,
+        get().expenseGetListQuery,
+      );
 
       set({
         projectId: currentProjectId,
@@ -121,15 +119,15 @@ export const useManageExpenseStore = create<States & Actions>((set, get) => ({
     }
   },
 
-  getExpenseSumanry: async (projectId: number) => {
+  getExpenseSummary: async (projectId: number) => {
     try {
       set({ loading: true });
-      const response = await manageExpenseService.getExpenseSumanry(projectId);
+      const response = await manageExpenseService.getExpenseSummary(projectId);
       set({
         totalAmount: response?.data?.totalAmount ?? 0,
         totalTransactions: response?.data?.totalItems ?? 0,
         latestTransaction: response?.data?.latestExpense ?? null,
-      })
+      });
     } catch (error) {
       console.error("Get expense summary error:", error);
     } finally {
@@ -143,7 +141,7 @@ export const useManageExpenseStore = create<States & Actions>((set, get) => ({
   //     // TODO: Implement API call
   //     // await manageExpenseService.createExpense(data)
   //     get().getExpenseList();
-  //     set({ isOpenAddExpenseDialog: false });
+  //     set({ isOpenCreateExpenseDialog: false });
   //   } catch (error) {
   //     console.error("Create expense error:", error);
   //   } finally {

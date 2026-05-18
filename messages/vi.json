@@ -229,7 +229,29 @@
             }
           },
           "empty": "Không tìm thấy chi phí nào."
+        },
+        "validate": {
+          "nameRequired": "Tên khoản chi là bắt buộc",
+          "amountRequired": "Số tiền là bắt buộc",
+          "amountInvalid": "Số tiền phải là số dương",
+          "descriptionRequired": "Mô tả là bắt buộc",
+          "paymentDateRequired": "Ngày thanh toán là bắt buộc",
+          "currencyRequired": "Loại tiền tệ là bắt buộc",
+          "receiptUrlInvalid": "URL hóa đơn không hợp lệ",
+          "buyerRequired": "Người thanh toán là bắt buộc",
+          "managerRequired": "Người quản lý là bắt buộc"
         }
+      },
+      "notifications": {
+        "createSuccess": "Tạo chi phí thành công",
+        "createError": "Tạo chi phí thất bại",
+        "createException": "Có lỗi xảy ra khi tạo chi phí",
+        "updateSuccess": "Cập nhật chi phí thành công",
+        "updateError": "Cập nhật chi phí thất bại",
+        "updateException": "Có lỗi xảy ra khi cập nhật chi phí",
+        "deleteSuccess": "Xóa chi phí thành công",
+        "deleteError": "Xóa chi phí thất bại",
+        "deleteException": "Có lỗi xảy ra khi xóa chi phí"
       }
     },
     "Chat": {

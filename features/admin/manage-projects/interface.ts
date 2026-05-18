@@ -19,6 +19,9 @@ export interface IExpense {
   projectId: string;
   createdAt: string;
   updatedAt: string;
+  receiptUrl?: string;
+  buyerId?: number;
+  managerId?: number;
 }
 
 export interface IExpenseGetListQuery extends ICommonListQuery {}
