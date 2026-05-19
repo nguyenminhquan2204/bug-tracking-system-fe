@@ -11,6 +11,7 @@ import {
   User,
   MessageCircle,
   Bell,
+  Bug 
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -44,7 +45,7 @@ const menuItems = [
   {
     key: "bugs",
     href: "/admin/manage-bugs",
-    icon: LayoutDashboard,
+    icon: Bug,
   },
   {
     key: "projects",

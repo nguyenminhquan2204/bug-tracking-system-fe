@@ -4,6 +4,10 @@
 import { Button } from "@/components/ui/button";
 import ExpenseTable from "./ExpenseTable";
 import { useTranslations } from "next-intl";
+import PaginationCustom from "@/features/components/PaginationCustom";
+import { useManageExpenseStore } from "../stores/useManageExpenseStore";
+import { useShallow } from "zustand/shallow";
+import { DEFAULT_FIRST_PAGE } from "@/packages/utils";
 
 type ExpenseTableSectionProps = {
   expenses: any[];
@@ -16,6 +20,15 @@ export default function ExpenseTableSection({
 }: ExpenseTableSectionProps) {
    const t = useTranslations('Admin.ManageExpense.table');
    const tButton = useTranslations('Button');
+   const { 
+      totalItems, 
+      expenseGetListQuery,
+      setExpenseGetListQuery
+   } = useManageExpenseStore(useShallow((state) => ({
+      totalItems: state.totalItems,
+      expenseGetListQuery: state.expenseGetListQuery,
+      setExpenseGetListQuery: state.setExpenseGetListQuery
+   })))
 
    return (
       <div className="rounded-md border bg-card p-4">
@@ -24,7 +37,6 @@ export default function ExpenseTableSection({
             <h2 className="text-lg font-semibold">
                {t('title')}
             </h2>
-
             <p className="text-sm text-muted-foreground">
                {t('description')}
             </p>
@@ -33,8 +45,18 @@ export default function ExpenseTableSection({
             {tButton('create')}
          </Button>
          </div>
-
          <ExpenseTable data={expenses} />
+         <div className="my-4"></div>
+         <PaginationCustom 
+            totalItems={totalItems}
+            currentPage={expenseGetListQuery.page || DEFAULT_FIRST_PAGE}
+            limit={expenseGetListQuery.limit || 10}
+            onChangePage={(page) => setExpenseGetListQuery({ page })}
+            onItemsPerPageChange={(limit) =>
+               setExpenseGetListQuery({ limit, page: DEFAULT_FIRST_PAGE })
+            }
+            itemLabel="expenses"
+         />
       </div>
    );
 }

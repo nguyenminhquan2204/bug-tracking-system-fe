@@ -39,7 +39,7 @@ class MyProjectService extends ApiService {
       return this.client.post(`/bug`, payload)
    }
      
-   patchUpdateBugStatus(bugId: number, newStatus: string) {
+   patchUpdateBugStatus(bugId: number, newStatus: string): Promise<IBodyResponse<any>> {
       return this.client.patch(`/bug/${bugId}/status`, {
          status: newStatus.toUpperCase()
       })

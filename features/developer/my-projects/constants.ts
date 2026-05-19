@@ -20,6 +20,10 @@ export enum BugStatus {
 
 export const BUG_STATUS_OPTIONS_WITH_LABEL = [
   {
+    label: "All",
+    value: "ALL",
+  },
+  {
     label: "Todo",
     value: BugStatus.TODO,
   },

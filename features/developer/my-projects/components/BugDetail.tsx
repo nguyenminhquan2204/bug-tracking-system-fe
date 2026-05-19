@@ -19,7 +19,8 @@ import {
 } from "@/components/ui/tabs"
 import HistoryBugDetail from "./HistoryBugDetail"
 import { useTranslations } from "next-intl"
-import { normalizeBugPriorityKey, normalizeBugStatusKey } from "../constants"
+import { normalizeBugPriorityKey } from "../constants"
+import EditableBugStatus from "@/features/components/EditBugStatus"
 
 interface Props {
   selectedBug: IBug | null
@@ -48,9 +49,16 @@ export default function BugDetail({ selectedBug, setSelectedBug }: Props) {
                   <Badge variant="outline">
                     {t("fields.priority")}: {t(`priority.options.${normalizeBugPriorityKey(selectedBug.priority)}`)}
                   </Badge>
-                  <Badge>
-                    {t("fields.status")}: {t(`status.options.${normalizeBugStatusKey(selectedBug.status)}`)}
-                  </Badge>
+                  <EditableBugStatus
+                    bugId={selectedBug.id}
+                    status={selectedBug.status}
+                    onSuccess={(newStatus) => {
+                      setSelectedBug({
+                        ...selectedBug,
+                        status: newStatus,
+                      });
+                    }}
+                  />
                 </div>
               </SheetHeader>
               <Separator />
