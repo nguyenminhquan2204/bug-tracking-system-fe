@@ -17,6 +17,7 @@ interface Actions {
   getSummaryBugBody: (projectId: number, query: any) => Promise<void>;
 
   updateBugStatus: (bugId: number, status: any) => void;
+  updateBugPriority: (bugId: number, priority: any) => void;
 
   resetState: () => void;
 }
@@ -73,6 +74,18 @@ export const useManageBugStore = create<States & Actions>((set, get) => ({
           ? {
               ...bug,
               status,
+            }
+          : bug,
+      ),
+    })),
+
+  updateBugPriority: (bugId, priority) =>
+    set((state) => ({
+      bugList: state.bugList.map((bug) =>
+        bug.id === bugId
+          ? {
+              ...bug,
+              priority,
             }
           : bug,
       ),

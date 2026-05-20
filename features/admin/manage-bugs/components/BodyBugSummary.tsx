@@ -13,7 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getStatusStyle } from "@/packages/utils";
+import { getPriorityStyle, getStatusStyle } from "@/packages/utils";
 import { useManageBugStore } from "../stores/useManageBugStore";
 import { useShallow } from "zustand/shallow";
 import { useForm } from "react-hook-form";
@@ -24,6 +24,7 @@ import { BUG_STATUS_OPTIONS_WITH_LABEL } from "@/features/developer/my-projects/
 import { useMemo, useState } from "react";
 import { IBug } from "@/features/tester/my-projects/interface";
 import BugDetail from "@/features/developer/my-projects/components/BugDetail";
+import { useTranslations } from "next-intl";
 
 type SearchFormValues = {
   keyword: string;
@@ -31,6 +32,8 @@ type SearchFormValues = {
 };
 
 export function BodyBugSummary() {
+  const tButton = useTranslations('Button');
+  const t = useTranslations('Admin.ManageBug.table');
   const [selectedBug, setSelectedBug] = useState<IBug | null>(null);
   const { bugList } = useManageBugStore(
     useShallow((state) => ({
@@ -65,9 +68,9 @@ export function BodyBugSummary() {
         <div className="rounded-3xl bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-gray-900">Bug List</h2>
+              <h2 className="text-xl font-semibold text-gray-900">{t('title')}</h2>
               <p className="mt-1 text-sm text-gray-500">
-                All bugs reported within the selected date range.
+                {t('description')}
               </p>
             </div>
             <Form {...form}>
@@ -123,7 +126,7 @@ export function BodyBugSummary() {
                     })
                   }
                 >
-                  Reset
+                  {tButton('reset')}
                 </Button>
               </form>
             </Form>
@@ -132,13 +135,14 @@ export function BodyBugSummary() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Bug ID</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Assignee</TableHead>
-                  <TableHead>Reporter</TableHead>
-                  <TableHead>Created At</TableHead>
-                  <TableHead>Action</TableHead>
+                  <TableHead>{t('columns.id')}</TableHead>
+                  <TableHead>{t('columns.title')}</TableHead>
+                  <TableHead>{t('columns.status')}</TableHead>
+                  <TableHead>{t('columns.priority')}</TableHead>
+                  <TableHead>{t('columns.assignee')}</TableHead>
+                  <TableHead>{t('columns.reporter')}</TableHead>
+                  <TableHead>{t('columns.createdAt')}</TableHead>
+                  <TableHead>{t('columns.action')}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -158,6 +162,15 @@ export function BodyBugSummary() {
                           {bug.status}
                         </span>
                       </TableCell>
+                      <TableCell>
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-medium ${getPriorityStyle(
+                            bug.priority,
+                          )}`}
+                        >
+                          {bug.priority}
+                        </span>
+                      </TableCell>
                       <TableCell>{bug?.developer?.userName || "-"}</TableCell>
                       <TableCell>{bug?.reporter?.userName || "-"}</TableCell>
                       <TableCell>
@@ -167,7 +180,7 @@ export function BodyBugSummary() {
                       </TableCell>
                       <TableCell>
                         <button onClick={() => setSelectedBug(bug)} className="cursor-pointer rounded-xl border border-gray-200 px-4 py-2 text-xs font-medium transition hover:bg-black hover:text-white">
-                          View Detail
+                          {tButton('viewDetail')}
                         </button>
                       </TableCell>
                     </TableRow>
@@ -178,7 +191,7 @@ export function BodyBugSummary() {
                       colSpan={8}
                       className="h-24 text-center text-gray-500"
                     >
-                      No bugs found.
+                      {t('empty')}
                     </TableCell>
                   </TableRow>
                 )}

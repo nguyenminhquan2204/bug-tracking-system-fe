@@ -11,7 +11,9 @@
     "back": "Quay lại",
     "create": "Tạo",
     "filter": "Lọc",
-    "to": "tới"
+    "to": "tới",
+    "reset": "Làm lại",
+    "viewDetail": "Chi tiết"
   },
   "Pagination": {
     "previous": "Quay lại",
@@ -21,6 +23,10 @@
     "logoutSuccess": "Đăng xuất thành công",
     "logoutError": "Đăng xuất thất bại",
     "logoutException": "Có lỗi xảy ra khi đăng xuất hệ thống"
+  },
+  "diff": {
+    "status": "Trạng thái",
+    "priority": "Độ ưu tiên"
   },
   "Admin": {
     "Sidebar": {
@@ -311,7 +317,32 @@
     },
     "ManageBug": {
       "title": "Quản lý lỗi hệ thống",
-      "description": "Theo dõi, phân loại và cập nhật trạng thái các lỗi kỹ thuật phát sinh trong dự án."
+      "description": "Theo dõi, phân loại và cập nhật trạng thái các lỗi kỹ thuật phát sinh trong dự án.",
+      "header": {
+        "totalBug": "Tổng số lỗi",
+        "thisWeek": "tuần này",
+        "openBug": "Lỗi đang mở",
+        "critical": "lỗi nghiêm trọng",
+        "resolve": "Đã xử lý",
+        "resolutionRate": "tỷ lệ xử lý",
+        "avg": "Thời gian sửa trung bình",
+        "last30Day": "30 ngày gần nhất"
+      },
+      "table": {
+        "title": "Danh sách lỗi",
+        "description": "Tất cả lỗi được báo cáo trong khoảng thời gian đã chọn.",
+        "columns": {
+          "id": "Mã lỗi",
+          "title": "Tiêu đề",
+          "status": "Trạng thái",
+          "priority": "Độ ưu tiên",
+          "assignee": "Người xử lý",
+          "reporter": "Người báo cáo",
+          "createdAt": "Ngày tạo",
+          "action": "Hành động"
+        },
+        "empty": "Không tìm thấy lỗi nào."
+      }
     }
   },
   "Tester": {

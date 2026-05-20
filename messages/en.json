@@ -11,7 +11,9 @@
     "back": "Back",
     "create": "Create",
     "filter": "Apply Filter",
-    "to": "to"
+    "to": "to",
+    "reset": "Reset",
+    "viewDetail": "View Detail"
   },
   "Pagination": {
     "previous": "Previous",
@@ -21,6 +23,10 @@
     "logoutSuccess": "Logout successfully",
     "logoutError": "Failed to logout",
     "logoutException": "An error occurred while logout system"
+  },
+  "diff": {
+    "status": "Status",
+    "priority": "Priority"
   },
   "Admin": {
     "Sidebar": {
@@ -312,7 +318,32 @@
     },
     "ManageBug": {
       "title": "Bug Management",
-      "description": "Track, categorize, and update the status of technical issues and bugs in the project."
+      "description": "Track, categorize, and update the status of technical issues and bugs in the project.",
+      "header": {
+        "totalBug": "Total Bugs",
+        "thisWeek": "this week",
+        "openBug": "Open Bugs",
+        "critical": "critical issues",
+        "resolve": "Resolved",
+        "resolutionRate": "resolution rate",
+        "avg": "Avg Fix Time",
+        "last30Day": "Last 30 days"
+      },
+      "table": {
+        "title": "Bug List",
+        "description": "All bugs reported within the selected date range.",
+        "columns": {
+          "id": "Bug ID",
+          "title": "Title",
+          "status": "Status",
+          "priority": "Priority",
+          "assignee": "Assignee",
+          "reporter": "Reporter",
+          "createdAt": "Created At",
+          "action": "Action"
+        },
+        "empty": "No bugs found."
+      }
     }
   },
   "Tester": {

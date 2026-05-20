@@ -12,33 +12,32 @@ import {
 } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { normalizeBugStatusKey, BUG_STATUS_OPTIONS_WITH_LABEL } from "../developer/my-projects/constants";
+import { BUG_PRIORITY_OPTIONS_WITH_LABEL } from "../developer/my-projects/constants";
 import { myProjectService } from "../tester/my-projects/services/myProject.service";
 import { toast } from "sonner";
 import { useManageBugStore } from "../admin/manage-bugs/stores/useManageBugStore";
-import { getStatusStyle } from "@/packages/utils";
+import { getPriorityStyle } from "@/packages/utils";
 
 interface Props {
   bugId: number;
-  status: string;
+  priority: string;
   onSuccess: (status: any) => void;
 }
 
-export default function EditableBugStatus({
+export default function EditBugPriority({
   bugId,
-  status,
+  priority,
   onSuccess,
 }: Props) {
-  const t = useTranslations("Tester.MyProjects");
   const tDiff = useTranslations('diff');
 
-  const updateBugStatus = useManageBugStore(
-    (state) => state.updateBugStatus
+  const updateBugPriority = useManageBugStore(
+    (state) => state.updateBugPriority
   );
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
-  const handleUpdateStatus = async (newStatus: string) => {
-    if (newStatus === status) {
+  const handleUpdateStatus = async (newPriority: string) => {
+    if (newPriority === priority) {
       setEditing(false);
       return;
     }
@@ -46,15 +45,15 @@ export default function EditableBugStatus({
     try {
       setLoading(true);
 
-      const response = await myProjectService.patchUpdateBugStatus(bugId, newStatus);
+      const response = await myProjectService.patchUpdateBugPriority(bugId, newPriority);
 
       if(response?.success) {
-         toast.success('Updated bug status successfully');
+         toast.success('Updated bug priority successfully');
       } else {
-         toast.error(response?.message || 'Failed to update user');
+         toast.error(response?.message || 'Failed to update priority');
       }
-      updateBugStatus(bugId, newStatus);
-      onSuccess(newStatus);
+      updateBugPriority(bugId, newPriority);
+      onSuccess(newPriority);
       setEditing(false);
     } catch (error) {
       console.error(error);
@@ -66,7 +65,7 @@ export default function EditableBugStatus({
   if (editing) {
     return (
       <Select
-        defaultValue={status}
+        defaultValue={priority}
         onValueChange={handleUpdateStatus}
         disabled={loading}
       >
@@ -74,7 +73,7 @@ export default function EditableBugStatus({
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {BUG_STATUS_OPTIONS_WITH_LABEL.map((item) => (
+          {BUG_PRIORITY_OPTIONS_WITH_LABEL.map((item) => (
             <SelectItem key={item.value} value={item.value}>
               {item.label}
             </SelectItem>
@@ -86,16 +85,16 @@ export default function EditableBugStatus({
 
   return (
     <>
-      <span>{tDiff('status')}: </span>
+      <span>{tDiff('priority')}: </span>
       <Badge
         className={`
-          cursor-pointer border transition-colors duration-200
-          ${getStatusStyle(status)}
-        `}
+            cursor-pointer border transition-colors duration-200
+            ${getPriorityStyle(priority)}
+         `}
         onClick={() => setEditing(true)}
       >
         {loading && <Loader2 className="mr-1 h-3 w-3 animate-spin" />}
-        {`${status}`}
+        {`${priority}`}
       </Badge>
     </>
   );

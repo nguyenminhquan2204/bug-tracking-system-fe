@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { DEFAULT_TIMEZONE } from "./constants";
-import { BugStatus } from "@/features/developer/my-projects/constants";
+import { BugPriority, BugStatus } from "@/features/developer/my-projects/constants";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -151,7 +151,7 @@ export const getFileNameFromHeader = (response: any) => {
   return fileName;
 };
 
-export function getStatusStyle(status: BugStatus) {
+export function getStatusStyle(status: any) {
   switch (status) {
     case BugStatus.TODO:
       return "bg-gray-100 text-gray-700 border border-gray-200";
@@ -182,15 +182,19 @@ export function getStatusStyle(status: BugStatus) {
   }
 }
 
-export function getSeverityStyle(severity: any) {
-    switch (severity) {
-      case "Critical":
-        return "bg-red-100 text-red-700 border-red-200";
-      case "High":
-        return "bg-orange-100 text-orange-700 border-orange-200";
-      case "Medium":
-        return "bg-yellow-100 text-yellow-700 border-yellow-200";
-      default:
-        return "bg-gray-100 text-gray-700 border-gray-200";
-    }
-  };
+export function getPriorityStyle(priority: any) {
+  switch (priority) {
+    case BugPriority.CRITICAL:
+      return 'bg-red-100 text-red-700 border-red-200';
+
+    case BugPriority.HIGH:
+      return 'bg-orange-100 text-orange-700 border-orange-200';
+
+    case BugPriority.MEDIUM:
+      return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+
+    case BugPriority.LOW:
+    default:
+      return 'bg-gray-100 text-gray-700 border-gray-200';
+  }
+}

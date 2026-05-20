@@ -45,6 +45,12 @@ class MyProjectService extends ApiService {
       })
    }
 
+   patchUpdateBugPriority(bugId: number, newPriority: string): Promise<IBodyResponse<any>> {
+      return this.client.patch(`/bug/${bugId}/priority`, {
+         priority: newPriority.toUpperCase()
+      })
+   }
+
    patchEditBug(bugId: number, payload: any): Promise<IBodyResponse<any>> {
       return this.client.patch(`/bug/${bugId}`, payload);
    }

@@ -57,6 +57,25 @@ export const BUG_STATUS_OPTIONS_WITH_LABEL = [
   },
 ];
 
+export const BUG_PRIORITY_OPTIONS_WITH_LABEL = [
+  {
+    label: 'Low',
+    value: BugPriority.LOW
+  },
+  {
+    label: 'Medium',
+    value: BugPriority.MEDIUM
+  },
+  {
+    label: 'High',
+    value: BugPriority.HIGH
+  },
+  {
+    label: 'Critical',
+    value: BugPriority.CRITICAL
+  }
+];
+
 export const BUG_STATUS_OPTIONS = [
   'todo',
   'doing',

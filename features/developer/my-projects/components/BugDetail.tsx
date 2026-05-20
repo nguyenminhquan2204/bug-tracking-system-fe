@@ -21,6 +21,7 @@ import HistoryBugDetail from "./HistoryBugDetail"
 import { useTranslations } from "next-intl"
 import { normalizeBugPriorityKey } from "../constants"
 import EditableBugStatus from "@/features/components/EditBugStatus"
+import EditBugPriority from "@/features/components/EditBugPriority"
 
 interface Props {
   selectedBug: IBug | null
@@ -46,9 +47,16 @@ export default function BugDetail({ selectedBug, setSelectedBug }: Props) {
                   {selectedBug.title}
                 </SheetTitle>
                 <div className="flex gap-2 pt-2">
-                  <Badge variant="outline">
-                    {t("fields.priority")}: {t(`priority.options.${normalizeBugPriorityKey(selectedBug.priority)}`)}
-                  </Badge>
+                  <EditBugPriority
+                    bugId={selectedBug.id}
+                    priority={selectedBug.priority}
+                    onSuccess={(newPriority) => {
+                      setSelectedBug({
+                        ...selectedBug,
+                        priority: newPriority,
+                      });
+                    }}
+                  />
                   <EditableBugStatus
                     bugId={selectedBug.id}
                     status={selectedBug.status}
