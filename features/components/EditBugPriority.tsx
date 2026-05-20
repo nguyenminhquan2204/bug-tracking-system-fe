@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { useManageBugStore } from "../admin/manage-bugs/stores/useManageBugStore";
 import { getPriorityStyle } from "@/packages/utils";
 import { useManageBugTesterStore } from "../tester/my-bugs/stores/useManageBugTesterStore";
+import { useManageBugDevStore } from "../developer/my-bugs/stores/useManageBugDevStore";
 
 interface Props {
   bugId: number;
@@ -40,6 +41,9 @@ export default function EditBugPriority({
   const updateBugPriorityForTester = useManageBugTesterStore(
     (state) => state.updateBugPriorityForTester
   )
+  const updateBugPriorityForDev = useManageBugDevStore(
+    (state) => state.updateBugPriorityForDev
+  )
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleUpdateStatus = async (newPriority: string) => {
@@ -61,6 +65,8 @@ export default function EditBugPriority({
 
       if(flash && flash === 'tester') {
         updateBugPriorityForTester(bugId, newPriority)
+      } else if (flash && flash === 'developer') {
+        updateBugPriorityForDev(bugId, newPriority)
       } else {
         updateBugPriority(bugId, newPriority);
       }

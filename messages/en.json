@@ -528,6 +528,7 @@
     "Sidebar": {
       "system": "Bug Tracking",
       "dashboard": "Dashboard",
+      "myBugs":"My Bugs",
       "myProjects": "My Projects",
       "messages": "Messages",
       "notifications": "Notifications",

@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { useManageBugStore } from "../admin/manage-bugs/stores/useManageBugStore";
 import { getStatusStyle } from "@/packages/utils";
 import { useManageBugTesterStore } from "../tester/my-bugs/stores/useManageBugTesterStore";
+import { useManageBugDevStore } from "../developer/my-bugs/stores/useManageBugDevStore";
 
 interface Props {
   bugId: number;
@@ -41,6 +42,9 @@ export default function EditableBugStatus({
   const updateBugStatusForTester = useManageBugTesterStore(
     (state) => state.updateBugStatusForTester
   );
+  const updateBugStatusForDev = useManageBugDevStore(
+    (state) => state.updateBugStatusForDev
+  );
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleUpdateStatus = async (newStatus: string) => {
@@ -62,6 +66,8 @@ export default function EditableBugStatus({
 
       if(flash && flash === 'tester') {
         updateBugStatusForTester(bugId, newStatus)
+      } else if(flash && flash === 'developer') {
+        updateBugStatusForDev(bugId, newStatus)
       } else {
         updateBugStatus(bugId, newStatus);
       }

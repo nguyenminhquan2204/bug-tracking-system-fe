@@ -10,6 +10,7 @@ import {
   LogOut,
   User,
   Bell,
+  Bug
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -37,6 +38,11 @@ const menuItems = [
     key: "dashboard",
     href: "/developer/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    key: "myBugs",
+    href: "/developer/my-bugs",
+    icon: Bug,
   },
   {
     key: "myProjects",
