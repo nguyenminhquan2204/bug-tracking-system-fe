@@ -25,10 +25,11 @@ import EditBugPriority from "@/features/components/EditBugPriority"
 
 interface Props {
   selectedBug: IBug | null
-  setSelectedBug: (bug: IBug | null) => void
+  setSelectedBug: (bug: IBug | null) => void,
+  flash?: string
 }
 
-export default function BugDetail({ selectedBug, setSelectedBug }: Props) {
+export default function BugDetail({ selectedBug, setSelectedBug, flash }: Props) {
   const t = useTranslations("Developer.MyProjects")
 
   return (
@@ -56,6 +57,7 @@ export default function BugDetail({ selectedBug, setSelectedBug }: Props) {
                         priority: newPriority,
                       });
                     }}
+                    flash={flash}
                   />
                   <EditableBugStatus
                     bugId={selectedBug.id}
@@ -66,6 +68,7 @@ export default function BugDetail({ selectedBug, setSelectedBug }: Props) {
                         status: newStatus,
                       });
                     }}
+                    flash={flash}
                   />
                 </div>
               </SheetHeader>

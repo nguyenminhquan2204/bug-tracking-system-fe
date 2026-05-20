@@ -335,6 +335,7 @@
         "columns": {
           "id": "Bug ID",
           "title": "Title",
+          "project": "Project",
           "status": "Status",
           "priority": "Priority",
           "assignee": "Assignee",
@@ -350,6 +351,7 @@
     "Sidebar": {
       "system": "Bug Tracking",
       "dashboard": "Dashboard",
+      "myBugs": "My Bugs",
       "myProjects": "My Projects",
       "messages": "Messages",
       "notifications": "Notifications",

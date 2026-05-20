@@ -17,23 +17,29 @@ import { myProjectService } from "../tester/my-projects/services/myProject.servi
 import { toast } from "sonner";
 import { useManageBugStore } from "../admin/manage-bugs/stores/useManageBugStore";
 import { getStatusStyle } from "@/packages/utils";
+import { useManageBugTesterStore } from "../tester/my-bugs/stores/useManageBugTesterStore";
 
 interface Props {
   bugId: number;
   status: string;
   onSuccess: (status: any) => void;
+  flash?: string
 }
 
 export default function EditableBugStatus({
   bugId,
   status,
   onSuccess,
+  flash
 }: Props) {
   const t = useTranslations("Tester.MyProjects");
   const tDiff = useTranslations('diff');
 
   const updateBugStatus = useManageBugStore(
     (state) => state.updateBugStatus
+  );
+  const updateBugStatusForTester = useManageBugTesterStore(
+    (state) => state.updateBugStatusForTester
   );
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -53,7 +59,13 @@ export default function EditableBugStatus({
       } else {
          toast.error(response?.message || 'Failed to update user');
       }
-      updateBugStatus(bugId, newStatus);
+
+      if(flash && flash === 'tester') {
+        updateBugStatusForTester(bugId, newStatus)
+      } else {
+        updateBugStatus(bugId, newStatus);
+      }
+
       onSuccess(newStatus);
       setEditing(false);
     } catch (error) {

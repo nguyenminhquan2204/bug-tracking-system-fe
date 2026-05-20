@@ -334,6 +334,7 @@
         "columns": {
           "id": "Mã lỗi",
           "title": "Tiêu đề",
+          "project": "Dự án",
           "status": "Trạng thái",
           "priority": "Độ ưu tiên",
           "assignee": "Người xử lý",
@@ -349,6 +350,7 @@
     "Sidebar": {
       "system": "Theo dõi lỗi",
       "dashboard": "Bảng điều khiển",
+      "myBugs": "Các lỗi của tôi",
       "myProjects": "Dự án của tôi",
       "messages": "Tin nhắn",
       "notifications": "Thông báo",

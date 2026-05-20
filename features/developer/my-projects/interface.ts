@@ -20,6 +20,7 @@ export interface IBug {
   developer: IUser
   reporter: IUser
   comments: any
+  project?: any
 }
 
 export interface IBugs {

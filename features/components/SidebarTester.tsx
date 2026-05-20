@@ -9,7 +9,8 @@ import {
   MessageCircle,
   LogOut,
   User,
-  Bell
+  Bell,
+  Bug
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -37,6 +38,11 @@ const menuItems = [
     key: "dashboard",
     href: "/tester/dashboard",
     icon: LayoutDashboard,
+  },
+  {
+    key: "myBugs",
+    href: "/tester/my-bugs",
+    icon: Bug,
   },
   {
     key: "myProjects",

@@ -17,23 +17,29 @@ import { myProjectService } from "../tester/my-projects/services/myProject.servi
 import { toast } from "sonner";
 import { useManageBugStore } from "../admin/manage-bugs/stores/useManageBugStore";
 import { getPriorityStyle } from "@/packages/utils";
+import { useManageBugTesterStore } from "../tester/my-bugs/stores/useManageBugTesterStore";
 
 interface Props {
   bugId: number;
   priority: string;
   onSuccess: (status: any) => void;
+  flash?: string
 }
 
 export default function EditBugPriority({
   bugId,
   priority,
   onSuccess,
+  flash
 }: Props) {
   const tDiff = useTranslations('diff');
 
   const updateBugPriority = useManageBugStore(
     (state) => state.updateBugPriority
   );
+  const updateBugPriorityForTester = useManageBugTesterStore(
+    (state) => state.updateBugPriorityForTester
+  )
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleUpdateStatus = async (newPriority: string) => {
@@ -52,7 +58,12 @@ export default function EditBugPriority({
       } else {
          toast.error(response?.message || 'Failed to update priority');
       }
-      updateBugPriority(bugId, newPriority);
+
+      if(flash && flash === 'tester') {
+        updateBugPriorityForTester(bugId, newPriority)
+      } else {
+        updateBugPriority(bugId, newPriority);
+      }
       onSuccess(newPriority);
       setEditing(false);
     } catch (error) {
