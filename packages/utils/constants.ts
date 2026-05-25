@@ -1,5 +1,13 @@
 export const SEPARATION = '|';
 
+export enum FileEntityType {
+  PROJECT = 'PROJECT',
+  BUG = 'BUG',
+  MESSAGE = 'MESSAGE',
+  PROFILE = 'PROFILE',
+  UNKNOWN = 'UNKNOWN',
+}
+
 export enum HttpStatus {
   OK = 200,
   BAD_REQUEST = 400,

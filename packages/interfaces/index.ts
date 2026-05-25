@@ -56,6 +56,7 @@ export interface IUserChat {
    username: string;
    email: string;
    rolename?: string;
+   avatarfilepath?: string;
 }
 
 export interface IConver {

@@ -52,21 +52,21 @@ export default function MyProjectPage() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projectList && projectList.length > 0 && projectList.map((project) => (
-            <Card key={project.id} className="flex flex-col">
+            <Card key={project?.id} className="flex flex-col">
               <CardHeader>
                 <CardTitle className="flex items-center justify-between">
-                  {project.name}
+                  {project?.name || '-'}
                   <Badge
                     variant="outline"
                     className={
-                      statusStyles[project.status] ||
+                      statusStyles[project?.status || 'None'] ||
                       'border-gray-400 bg-gray-400/10 text-gray-600'
                     }
                   >
-                    {tProjectStatus(`options.${normalizeProjectStatusKey(project.status)}`)}
+                    {tProjectStatus(`options.${normalizeProjectStatusKey(project?.status || 'None')}`)}
                   </Badge>
                 </CardTitle>
-                <CardDescription>{project.description}</CardDescription>
+                <CardDescription>{project?.description || '-'}</CardDescription>
               </CardHeader>
 
               <CardContent className="flex-1" />
@@ -76,7 +76,7 @@ export default function MyProjectPage() {
                   setIsOpenDrawerInfoProject(true);
                   setSelectedProject(project)
                 }}>{t('actions.view')}</Button>
-                <Button onClick={() => router.push(`/tester/my-projects/${project.id}`)}>{t('actions.manage')}</Button>
+                <Button onClick={() => router.push(`/tester/my-projects/${project?.id}`)}>{t('actions.manage')}</Button>
               </CardFooter>
             </Card>
           ))}

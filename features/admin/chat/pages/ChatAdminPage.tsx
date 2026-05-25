@@ -14,34 +14,34 @@ import { ChatInput } from "@/features/components/ChatInput";
 import { useTranslations } from "next-intl";
 
 export default function ChatAdminPage() {
-   const t = useTranslations("Admin.Chat");
-   const profile = useProfileStore((state) => state.profile);
-   const {
-      getUsersChatAdmin,
-      adminsChat,
-      testersChat,
-      developersChat,
-      postConversation,
-      selectedConver,
-      getMessages,
-      messages,
-      addMessage,
-      loading
-   } = useChatAdminStore(
-      useShallow((state) => ({
-         getUsersChatAdmin: state.getUsersChatAdmin,
-         adminsChat: state.adminsChat,
-         testersChat: state.testersChat,
-         developersChat: state.developersChat,
-         postConversation: state.postConversation,
-         selectedConver: state.selectedConver,
-         getMessages: state.getMessages,
-         messages: state.messages,
-         addMessage: state.addMessage,
-         loading: state.loading
-      }))
-   );
-  const socket = useMemo(() => getSocket('chat'), []);
+  const t = useTranslations("Admin.Chat");
+  const profile = useProfileStore((state) => state.profile);
+  const {
+    getUsersChatAdmin,
+    adminsChat,
+    testersChat,
+    developersChat,
+    postConversation,
+    selectedConver,
+    getMessages,
+    messages,
+    addMessage,
+    loading,
+  } = useChatAdminStore(
+    useShallow((state) => ({
+      getUsersChatAdmin: state.getUsersChatAdmin,
+      adminsChat: state.adminsChat,
+      testersChat: state.testersChat,
+      developersChat: state.developersChat,
+      postConversation: state.postConversation,
+      selectedConver: state.selectedConver,
+      getMessages: state.getMessages,
+      messages: state.messages,
+      addMessage: state.addMessage,
+      loading: state.loading,
+    })),
+  );
+  const socket = useMemo(() => getSocket("chat"), []);
   const [selectedUser, setSelectedUser] = useState<IUserChat | null>(null);
   const currentUserId = profile?.id;
 
@@ -51,11 +51,12 @@ export default function ChatAdminPage() {
 
   useEffect(() => {
     const handleSelectFirstUser = () => {
-      const firstUser = adminsChat?.[0] ?? testersChat?.[0] ?? developersChat?.[0];
+      const firstUser =
+        adminsChat?.[0] ?? testersChat?.[0] ?? developersChat?.[0];
       if (firstUser && !selectedUser) {
         setSelectedUser(firstUser);
       }
-    }
+    };
     handleSelectFirstUser();
   }, [adminsChat, testersChat, developersChat, selectedUser]);
 
@@ -87,9 +88,13 @@ export default function ChatAdminPage() {
     };
   }, [socket, selectedConver?.id, addMessage]);
 
-
   const sendMessage = (message: string) => {
-    if (!message.trim() || !selectedUser || !currentUserId || !selectedConver?.id)
+    if (
+      !message.trim() ||
+      !selectedUser ||
+      !currentUserId ||
+      !selectedConver?.id
+    )
       return;
 
     socket.emit("send_message", {
@@ -116,12 +121,42 @@ export default function ChatAdminPage() {
 
   return (
     <div className="flex h-full bg-gray-100">
-      <ChatSidebar users={adminsChat} testers={testersChat} developers={developersChat} selectedUser={selectedUser} onSelect={setSelectedUser} />
+      <ChatSidebar
+        users={adminsChat}
+        testers={testersChat}
+        developers={developersChat}
+        selectedUser={selectedUser}
+        onSelect={setSelectedUser}
+      />
       <div className="flex flex-col flex-1">
         <div className="flex items-center gap-3 p-2.5 bg-white border-b">
-          <div className="font-semibold text-lg">
-            {selectedUser?.username || t("selectUser")}
-          </div>
+          {selectedUser ? (
+            <>
+              {selectedUser.avatarfilepath ? (
+                <img
+                  src={selectedUser.avatarfilepath}
+                  alt={selectedUser.username}
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
+                  {selectedUser.username.charAt(0).toUpperCase()}
+                </div>
+              )}
+
+              <div>
+                <div className="font-semibold text-lg">
+                  {selectedUser.username}
+                </div>
+
+                <div className="text-sm text-gray-500">
+                  {selectedUser.rolename}
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="font-semibold text-lg">{t("selectUser")}</div>
+          )}
         </div>
         <ChatMessages messages={messages} currentUserId={currentUserId} />
         <ChatInput onSend={sendMessage} disabled={!selectedUser} />

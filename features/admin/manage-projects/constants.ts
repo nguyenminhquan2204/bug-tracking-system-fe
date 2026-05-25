@@ -11,7 +11,7 @@ export const PROJECT_STATUS_OPTIONS = [
   "ARCHIVED",
 ] as const;
 
-export const normalizeProjectStatusKey = (status: string) =>
+export const normalizeProjectStatusKey = (status?: string) =>
   status.toLowerCase();
 
 export const EXPENSE_CATEGORY_OPTIONS = [

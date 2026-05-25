@@ -10,6 +10,7 @@ import { Paperclip, X } from "lucide-react"
 import { useMyProjectStore } from "../stores/useMyProjectStore"
 import { useShallow } from "zustand/shallow"
 import { useTranslations } from "next-intl"
+import { FileEntityType } from "@/packages/utils"
 
 interface Props {
   bugId: number
@@ -59,6 +60,7 @@ export default function AddCommentSection({ bugId }: Props) {
       const mentionIds = selectedMentions.map(u => u.id)
       const formData = new FormData();
       formData.append("content", content);
+      formData.append('entityType', FileEntityType.BUG);
       formData.append("mentions", JSON.stringify(mentionIds))
       files.forEach((file) => {
         formData.append('files', file);
@@ -110,7 +112,7 @@ export default function AddCommentSection({ bugId }: Props) {
         ref={fileInputRef}
         type="file"
         multiple
-        accept="image/*,video/*"
+        accept="*/*"
         className="hidden"
         onChange={(e) => {
           const fileList = e.currentTarget.files

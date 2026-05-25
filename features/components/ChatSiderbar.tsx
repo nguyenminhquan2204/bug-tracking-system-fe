@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { IUserChat } from "@/packages/interfaces";
 import { useTranslations } from "next-intl";
@@ -32,9 +32,21 @@ export function ChatSidebar({
   const title = titleKey ?? t("title");
 
   const sections = [
-    { key: "admins", label: sectionLabels?.users ?? t("admins"), items: users ?? [] },
-    { key: "testers", label: sectionLabels?.testers ?? t("testers"), items: testers ?? [] },
-    { key: "developers", label: sectionLabels?.developers ?? t("developers"), items: developers ?? [] },
+    {
+      key: "admins",
+      label: sectionLabels?.users ?? t("admins"),
+      items: users ?? [],
+    },
+    {
+      key: "testers",
+      label: sectionLabels?.testers ?? t("testers"),
+      items: testers ?? [],
+    },
+    {
+      key: "developers",
+      label: sectionLabels?.developers ?? t("developers"),
+      items: developers ?? [],
+    },
   ] as const;
 
   const hasUsers = sections.some((section) => section.items.length > 0);
@@ -42,6 +54,7 @@ export function ChatSidebar({
   return (
     <div className="w-72 bg-white border-r flex flex-col">
       <div className="text-xl font-bold p-2.5">{title}</div>
+
       <div className="flex-1 overflow-y-auto">
         {hasUsers ? (
           sections.map((section) =>
@@ -50,6 +63,7 @@ export function ChatSidebar({
                 <div className="px-4 pb-2 text-xs font-semibold uppercase tracking-wide text-gray-500">
                   {section.label}
                 </div>
+
                 {section.items.map((user) => (
                   <div
                     key={user.id}
@@ -60,9 +74,18 @@ export function ChatSidebar({
                         : "hover:bg-gray-100"
                     }`}
                   >
-                    <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
-                      {user.username.charAt(0)}
-                    </div>
+                    {user.avatarfilepath ? (
+                      <img
+                        src={user.avatarfilepath}
+                        alt={user.username}
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
+                        {user.username.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+
                     <div className="font-medium">{user.username}</div>
                   </div>
                 ))}
@@ -70,7 +93,9 @@ export function ChatSidebar({
             ) : null,
           )
         ) : (
-          <div className="p-4 text-sm text-gray-500">{emptyLabel ?? t("empty")}</div>
+          <div className="p-4 text-sm text-gray-500">
+            {emptyLabel ?? t("empty")}
+          </div>
         )}
       </div>
     </div>

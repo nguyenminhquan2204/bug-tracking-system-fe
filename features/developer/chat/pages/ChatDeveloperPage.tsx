@@ -12,6 +12,7 @@ import { ChatMessages } from "@/features/components/ChatMessages";
 import { ChatInput } from "@/features/components/ChatInput";
 import { useTranslations } from "next-intl";
 import { useChatDevStore } from "../stores/useChatDevStore";
+import { ShareFile } from "@/features/components/ShareFile";
 
 export default function ChatDeveloperPage() {
   const t = useTranslations("Developer.Chat");
@@ -41,9 +42,10 @@ export default function ChatDeveloperPage() {
       loading: state.loading,
     })),
   );
-  const socket = getSocket('chat');
+  const socket = getSocket("chat");
   const [selectedUser, setSelectedUser] = useState<IUserChat | null>(null);
-  const activeSelectedUser = selectedUser ?? usersChat?.[0] ?? adminsChat?.[0] ?? null;
+  const activeSelectedUser =
+    selectedUser ?? usersChat?.[0] ?? adminsChat?.[0] ?? null;
   const currentUserId = profile?.id;
 
   useEffect(() => {
@@ -83,7 +85,12 @@ export default function ChatDeveloperPage() {
   }, [socket, selectedConver?.id, addMessage]);
 
   const sendMessage = (message: string) => {
-    if (!message.trim() || !activeSelectedUser || !currentUserId || !selectedConver?.id) {
+    if (
+      !message.trim() ||
+      !activeSelectedUser ||
+      !currentUserId ||
+      !selectedConver?.id
+    ) {
       return;
     }
 
@@ -123,14 +130,43 @@ export default function ChatDeveloperPage() {
         }}
         emptyLabel={t("sidebar.empty")}
       />
-      <div className="flex flex-col flex-1">
-        <div className="flex items-center gap-3 p-2.5 bg-white border-b">
-          <div className="font-semibold text-lg">
-            {activeSelectedUser?.username || t("selectUser")}
+
+      <div className="flex flex-1">
+        {/* Chat Area */}
+        <div className="flex flex-col flex-1 bg-white">
+          <div className="flex items-center gap-3 p-2.5 border-b">
+            {selectedUser ? (
+              <>
+                {selectedUser.avatarfilepath ? (
+                  <img
+                    src={selectedUser.avatarfilepath}
+                    alt={selectedUser.username}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
+                    {selectedUser.username.charAt(0).toUpperCase()}
+                  </div>
+                )}
+
+                <div>
+                  <div className="font-semibold text-lg">
+                    {selectedUser.username}
+                  </div>
+
+                  <div className="text-sm text-gray-500">
+                    {selectedUser.rolename}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="font-semibold text-lg">{t("selectUser")}</div>
+            )}
           </div>
+          <ChatMessages messages={messages} currentUserId={currentUserId} />
+          <ChatInput onSend={sendMessage} disabled={!activeSelectedUser} />
         </div>
-        <ChatMessages messages={messages} currentUserId={currentUserId} />
-        <ChatInput onSend={sendMessage} disabled={!activeSelectedUser} />
+        <ShareFile />
       </div>
     </div>
   );
