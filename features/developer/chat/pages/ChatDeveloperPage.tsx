@@ -12,7 +12,7 @@ import { ChatMessages } from "@/features/components/ChatMessages";
 import { ChatInput } from "@/features/components/ChatInput";
 import { useTranslations } from "next-intl";
 import { useChatDevStore } from "../stores/useChatDevStore";
-import { ShareFile } from "@/features/components/ShareFile";
+import { ShareFileDev } from "@/features/components/ShareFileDev";
 
 export default function ChatDeveloperPage() {
   const t = useTranslations("Developer.Chat");
@@ -166,7 +166,7 @@ export default function ChatDeveloperPage() {
           <ChatMessages messages={messages} currentUserId={currentUserId} />
           <ChatInput onSend={sendMessage} disabled={!activeSelectedUser} />
         </div>
-        <ShareFile />
+        <ShareFileDev />
       </div>
     </div>
   );

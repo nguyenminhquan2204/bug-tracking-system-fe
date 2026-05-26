@@ -12,6 +12,7 @@ import { ChatSidebar } from "@/features/components/ChatSiderbar";
 import { ChatMessages } from "@/features/components/ChatMessages";
 import { ChatInput } from "@/features/components/ChatInput";
 import { useTranslations } from "next-intl";
+import { ShareFileTester } from "../../../components/ShareFileTester";
 
 export default function ChatTesterPage() {
   const t = useTranslations("Tester.Chat");
@@ -129,38 +130,41 @@ export default function ChatTesterPage() {
         }}
         emptyLabel={t("sidebar.empty")}
       />
-      <div className="flex flex-col flex-1">
-        <div className="flex items-center gap-3 p-2.5 bg-white border-b">
-          {selectedUser ? (
-            <>
-              {selectedUser.avatarfilepath ? (
-                <img
-                  src={selectedUser.avatarfilepath}
-                  alt={selectedUser.username}
-                  className="w-10 h-10 rounded-full object-cover"
-                />
-              ) : (
-                <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
-                  {selectedUser.username.charAt(0).toUpperCase()}
-                </div>
-              )}
+      <div className="flex flex-1">
+        <div className="flex flex-col flex-1 bg-white">
+          <div className="flex items-center gap-3 p-2.5 bg-white border-b">
+            {selectedUser ? (
+              <>
+                {selectedUser.avatarfilepath ? (
+                  <img
+                    src={selectedUser.avatarfilepath}
+                    alt={selectedUser.username}
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
+                    {selectedUser.username.charAt(0).toUpperCase()}
+                  </div>
+                )}
 
-              <div>
-                <div className="font-semibold text-lg">
-                  {selectedUser.username}
-                </div>
+                <div>
+                  <div className="font-semibold text-lg">
+                    {selectedUser.username}
+                  </div>
 
-                <div className="text-sm text-gray-500">
-                  {selectedUser.rolename}
+                  <div className="text-sm text-gray-500">
+                    {selectedUser.rolename}
+                  </div>
                 </div>
-              </div>
-            </>
-          ) : (
-            <div className="font-semibold text-lg">{t("selectUser")}</div>
-          )}
+              </>
+            ) : (
+              <div className="font-semibold text-lg">{t("selectUser")}</div>
+            )}
+          </div>
+          <ChatMessages messages={messages} currentUserId={currentUserId} />
+          <ChatInput onSend={sendMessage} disabled={!activeSelectedUser} />
         </div>
-        <ChatMessages messages={messages} currentUserId={currentUserId} />
-        <ChatInput onSend={sendMessage} disabled={!activeSelectedUser} />
+        <ShareFileTester />
       </div>
     </div>
   );

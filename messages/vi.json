@@ -13,7 +13,13 @@
     "filter": "Lọc",
     "to": "tới",
     "reset": "Làm lại",
-    "viewDetail": "Chi tiết"
+    "viewDetail": "Chi tiết",
+    "open": "Mở",
+    "remove": "Xóa",
+    "uploading": "Đang tải lên...",
+    "upload": "Tải lên",
+    "changeFile": "Thay đổi tệp",
+    "uploadDocument": "Tải tài liệu"
   },
   "Pagination": {
     "previous": "Quay lại",
@@ -26,7 +32,13 @@
   },
   "diff": {
     "status": "Trạng thái",
-    "priority": "Độ ưu tiên"
+    "priority": "Độ ưu tiên",
+    "shareFile": {
+      "title": "Tài liệu đã chia sẻ",
+      "description": "Tệp và tài nguyên trong cuộc trò chuyện này",
+      "empty": "Không tìm thấy tài liệu",
+      "filePreview": "Xem trước tệp"
+    }
   },
   "Admin": {
     "Sidebar": {

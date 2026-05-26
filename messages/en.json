@@ -13,7 +13,13 @@
     "filter": "Apply Filter",
     "to": "to",
     "reset": "Reset",
-    "viewDetail": "View Detail"
+    "viewDetail": "View Detail",
+    "open": "Open",
+    "remove": "Remove",
+    "uploading": "Uploading...",
+    "upload": "Upload",
+    "changeFile": "Change file",
+    "uploadDocument": "Upload document"
   },
   "Pagination": {
     "previous": "Previous",
@@ -26,7 +32,13 @@
   },
   "diff": {
     "status": "Status",
-    "priority": "Priority"
+    "priority": "Priority",
+    "shareFile": {
+      "title": "Shared Document",
+      "description": "Files and resources in this conversation",
+      "empty": "No documents found",
+      "filePreview": "File Preview"
+    }
   },
   "Admin": {
     "Sidebar": {

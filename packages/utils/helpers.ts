@@ -3,7 +3,10 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { DEFAULT_TIMEZONE } from "./constants";
-import { BugPriority, BugStatus } from "@/features/developer/my-projects/constants";
+import {
+  BugPriority,
+  BugStatus,
+} from "@/features/developer/my-projects/constants";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -185,16 +188,89 @@ export function getStatusStyle(status: any) {
 export function getPriorityStyle(priority: any) {
   switch (priority) {
     case BugPriority.CRITICAL:
-      return 'bg-red-100 text-red-700 border-red-200';
+      return "bg-red-100 text-red-700 border-red-200";
 
     case BugPriority.HIGH:
-      return 'bg-orange-100 text-orange-700 border-orange-200';
+      return "bg-orange-100 text-orange-700 border-orange-200";
 
     case BugPriority.MEDIUM:
-      return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+      return "bg-yellow-100 text-yellow-700 border-yellow-200";
 
     case BugPriority.LOW:
     default:
-      return 'bg-gray-100 text-gray-700 border-gray-200';
+      return "bg-gray-100 text-gray-700 border-gray-200";
   }
+}
+
+export function getFileIcon(file: File) {
+  if (file.type.startsWith("image/")) return "🖼️";
+  if (file.type.startsWith("video/")) return "🎥";
+  if (file.type.includes("pdf")) return "📕";
+  if (file.type.includes("word")) return "📄";
+  if (file.type.includes("excel")) return "📊";
+  if (file.type.includes("zip")) return "🗜️";
+
+  return "📎";
+};
+
+export function getIconFileName(fileName: string) {
+  const extension = fileName.split('.').pop()?.toLowerCase();
+
+  if (!extension) return "📎";
+
+  // Image
+  if (["png", "jpg", "jpeg", "gif", "svg", "webp", "bmp"].includes(extension)) {
+    return "🖼️";
+  }
+
+  // Video
+  if (["mp4", "avi", "mov", "mkv", "webm", "flv"].includes(extension)) {
+    return "🎥";
+  }
+
+  // Audio
+  if (["mp3", "wav", "aac", "flac", "ogg", "m4a"].includes(extension)) {
+    return "🎵";
+  }
+
+  // PDF
+  if (extension === "pdf") {
+    return "📕";
+  }
+
+  // Word
+  if (["doc", "docx"].includes(extension)) {
+    return "📄";
+  }
+
+  // Excel
+  if (["xls", "xlsx", "csv"].includes(extension)) {
+    return "📊";
+  }
+
+  // PowerPoint
+  if (["ppt", "pptx"].includes(extension)) {
+    return "📽️";
+  }
+
+  // Archive
+  if (["zip", "rar", "7z", "tar", "gz"].includes(extension)) {
+    return "🗜️";
+  }
+
+  // Code
+  if (
+    ["js", "ts", "jsx", "tsx", "html", "css", "json", "xml", "sql"].includes(
+      extension
+    )
+  ) {
+    return "💻";
+  }
+
+  // Text
+  if (["txt", "md"].includes(extension)) {
+    return "📝";
+  }
+
+  return "📎";
 }
