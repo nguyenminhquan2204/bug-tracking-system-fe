@@ -1,7 +1,7 @@
 "use client";
 
 import { getFileIcon, getIconFileName } from "@/packages/utils";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useShallow } from "zustand/shallow";
 import { fileService } from "@/packages/features/services/file.service";
 import { toast } from "sonner";
@@ -12,6 +12,7 @@ import { useTranslations } from "next-intl";
 export function ShareFileAdmin() {
   const tButton = useTranslations("Button");
   const tDiff = useTranslations("diff.shareFile");
+  const [search, setSearch] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
@@ -74,6 +75,19 @@ export function ShareFileAdmin() {
     }
   };
 
+  const filteredFiles = useMemo(() => {
+    const keyword = search.trim().toLowerCase();
+
+    if (!keyword) return files;
+
+    return files.filter((file) => {
+      return (
+        file.name.toLowerCase().includes(keyword) ||
+        file.type?.toLowerCase().includes(keyword)
+      );
+    });
+  }, [files, search]);
+
   useEffect(() => {
     if (!selectedConver) return;
     console.log("selectedConver", selectedConver);
@@ -97,6 +111,7 @@ export function ShareFileAdmin() {
       <div className="p-4 border-b">
         <input
           type="text"
+          onChange={(e) => setSearch(e.target.value)}
           placeholder={tButton('search')}
           className="w-full px-3 py-2 border rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500"
         />
@@ -104,12 +119,12 @@ export function ShareFileAdmin() {
 
       {/* File List */}
       <div className="flex-1 overflow-y-auto p-3 space-y-3">
-        {files.length === 0 ? (
+        {filteredFiles.length === 0 ? (
           <div className="text-center text-gray-500 text-sm py-8">
             {tDiff('empty')}
           </div>
         ) : (
-          files.map((file) => (
+          filteredFiles.map((file) => (
             <div
               key={file.id}
               className="border rounded-xl p-3 hover:bg-gray-50 transition"
